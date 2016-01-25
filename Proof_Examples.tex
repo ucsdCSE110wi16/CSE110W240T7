@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+% COMMANDS
+\newcommand{\basis}{\newline \noindent {\bf Basis:} }
+\newcommand{\ih}{\newline \noindent {\bf Induction hypothesis:}  Assume }
+\newcommand{\is}{\newline \noindent {\bf Induction:} }
+
+\title{Proof Examples}
+\author{Peter Cappello \\ \tt{cappello@cs.ucsb.edu} }
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+
+My hope in producing these proofs is to enable students to learn by example what I would like to see, at least in form.
+If you think any proof below is incorrect, or could be simpler, clearer, or better in any other way, please email me.
+
+I also am producing the latex used to produce these proofs as a way of showing by example that latex is a labor-saving device, 
+even for mathematical work that is as ephemeral as homework.
+
+\subsection*{Style}
+
+I am encouraging a mathematical style that I think is appropriate for a student taking a {em first} course where mathematical proofs are the coin of the realm:
+As the student matures, some elements can be abbreviated or omitted.
+For now, err on the side of giving an explanations where none is needed.
+Similarly, strive for a form that is clear to another first-year student.
+Indeed, asking another student to read your proof is a good source of feedback.
+
+One source of thoughts about mathematical writing style is a document by Goss~\cite{Goss}.
+Another is by Gillman~\cite{Gillman}.
+
+Below, I produce a few style notes, certainly not a comprehensive list.
+Also, some of these notes run against the grain of convention.
+Please use your own judgment.
+
+\begin{enumerate}
+
+    \item
+    It generally is considered bad form to mix mathematical symbols with English words 
+    (e.g., $\forall n \in N, n^2$ is greater than 0.)
+    I disagree.
+    Please use mathematical symbols as much as possible;
+    This results in fewer characters, enabling the eye to see more content at once.
+    I also disagree, and for the same reasons, with the rule that numbers less than 10 should be written out.
+    In my opinion, this is like saying, for the number 7, 
+    ``Why use a single universally understood symbol, when we can use a sequence of five letters that only English speakers understand?"
+\end{enumerate}
+
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=1.7]{universe.jpg}
+%\caption{The Universe}
+%\label{threadsVsSync}
+%\end{figure}
+
+\section*{Mathematical Induction}
+The following proofs are of exercises in Rosen~\cite{RosenText}, chapter 5: Mathematical Induction.
+
+\subsubsection*{Exercise 62}
+
+Show that $n$ lines separate the plane into $(n^2 + n + 2) / 2$ regions, if no 2 of these lines are parallel and no 3 pass through a common point.
+
+\newtheorem*{thm}{Theorem}
+\begin{thm}
+$\forall n \in {\bf N}$, $n$ lines in the plane, where no lines are parallel and no 3 lines intersect at the same point, 
+partition the plane into $(n^2 + n + 2) / 2$ regions.
+\end{thm}
+
+\begin{proof}
+By induction on $n$, the number of lines.
+\basis
+$n = 0$: If the plane is partitioned by 0 lines, there is $1 = (1^2 + 1 + 2)/2$ region.
+\ih
+$n$ lines in the plane, where no lines are parallel and no 3 lines intersect at the same point, 
+partition the plane into $(n^2 + n + 2) / 2$ regions.
+\is
+Let there be $n$ lines in the plane, where no lines are parallel and no 3 lines intersect at the same point.
+Without loss of generality, remove any 1 line.
+By the inductive hypothesis, the remaining $n$ lines partition the plane into $(n^2 + n + 2)/2$ regions.
+When line $n + 1$ is placed so that it is not parallel to any of the other $n$ lines and it intersects each line $l$ at a point where no other lines intersect line $l$,
+then $n$ such intersections are formed.
+Order these intersection points from left to right and bottom to top among points that have the same $y$ coordinate.
+The semi-infinite region to the left and below the $1^{st}$ intersection point, is divided into 2 regions by line $n + 1$.
+Similarly, when this line passes into the region to the right of an intersetion point, it subdivides this regtion into 2 regions.
+Since there are $n$ intersection points, this increases the number of regions by $n$, plus 1 more for the subdivided semi-infinite region, totalling $n + 1$ additional regions:
+\begin{eqnarray}
+r( n + 1) & = & r( n ) + n + 1 \\
+          & = & \frac{n^2 + n + 2}{2} + n + 1 \\
+          & = & \frac{(n + 1)^2 + (n + 1) + 2}{2}
+\end{eqnarray}
+
+Above, the inductive hypothesis is used to go from Eqn. (1) to (2).
+
+\end{proof}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
