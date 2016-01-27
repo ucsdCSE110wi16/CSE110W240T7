@@ -1,4 +1,4 @@
-package helloworld.tianqihu.com.edbud;
+package androidstudio.edbud.com.myapplication;
 
 import org.junit.Test;
 

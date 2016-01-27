@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation = "vertical"
+xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:padding="10dp"
-    android:fitsSystemWindows="true"
-    tools:context="helloworld.tianqihu.com.edbud.login_page">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Name"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,9 +15,8 @@
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
         android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,13 +30,14 @@
         android:inputType="textPassword"
         android:layout_height="wrap_content" />
 
+
     <TextView
         android:layout_width="wrap_content"
-        android:text="Major"
+        android:text="Name"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/etMajor"
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
         android:inputType="textPassword"
@@ -69,15 +56,40 @@
         android:layout_height="wrap_content" />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Major"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etMajor"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Graduate year "
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etGraduate"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content" />
+
 
     <Button
-        android:id= "@+id/bRegister"
-        android:text="Register"
+        android:id="@+id/bRegister"
+        android:text ="Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
 
-
-
 </LinearLayout>
+
+
+

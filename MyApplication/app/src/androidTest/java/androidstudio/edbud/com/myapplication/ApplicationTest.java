@@ -1,4 +1,4 @@
-package helloworld.tianqihu.com.edbud;
+package androidstudio.edbud.com.myapplication;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

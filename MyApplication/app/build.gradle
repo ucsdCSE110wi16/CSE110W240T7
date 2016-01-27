@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "helloworld.tianqihu.com.edbud"
+        applicationId "androidstudio.edbud.com.myapplication"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
