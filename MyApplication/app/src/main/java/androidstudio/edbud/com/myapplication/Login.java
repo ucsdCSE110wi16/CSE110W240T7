@@ -37,6 +37,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin:
+                startActivity(new Intent(this, NaviActivity.class));
                 break;
 
 
