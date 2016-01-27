@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Course ID"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etCourseID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textShortMessage"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Unit"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etUnit"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/bAddCourse"
+        android:text ="Add Course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>
+
+
