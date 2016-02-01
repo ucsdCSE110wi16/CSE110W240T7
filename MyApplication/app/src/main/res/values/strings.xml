@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
-    <string name="title_activity_navi"> </string>
+    <string name="title_activity_navi">Home Page </string>
     <string name="title_activity_add_course"> Add Course</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
