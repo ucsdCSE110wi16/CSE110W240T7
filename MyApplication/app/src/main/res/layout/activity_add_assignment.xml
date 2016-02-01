@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Assignment Name"
+        android:textSize="18dp"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etAssignmentID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="textShortMessage"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Percentage of Total Score"
+        android:textSize="18dp"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/etScore"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Due Date (MM/DD/YYYY)"
+        android:textSize="18dp"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/etDate"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/bAddAssignment"
+        android:text ="Add Assignment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>
