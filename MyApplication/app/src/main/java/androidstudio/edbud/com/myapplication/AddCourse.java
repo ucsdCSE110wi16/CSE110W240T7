@@ -32,10 +32,10 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view){
         String courseID = etcourseID.getText().toString();
-        Homepage.courses.add(courseID);
+        CoursePage.courses.add(courseID);
         int courseUnit = Integer.parseInt(etcourseUnit.getText().toString());
 
-        startActivity(new Intent(this, Homepage.class));
+        startActivity(new Intent(this, CoursePage.class));
 
 
     }

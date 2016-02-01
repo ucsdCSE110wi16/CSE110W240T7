@@ -63,7 +63,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Letter"
+        android:text="P/NP"
         android:textSize="18dp"
         android:textColor="#757575"
         android:id="@+id/switch1"
