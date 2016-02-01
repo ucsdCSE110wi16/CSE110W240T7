@@ -26,7 +26,8 @@
             android:name=".Homepage"
             android:label="@string/title_activity_navi"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddCourse"></activity>
+        <activity android:name=".AddCourse"
+            android:label = "@string/title_activity_add_course"></activity>
     </application>
 
 </manifest>
