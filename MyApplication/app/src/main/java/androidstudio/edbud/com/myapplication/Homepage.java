@@ -18,11 +18,9 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
 public class Homepage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-        public static ArrayList courses = new ArrayList();
-        private ListView coursesListView;
-        private ArrayAdapter arrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +29,6 @@ public class Homepage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,9 +39,7 @@ public class Homepage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        coursesListView = (ListView) findViewById(R.id.lsCourses);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, courses);
-        coursesListView.setAdapter(arrayAdapter);
+
     }
 
     @Override
@@ -90,6 +84,7 @@ public class Homepage extends AppCompatActivity
             startActivity(new Intent(this, Homepage.class));
 
         } else if (id == R.id.nav_course) {
+            startActivity(new Intent(this, CoursePage.class));
 
         } else if (id == R.id.nav_4yearplan) {
 
@@ -107,9 +102,8 @@ public class Homepage extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onClick(View view) {
-        startActivity(new Intent(this, AddCourse.class));
-    }
+
+
+
 }
 
