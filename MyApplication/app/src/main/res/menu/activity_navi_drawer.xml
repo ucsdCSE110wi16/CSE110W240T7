@@ -4,15 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_homepage"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="Homepage" />
         <item
             android:id="@+id/nav_course"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_book_black_24dp"
             android:title="Course" />
         <item
             android:id="@+id/nav_4yearplan"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_assignment_black_24dp"
             android:title="Four year plan" />
         <item
             android:id="@+id/nav_gpacalculator"
@@ -24,11 +24,11 @@
         <menu>
             <item
                 android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Setting" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
                 android:title="Logout" />
         </menu>
     </item>
