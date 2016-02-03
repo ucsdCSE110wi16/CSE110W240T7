@@ -17,16 +17,37 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView2"
+        android:id="@+id/individual_course"
         android:layout_alignParentTop="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
+        android:text="Unit: "
+        android:id="@+id/textview_unit"
+        android:layout_below="@+id/individual_course"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/individual_unit"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/textview_unit"
+        android:layout_alignBottom="@+id/textview_unit" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Letter/PNP: "
+        android:id="@+id/textview_letter"
+        android:layout_below="@+id/textview_unit"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
 
@@ -34,28 +55,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"/>
-
+        android:text=""
+        android:id="@+id/individual_letter"
+        android:layout_below="@+id/textview_unit"
+        android:layout_marginTop="10dp"
+        android:layout_alignEnd="@+id/textView6"
+        android:layout_above="@+id/textview_assignments"
+        android:layout_toEndOf="@+id/textview_letter" />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView5"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/textView4"
-        android:layout_alignEnd="@+id/textView4"
-         />
+        android:text="Assignments"
+        android:id="@+id/textview_assignments"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textview_letter"
+        android:layout_alignEnd="@+id/listview_assignments" />
 
-    <ExpandableListView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/expandableListView"
-        android:layout_below="@+id/textView5"
+        android:id="@+id/listview_assignments"
+        android:layout_below="@+id/textview_assignments"
         android:layout_alignParentStart="true"
         />
 
@@ -63,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_alignTop="@+id/expandableListView"
+        android:layout_alignTop="@+id/listview_assignments"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="123dp" />
 
@@ -73,11 +94,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="4.0"
         android:id="@+id/textView6"
-        android:layout_alignEnd="@+id/scrollView"
-        android:layout_above="@+id/textView5"
-        android:layout_alignParentTop="true"
         android:textColor="#d50000"
-        android:textSize="80dp"/>
+        android:textSize="60dp"
+        android:layout_alignBottom="@+id/textview_letter"
+        android:layout_alignEnd="@+id/scrollView" />
 
 
 
