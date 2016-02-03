@@ -20,7 +20,6 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_add_course);
         bAddCourse = (Button) findViewById(R.id.bAddCourse);
         bAddCourse.setOnClickListener(this);
-
         etcourseID = (EditText) findViewById(R.id.etCourseID);
         etcourseUnit = (EditText) findViewById(R.id.etUnit);
 
@@ -32,9 +31,12 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view){
         String courseID = etcourseID.getText().toString();
-        CoursePage.courses.add(courseID);
+
         int courseUnit = Integer.parseInt(etcourseUnit.getText().toString());
 
+        CoursePage.myCourse.add(new courses(courseID, courseUnit, true));
+        CoursePage.courses.add(courseID);
+        CoursePage.units.add(courseUnit);
         startActivity(new Intent(this, CoursePage.class));
 
 

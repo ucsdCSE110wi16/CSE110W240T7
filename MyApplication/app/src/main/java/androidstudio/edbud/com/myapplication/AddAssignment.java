@@ -28,6 +28,16 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view){
+        String hw = etAssignmentID.getText().toString();
+        int percent = Integer.parseInt(etScore.getText().toString());
+        int data = Integer.parseInt(etDate.getText().toString());
+        CoursePage.myCourse.get(CoursePage.p).addAssignment(hw);
+        startActivity(new Intent(this, CoursePage.class));
+
+
+
+
+
         /*
         String AssignmentID = AssignmentID.getText().toString();
         IndividualCourse.Assignment.add(AssignmentID);
