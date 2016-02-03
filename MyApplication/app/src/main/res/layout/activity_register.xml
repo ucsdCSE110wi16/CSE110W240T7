@@ -40,7 +40,6 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -52,7 +51,6 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/etCollege"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
         android:layout_height="wrap_content" />
 
 
@@ -65,7 +63,6 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/etMajor"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -77,7 +74,6 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/etGraduate"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
         android:layout_height="wrap_content" />
 
 

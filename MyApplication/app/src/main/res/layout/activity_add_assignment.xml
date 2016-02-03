@@ -21,7 +21,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Percentage of Total Score"
+        android:text="Score Ratio"
         android:textSize="18dp"
         android:layout_height="wrap_content" />
 
