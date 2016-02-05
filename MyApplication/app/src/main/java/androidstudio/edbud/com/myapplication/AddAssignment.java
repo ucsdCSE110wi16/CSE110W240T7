@@ -23,7 +23,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
         etAssignmentID = (EditText) findViewById(R.id.etAssignmentID);
         etScore = (EditText) findViewById(R.id.etScore);
-        etDate = (EditText) findViewById(R.id.etDate);
+        etDate = (EditText) findViewById(R.id.calendarView);
     }
 
     @Override

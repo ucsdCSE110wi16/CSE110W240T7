@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,18 +36,16 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Due Date (MM/DD/YYYY)"
+        android:text="Due Date"
         android:textSize="18dp"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/etDate"
-        android:layout_gravity="center_horizontal" />
+    <CalendarView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/calendarView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.74" />
 
     <Button
         android:id="@+id/bAddAssignment"
