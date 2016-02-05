@@ -44,22 +44,36 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="P/NP"
+        android:text="Grade option"
+        android:textOn="P/NP"
+        android:textOff="Letter"
         android:textSize="18dp"
         android:textColor="#757575"
-        android:id="@+id/switch1"
+        android:id="@+id/gradeSwitch"
         android:layout_below="@+id/etUnit"
-        android:layout_alignStart="@+id/GradeDistribution" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/GradeDistribution"
         android:text="Grading Distribution"
         android:textSize="18dp"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/switch1"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp" />
+        android:layout_below="@+id/gradeSwitch"
+        android:layout_marginTop="10dp"
+
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Grade Distribution"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginBottom="0dp"
+        android:layout_above="@+id/bAddCourse"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/addWeights"/>
 
     <Button
         android:layout_width="match_parent"
@@ -67,9 +81,15 @@
         android:text="Add Course"
         android:id="@+id/bAddCourse"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="78dp" />
+        android:layout_centerHorizontal="true" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_weights"
+        android:layout_below="@+id/GradeDistribution"
+        android:layout_above="@+id/addWeights"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

@@ -26,18 +26,18 @@
         android:textSize="18dp"
         android:layout_height="wrap_content" />
 
-    <DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="101dp"
-        android:id="@+id/datePicker"
-        android:layout_gravity="center_horizontal" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:id="@+id/etDueDate" />
 
     <Button
         android:id="@+id/bAddAssignment"
         android:text ="Add Assignment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:="50dp"/>
+        android:textSize="18dp"/>
 
 
 </LinearLayout>

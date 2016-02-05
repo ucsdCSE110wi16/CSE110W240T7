@@ -30,20 +30,20 @@ public class IndividualCourse extends BaseActivity implements View.OnClickListen
     private Context context;
     private ListView assignmentList;
     private ArrayAdapter arrayAdapter;
+    private Courses mycourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
-        setContentView(R.layout.activity_course_page);
-        super.onCreateNavigation();
+        setContentView(R.layout.activity_individual_course);
+        mycourse = CoursePage.myCourse.get(CoursePage.p);
+        this.setViews();
 
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
 
-
         assignmentList = (ListView) findViewById(R.id.expandableListView);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, CoursePage.myCourse.get(CoursePage.p).getAssignments());
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, CoursePage.myCourse.get(CoursePage.p).getAssignments("hw"));
         assignmentList.setAdapter(arrayAdapter);
 
     }
@@ -51,6 +51,19 @@ public class IndividualCourse extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         startActivity(new Intent(this, AddAssignment.class));
+    }
+
+    private void setViews(){
+        course = (TextView) findViewById(R.id.individual_course);
+        unit = (TextView) findViewById(R.id.individual_unit);
+        letter = (TextView) findViewById(R.id.individual_letter);
+        course.setText(mycourse.courseId);
+        unit.setText(Integer.toString(mycourse.unit));
+        if(mycourse.letter)
+            letter.setText("Letter grade");
+        else
+            letter.setText("PNP");
+
     }
 
 }
