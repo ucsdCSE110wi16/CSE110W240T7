@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Assignment Name"
+        android:text="Assignment Type"
         android:textSize="18dp"
         android:layout_height="wrap_content" />
 
@@ -21,38 +22,22 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Score Ratio"
+        android:text="Due Date"
         android:textSize="18dp"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/etScore"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:inputType="number"/>
-
-    <TextView
+    <DatePicker
         android:layout_width="wrap_content"
-        android:text="Due Date (MM/DD/YYYY)"
-        android:textSize="18dp"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/etDate"
+        android:layout_height="101dp"
+        android:id="@+id/datePicker"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/bAddAssignment"
         android:text ="Add Assignment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:="50dp"/>
 
 
 </LinearLayout>

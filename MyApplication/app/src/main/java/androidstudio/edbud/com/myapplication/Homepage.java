@@ -29,6 +29,5 @@ public class Homepage extends BaseActivity
         super.onCreateNavigation();
     }
 
-
 }
 

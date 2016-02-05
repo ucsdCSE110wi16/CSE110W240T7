@@ -59,7 +59,6 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
         });
     }
 
-    @Override
     public void onClick(View view) {
         startActivity(new Intent(this, AddCourse.class));
     }

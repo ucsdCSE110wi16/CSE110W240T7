@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/progress">
+        <chip>
+            <shape>
+                <corners
+                    android:radius="5dip" />
+                <gradient
+                    android:startColor="#8B4513"
+                    android:endColor="#D2691E"
+                    android:angle="90" />
+            </shape>
+        </chip>
+    </item>
+
+</selector>

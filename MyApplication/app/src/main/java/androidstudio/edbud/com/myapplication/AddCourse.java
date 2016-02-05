@@ -22,9 +22,6 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         bAddCourse.setOnClickListener(this);
         etcourseID = (EditText) findViewById(R.id.etCourseID);
         etcourseUnit = (EditText) findViewById(R.id.etUnit);
-
-
-
     }
 
 
@@ -38,8 +35,6 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         CoursePage.courses.add(courseID);
         CoursePage.units.add(courseUnit);
         startActivity(new Intent(this, CoursePage.class));
-
-
     }
 
 
