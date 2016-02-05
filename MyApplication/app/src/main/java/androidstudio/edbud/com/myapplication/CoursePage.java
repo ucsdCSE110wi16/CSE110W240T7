@@ -1,19 +1,10 @@
 package androidstudio.edbud.com.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +15,7 @@ import java.util.ArrayList;
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     public static ArrayList courses = new ArrayList();
     public static ArrayList units = new ArrayList();
-    public static ArrayList<courses> myCourse = new ArrayList<courses>();
+    public static ArrayList<Courses> myCourse = new ArrayList<>();
     private ListView coursesListView;
     private ArrayAdapter arrayAdapter;
     private Context context;
@@ -41,6 +32,7 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+
 
 
         coursesListView = (ListView) findViewById(R.id.lsCourses);

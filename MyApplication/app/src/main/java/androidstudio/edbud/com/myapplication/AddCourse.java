@@ -5,13 +5,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Switch;
+
+import java.util.ArrayList;
 
 
 public class AddCourse extends AppCompatActivity implements View.OnClickListener{
 
-    Button bAddCourse;
-    EditText etcourseID, etcourseUnit;
+    private Button bAddCourse;
+    private EditText etcourseID, etcourseUnit;
+    private Switch gradeSwitch;
+    private boolean letter;
+    private ListView weightList;
+    private ArrayList weights;
+    private ArrayList percentages;
 
 
     @Override
@@ -22,6 +32,17 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         bAddCourse.setOnClickListener(this);
         etcourseID = (EditText) findViewById(R.id.etCourseID);
         etcourseUnit = (EditText) findViewById(R.id.etUnit);
+        weightList= (ListView) findViewById(R.id.list_weights);
+        WeightListAdapter adapter = new WeightListAdapter(this, weights, percentages);
+        weightList.setAdapter(adapter);
+
+        gradeSwitch = (Switch) findViewById(R.id.gradeSwitch);
+        gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                letter = false;
+
+            }
+        });
     }
 
 
@@ -31,7 +52,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
         int courseUnit = Integer.parseInt(etcourseUnit.getText().toString());
 
-        CoursePage.myCourse.add(new courses(courseID, courseUnit, true));
+        CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter));
         CoursePage.courses.add(courseID);
         CoursePage.units.add(courseUnit);
         startActivity(new Intent(this, CoursePage.class));
