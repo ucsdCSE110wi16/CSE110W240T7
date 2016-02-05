@@ -22,31 +22,27 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class IndividualCourse extends AppCompatActivity implements View.OnClickListener{
+public class IndividualCourse extends BaseActivity implements View.OnClickListener{
     private TextView course;
     private TextView unit;
     private TextView letter;
     private ArrayList<String> hws;
+    private Context context;
     private ListView assignmentList;
     private ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_individual_course);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        course= (TextView) findViewById(R.id.individual_course);
-        unit = (TextView) findViewById(R.id.individual_unit);
-        course.setText(CoursePage.courses.get(CoursePage.p).toString());
-        unit.setText(CoursePage.units.get(CoursePage.p).toString());
+        context = this;
+        setContentView(R.layout.activity_course_page);
+        super.onCreateNavigation();
 
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
 
 
-        assignmentList = (ListView) findViewById(R.id.listview_assignments);
+        assignmentList = (ListView) findViewById(R.id.expandableListView);
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, CoursePage.myCourse.get(CoursePage.p).getAssignments());
         assignmentList.setAdapter(arrayAdapter);
 

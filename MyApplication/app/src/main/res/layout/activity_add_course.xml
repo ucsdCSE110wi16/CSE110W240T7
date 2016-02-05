@@ -48,72 +48,29 @@
         android:textSize="18dp"
         android:textColor="#757575"
         android:id="@+id/switch1"
-        android:layout_alignTop="@+id/GradeDistribution"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/etUnit"
+        android:layout_alignStart="@+id/GradeDistribution" />
 
     <TextView
-        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:id="@+id/GradeDistribution"
         android:text="Grading Distribution"
         android:textSize="18dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etUnit"
-        android:layout_alignParentStart="true" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Midterm"
-        android:id="@+id/cbmidterm"
-        android:layout_below="@+id/GradeDistribution"
+        android:layout_below="@+id/switch1"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/switch1" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Final"
-        android:id="@+id/cbfinal"
-        android:layout_below="@+id/cbmidterm"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/cbmidterm" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quiz"
-        android:id="@+id/cbquiz"
-        android:layout_below="@+id/cbfinal"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/switch1" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Homework"
-        android:id="@+id/cbhomework"
-        android:layout_below="@+id/cbquiz"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/cbquiz" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Attendance"
-        android:id="@+id/attendance"
-        android:layout_below="@+id/cbhomework"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/cbhomework" />
+        android:layout_marginTop="32dp" />
 
     <Button
-        android:id="@+id/bAddCourse"
-        android:text ="Add Course"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/attendance"
+        android:text="Add Course"
+        android:id="@+id/bAddCourse"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginBottom="78dp" />
+
+
 
 </RelativeLayout>
 

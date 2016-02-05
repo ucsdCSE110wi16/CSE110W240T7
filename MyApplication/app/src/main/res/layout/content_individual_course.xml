@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Letter/PNP: "
+        android:text="Grading"
         android:id="@+id/textview_letter"
         android:layout_below="@+id/textview_unit"
         android:layout_alignParentStart="true"
@@ -59,9 +59,10 @@
         android:id="@+id/individual_letter"
         android:layout_below="@+id/textview_unit"
         android:layout_marginTop="10dp"
-        android:layout_alignEnd="@+id/textView6"
+        android:layout_alignEnd="@+id/GPA"
         android:layout_above="@+id/textview_assignments"
         android:layout_toEndOf="@+id/textview_letter" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,36 +70,25 @@
         android:text="Assignments"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/textview_letter"
-        android:layout_alignEnd="@+id/listview_assignments" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview_assignments"
-        android:layout_below="@+id/textview_assignments"
-        android:layout_alignParentStart="true"
-        />
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
-        android:layout_alignTop="@+id/listview_assignments"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="123dp" />
+        android:layout_below="@+id/textview_letter" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="4.0"
-        android:id="@+id/textView6"
+        android:text="GPA"
+        android:id="@+id/GPA"
         android:textColor="#d50000"
         android:textSize="60dp"
-        android:layout_alignBottom="@+id/textview_letter"
-        android:layout_alignEnd="@+id/scrollView" />
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/individual_course" />
 
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView"
+        android:layout_below="@+id/textview_assignments"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
