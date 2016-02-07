@@ -22,7 +22,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         bLogin = (Button) findViewById(R.id.bLogin);
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -32,7 +31,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         tvRegisterLink.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -40,15 +38,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 startActivity(new Intent(this, Homepage.class));
                 break;
 
-
             case R.id.tvRegisterLink:
                 startActivity(new Intent(this, Register.class));
                 break;
-
-
-
         }
     }
-
-
 }

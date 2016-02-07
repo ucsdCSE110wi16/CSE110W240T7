@@ -28,7 +28,7 @@ public class Courses {
     String courseId;
     int gpa;
 
-    Courses(String id, int u, boolean l){
+    public Courses(String id, int u, boolean l){
         this.courseId=id;
         this.unit=u;
         this.letter=l;

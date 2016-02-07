@@ -11,7 +11,7 @@ import com.firebase.client.Firebase;
 
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
-import login.Login;
+import model.User;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -31,27 +31,56 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
+
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
-        //Firebase.setAndroidContext(this);
 
     }
 
     @Override
     public void onClick(View v) {
 
+        /**
+         *Initialize the data base
+         */
         Firebase ref = new Firebase(Constant.DBURL);
-        String name = etName.getText().toString();
+
+        /**
+         * convert to string block
+         */
+
+        String fullName = etName.getText().toString();
         String username= etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
-        ref.child("username").setValue(username);
-        ref.child("name").setValue(name);
-        ref.child("password").setValue(password);
-        ref.child("major").setValue(major);
-        ref.child("college").setValue(college);
+        String graduateDate = etCollege.getText().toString();
+        //int graduateDate = Integer.parseInt(etCollege.getText().toString());
+
+        /**
+         * Set up the database
+         */
+
+        Firebase usersRef = ref.child("users").child(username);
+
+        /**
+         * Initialize user object
+         */
+
+        User myUser = new User(fullName, major, college, password, graduateDate);
+
+        /**
+         * Construct the user data structure
+         */
+
+        usersRef.setValue(myUser);
+
+        usersRef.child("fullName").setValue(fullName);
+        usersRef.child("major").setValue(major);
+        usersRef.child("college").setValue(college);
+        usersRef.child("password").setValue(password);
+        usersRef.child("graduateDate").setValue(graduateDate);
 
         switch (v.getId()) {
             case R.id.bRegister:
