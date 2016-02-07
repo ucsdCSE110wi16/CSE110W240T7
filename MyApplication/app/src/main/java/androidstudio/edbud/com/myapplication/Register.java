@@ -11,11 +11,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 
+import com.firebase.client.Firebase;
+
+import Constant.Constant;
+
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
     EditText etName, etMajor, etUsername, etGraduate, etCollege, etPassword;
     Button bRegister;
+
+    @Override
+
+    public void onCreate(){
+        super.onCreate();
+    }
 
 
     @Override
@@ -30,13 +40,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
         bRegister = (Button) findViewById(R.id.bRegister);
-
         bRegister.setOnClickListener(this);
+
+
+
+        Firebase ref = new Firebase(Constant.DBURL);
+        String username = etName.getText().toString();
+        ref.child("username").setValue(username);
 
     }
 
     @Override
     public void onClick(View v) {
+
+
+
         switch (v.getId()) {
             case R.id.bRegister:
                 startActivity(new Intent(this, Login.class));
