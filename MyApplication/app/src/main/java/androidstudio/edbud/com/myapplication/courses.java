@@ -26,6 +26,6 @@ public class Courses {
     }
 
     ArrayList getAssignments(String weights){
-        return assignments.get(weights);
+        return new ArrayList();
     }
 }
