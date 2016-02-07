@@ -1,4 +1,4 @@
-package androidstudio.edbud.com.myapplication;
+package ui;
 
 /**
  * Created by LunaLu on 2/4/16.
@@ -14,6 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidstudio.edbud.com.myapplication.Homepage;
+import androidstudio.edbud.com.myapplication.R;
+import login.Login;
+import model.Courses;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,7 +83,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(this, Homepage.class));
 
         } else if (id == R.id.nav_course) {
-            startActivity(new Intent(this, CoursePage.class));
+            startActivity(new Intent(this, Courses.CoursePage.class));
 
         } else if (id == R.id.nav_4yearplan) {
 

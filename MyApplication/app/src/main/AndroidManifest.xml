@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Login"
+            android:name="login.Login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -21,21 +21,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Register"
+            android:name="login.Register"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Homepage"
             android:label="@string/title_activity_navi"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddCourse" />
+        <activity android:name="ui.AddCourse" />
         <activity
-            android:name=".IndividualCourse"
+            android:name="model.IndividualCourse"
             android:label="@string/title_activity_individual_course"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddAssignment" />
+        <activity android:name="ui.AddAssignment" />
         <activity
-            android:name=".CoursePage"
+            android:name="model.Courses$CoursePage"
             android:label="@string/title_activity_course_page"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

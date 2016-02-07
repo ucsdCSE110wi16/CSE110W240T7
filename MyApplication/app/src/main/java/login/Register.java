@@ -1,12 +1,8 @@
-package androidstudio.edbud.com.myapplication;
+package login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -14,6 +10,8 @@ import android.widget.Button;
 import com.firebase.client.Firebase;
 
 import Constant.Constant;
+import androidstudio.edbud.com.myapplication.R;
+import login.Login;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -27,8 +25,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
-
         etName = (EditText) findViewById(R.id.etName);
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -38,13 +34,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
-        Firebase.setAndroidContext(this);
+        //Firebase.setAndroidContext(this);
 
     }
 
     @Override
     public void onClick(View v) {
-
 
         Firebase ref = new Firebase(Constant.DBURL);
         String name = etName.getText().toString();

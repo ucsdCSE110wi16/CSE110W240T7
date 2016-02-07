@@ -1,4 +1,4 @@
-package androidstudio.edbud.com.myapplication;
+package ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,9 @@ import android.widget.ListView;
 import android.widget.Switch;
 
 import java.util.ArrayList;
+
+import androidstudio.edbud.com.myapplication.R;
+import model.Courses;
 
 
 public class AddCourse extends AppCompatActivity implements View.OnClickListener{
@@ -52,10 +55,10 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
         int courseUnit = Integer.parseInt(etcourseUnit.getText().toString());
 
-        CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter));
-        CoursePage.courses.add(courseID);
-        CoursePage.units.add(courseUnit);
-        startActivity(new Intent(this, CoursePage.class));
+        Courses.CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter));
+        Courses.CoursePage.courses.add(courseID);
+        Courses.CoursePage.units.add(courseUnit);
+        startActivity(new Intent(this, Courses.CoursePage.class));
     }
 
 

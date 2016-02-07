@@ -1,0 +1,14 @@
+Tree:
+
+root:
+ 	user object:
+ 			name : string
+ 			college : string
+ 			major : string
+ 			currentGPA : double
+
+ 			list<course> : for each course : 
+ 							units
+ 							pnp
+ 							assingment 
+ 							quiz
