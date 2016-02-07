@@ -21,17 +21,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     EditText etName, etMajor, etUsername, etGraduate, etCollege, etPassword;
     Button bRegister;
 
-    @Override
-
-    public void onCreate(){
-        super.onCreate();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
 
         etName = (EditText) findViewById(R.id.etName);
         etUsername = (EditText) findViewById(R.id.etUsername);
@@ -41,12 +37,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etGraduate = (EditText) findViewById(R.id.etGraduate);
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
-
-
-
-        Firebase ref = new Firebase(Constant.DBURL);
-        String username = etName.getText().toString();
-        ref.child("username").setValue(username);
+        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(this);
 
     }
 
@@ -54,6 +46,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
 
 
+        Firebase ref = new Firebase(Constant.DBURL);
+        String name = etName.getText().toString();
+        String username= etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+        String major = etMajor.getText().toString();
+        String college = etCollege.getText().toString();
+        ref.child("username").setValue(username);
+        ref.child("name").setValue(name);
+        ref.child("password").setValue(password);
+        ref.child("major").setValue(major);
+        ref.child("college").setValue(college);
 
         switch (v.getId()) {
             case R.id.bRegister:
