@@ -21,20 +21,50 @@ import androidstudio.edbud.com.myapplication.R;
 /**
  * Created by LunaLu on 2/3/16.
  */
-public class Courses {
-    Map<String, String> assignments;
-    int unit;
-    boolean letter;
-    String courseId;
-    int gpa;
 
-    public Courses(String id, int u, boolean l){
-        this.courseId=id;
-        this.unit=u;
-        this.letter=l;
-        this.assignments = new HashMap<>();;
+public class Courses {
+
+    //Map<String, String> assignments;
+    double unit;
+    boolean isLetter;
+    String courseId;
+    double gpa;
+
+    /**
+     * Default constructor
+     */
+
+    public Courses(){
+        this.unit = 0.0;
+        this.isLetter = true;
+        this.courseId = "";
+        this.gpa = 0.0;
     }
 
+    /**
+     * Three-parameters constructor
+     * @param id
+     * @param u
+     * @param l
+     */
+
+    public Courses(String id, int u, boolean l){
+        this.courseId = id;
+        this.unit = u;
+        this.isLetter = l;
+        //this.assignments = new HashMap<>();
+    }
+
+    /**
+     * Getters
+     */
+
+    public double getUnit (){return this.unit;}
+    public double getGpa () {return this.gpa;}
+    public boolean getLetter () {return this.isLetter;}
+    public String getCourseId () {return this.courseId;}
+
+    /*
     public void addAssignment(String hw, String weights){
         assignments.put(hw, weights);
     }
@@ -60,11 +90,8 @@ public class Courses {
             setContentView(R.layout.activity_course_page);
             super.onCreateNavigation();
 
-
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setOnClickListener(this);
-
-
 
             coursesListView = (ListView) findViewById(R.id.lsCourses);
             arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, courses);
@@ -85,8 +112,6 @@ public class Courses {
         public void onClick(View view) {
             startActivity(new Intent(this, AddCourse.class));
         }
-
-
-
     }
+    */
 }
