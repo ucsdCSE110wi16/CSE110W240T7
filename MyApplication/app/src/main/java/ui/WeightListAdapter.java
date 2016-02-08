@@ -1,4 +1,4 @@
-package androidstudio.edbud.com.myapplication;
+package ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import androidstudio.edbud.com.myapplication.R;
+
 /**
  * Created by LunaLu on 2/5/16.
  */
@@ -18,7 +20,7 @@ public class WeightListAdapter extends ArrayAdapter<String>{
     ArrayList percent;
 
     WeightListAdapter(Context c, ArrayList w, ArrayList p){
-        super(c,R.layout.add_weight_row,R.id.weight,w);
+        super(c, R.layout.add_weight_row,R.id.weight,w);
         this.context = c;
         this.weight = w;
         this.percent = p;

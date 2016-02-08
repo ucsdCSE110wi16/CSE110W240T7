@@ -1,4 +1,4 @@
-package androidstudio.edbud.com.myapplication;
+package ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.widget.DatePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import androidstudio.edbud.com.myapplication.R;
+import model.Courses;
+import model.IndividualCourse;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,8 +53,8 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                 String hw = etAssignmentID.getText().toString();
 //                int percent = Integer.parseInt(etScore.getText().toString());
                 //int data = Integer.parseInt(etDate.getText().toString());
-                CoursePage.myCourse.get(CoursePage.p).addAssignment(hw,hw);
-                startActivity(new Intent(this, CoursePage.class));
+                Courses.CoursePage.myCourse.get(Courses.CoursePage.p).addAssignment(hw,hw);
+                startActivity(new Intent(this, Courses.CoursePage.class));
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
             case R.id.etDueDate:
