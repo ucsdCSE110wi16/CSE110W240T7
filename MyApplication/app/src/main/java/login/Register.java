@@ -11,6 +11,7 @@ import com.firebase.client.Firebase;
 
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
+import model.User;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
