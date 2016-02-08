@@ -51,8 +51,8 @@ public class IndividualCourse extends BaseActivity implements View.OnClickListen
         unit = (TextView) findViewById(R.id.individual_unit);
         letter = (TextView) findViewById(R.id.individual_letter);
         course.setText(mycourse.courseId);
-        unit.setText(Integer.toString(mycourse.unit));
-        if(mycourse.letter)
+        unit.setText(Double.toString(mycourse.getUnit()));
+        if(mycourse.isLetter)
             letter.setText("Letter grade");
         else
             letter.setText("PNP");

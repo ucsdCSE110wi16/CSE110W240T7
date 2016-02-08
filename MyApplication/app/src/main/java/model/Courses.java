@@ -24,7 +24,7 @@ import androidstudio.edbud.com.myapplication.R;
 
 public class Courses {
 
-    //Map<String, String> assignments;
+    Map<String, String> assignments;
     double unit;
     boolean isLetter;
     String courseId;
@@ -52,7 +52,7 @@ public class Courses {
         this.courseId = id;
         this.unit = u;
         this.isLetter = l;
-        //this.assignments = new HashMap<>();
+        this.assignments = new HashMap<>();
     }
 
     /**
@@ -63,8 +63,9 @@ public class Courses {
     public double getGpa () {return this.gpa;}
     public boolean getLetter () {return this.isLetter;}
     public String getCourseId () {return this.courseId;}
+    public Map<String,String> getAssignments () {return this.assignments;}
 
-    /*
+
     public void addAssignment(String hw, String weights){
         assignments.put(hw, weights);
     }
@@ -113,5 +114,5 @@ public class Courses {
             startActivity(new Intent(this, AddCourse.class));
         }
     }
-    */
+
 }
