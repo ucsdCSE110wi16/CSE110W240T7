@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Tianqi on 2/7/2016.
  */
+
 public class User {
 
     private String fullName;
@@ -10,10 +13,12 @@ public class User {
     private String college;
     private String password;
     private String graduateDate;
+    private ArrayList<Courses> usrArrayList;
 
     /**
      * Defualt constructor for user
      */
+
     public User(){}
 
     /**
@@ -31,6 +36,9 @@ public class User {
         this.college = college;
         this.password = password;
         this.graduateDate = graduateDate;
+        Courses temp = new Courses();
+        this.usrArrayList = new ArrayList<Courses>();
+        usrArrayList.add(temp);
     }
 
     /**
@@ -43,5 +51,6 @@ public class User {
     public String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
     public String getGraduateDate(){return this.graduateDate;}
+    public ArrayList<Courses> getUsrArrayList () {return this.usrArrayList;}
 
 }

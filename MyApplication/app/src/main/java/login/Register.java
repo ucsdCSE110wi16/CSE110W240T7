@@ -9,8 +9,11 @@ import android.widget.Button;
 
 import com.firebase.client.Firebase;
 
+import java.util.ArrayList;
+
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
+import model.Courses;
 import model.User;
 
 
@@ -46,6 +49,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          */
         Firebase ref = new Firebase(Constant.DBURL);
 
+        /*
+        ArrayList<Integer> courseList = new ArrayList<Integer>();
+        courseList.add(1);
+        courseList.add(3);
+        courseList.add(2);
+        courseList.add(4);
+        */
+
         /**
          * convert to string block
          */
@@ -64,18 +75,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         Firebase usersRef = ref.child("users").child(username);
 
+
         /**
          * Initialize user object
          */
 
         User myUser = new User(fullName, major, college, password, graduateDate);
+        ArrayList<Courses> courseList = myUser.getUsrArrayList();
+
 
         /**
          * Construct the user data structure
          */
 
         usersRef.setValue(myUser);
-
+        usersRef.setValue(courseList);
         usersRef.child("fullName").setValue(fullName);
         usersRef.child("major").setValue(major);
         usersRef.child("college").setValue(college);
