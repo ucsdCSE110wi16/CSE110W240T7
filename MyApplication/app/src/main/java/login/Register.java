@@ -81,20 +81,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          */
 
         User myUser = new User(fullName, major, college, password, graduateDate);
-        ArrayList<Courses> courseList = myUser.getUsrArrayList();
+        //ArrayList<Courses> courseList = myUser.getUsrArrayList();
+        Courses test_1 = new Courses();
+        Courses test_2 = new Courses();
+        Courses test_3 = new Courses();
 
+        ArrayList<Courses> courseList = new ArrayList<>();
+        courseList.add(test_1);
+        courseList.add(test_2);
+        courseList.add(test_3);
 
         /**
          * Construct the user data structure
          */
 
         usersRef.setValue(myUser);
-        usersRef.setValue(courseList);
+
         usersRef.child("fullName").setValue(fullName);
         usersRef.child("major").setValue(major);
         usersRef.child("college").setValue(college);
         usersRef.child("password").setValue(password);
         usersRef.child("graduateDate").setValue(graduateDate);
+        //usersRef.child("courseList").setValue(courseList);
+
+        //usersRef.setValue(courseList);
+
 
         switch (v.getId()) {
             case R.id.bRegister:
