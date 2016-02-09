@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,13 +40,15 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
     private Button bAddCourse, bAddWeights;
     private EditText etcourseID, etcourseUnit, etWeightID, etWeightPercent;
+    private TextView switchStatus;
     private Switch gradeSwitch;
-    private boolean letter;
+    private boolean letter = true;
     private ListView weightList;
     private ArrayList weights = new ArrayList();
     private ArrayList percentages = new ArrayList();
     private FrameLayout layout_main;
     private PopupWindow popup;
+    private int weightTotal = 0;
 
 
     @Override
@@ -66,13 +69,26 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
         gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                letter = false;
-
+                if(isChecked){
+                    switchStatus.setText("Pass/No Pass");
+                }else{
+                    switchStatus.setText("Letter grade");
+                }
             }
         });
+
+        if(gradeSwitch.isChecked()){
+            switchStatus.setText("Pass/No Pass");
+        }
+        else {
+            switchStatus.setText("Letter grade");
+        }
     }
 
-    public void findViewById(){
+    /*
+    *   find all views
+     */
+    private void findViewById(){
         layout_main = (FrameLayout) findViewById( R.id.addCourse);
         bAddCourse = (Button) findViewById(R.id.bAddCourse);
         bAddWeights = (Button) findViewById(R.id.bAddWeights);
@@ -80,8 +96,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         etcourseUnit = (EditText) findViewById(R.id.etUnit);
         weightList= (ListView) findViewById(R.id.list_weights);
         gradeSwitch = (Switch) findViewById(R.id.gradeSwitch);
-        etWeightID = (EditText) findViewById(R.id.etWeightId);
-        etWeightPercent = (EditText) findViewById(R.id.etWeightPercent);
+        switchStatus= (TextView) findViewById(R.id.switchStatus);
 
     }
 
@@ -99,26 +114,35 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 } else if (TextUtils.isEmpty(unit)) {
                     etcourseUnit.setError("Please input course unit");
                     return;
+                }else if(weightTotal != 100){
+                    Toast.makeText(this,"Weight percentage does not add up to 100%", Toast.LENGTH_LONG).show();
+                    return;
                 }
                 int courseUnit = Integer.parseInt(unit);
-                Courses.CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter));
-                Courses.CoursePage.courses.add(courseID);
-                Courses.CoursePage.units.add(courseUnit);
-                startActivity(new Intent(this, Courses.CoursePage.class));
+                CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter, weights));
+                CoursePage.courses.add(courseID);
+                CoursePage.units.add(courseUnit);
+                startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:
                 showPop(this);
                 break;
             case R.id.bAddIndividualWeight:
-                layout_main.getForeground().setAlpha(0);
                 String weightID = etWeightID.getText().toString();
                 String weightPercent = etWeightPercent.getText().toString();
                 if(TextUtils.isEmpty(weightID)){
-                    etWeightID.setError("Please input weight name");
+                    Toast.makeText(this,"Please input weight name",Toast.LENGTH_LONG).show();
+                    return;
                 }
                 else if(TextUtils.isEmpty(weightPercent)){
-                    etWeightPercent.setError("Please input weight percent");
+                    Toast.makeText(this,"Please input weight percent", Toast.LENGTH_LONG).show();
+                    return;
                 }
+                int percent = Integer.parseInt(weightPercent);
+                weights.add(weightID);
+                percentages.add(percent);
+                weightTotal += percent;
+                layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
 
@@ -126,10 +150,8 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
     }
 
     public void showPop(Activity context){
-
-
         // Inflate the popup_layout.xml
-        RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
+       // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.activity_add_weights, null);
@@ -137,13 +159,13 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
+        popup.setOutsideTouchable(false);
 
+        etWeightID= (EditText) layout.findViewById(R.id.etWeightId);
+        etWeightPercent = (EditText) layout.findViewById(R.id.etWeightPercent);
 
+        //Dim the background
         layout_main.getForeground().setAlpha(220);
-
-        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-       //int OFFSET_X = 30;
-        //int OFFSET_Y = 30;
 
 
         // Displaying the popup at the specified location, + offsets.
