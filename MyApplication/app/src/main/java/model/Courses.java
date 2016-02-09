@@ -24,12 +24,13 @@ import androidstudio.edbud.com.myapplication.R;
 
 public class Courses {
 
-    ArrayList weights;
-    double unit;
-    boolean isLetter;
-    String courseId;
-    double gpa;
-    ArrayList assignments;
+    private ArrayList weightsList, assignmentList;
+    private double unit;
+    private boolean isLetter;
+    private String courseId;
+    private double gpa;
+    private Map <String, ArrayList<IndividualAssignment>> allAssignments;
+    private Map <String, Integer> gradingDistribution;
 
     /**
      * Default constructor
@@ -44,18 +45,43 @@ public class Courses {
 
     /**
      * Three-parameters constructor
-     * @param id
-     * @param u
-     * @param l
+     * @param id -- String, course id
+     * @param u -- int, course unit
+     * @param l -- boolean, true if letter, false if pass no pass
+     * @param w -- ArrayList, weights
+     * @param p -- ArrayList, percentage of each weight
      */
 
-    public Courses(String id, int u, boolean l, ArrayList w){
+    public Courses(String id, int u, boolean l, ArrayList w, ArrayList p){
         this.courseId = id;
         this.unit = u;
         this.isLetter = l;
-        this.weights = w;
-        this.assignments = new ArrayList();
+        this.weightsList = w;
+        this.gradingDistribution = new HashMap<>();
+        this.allAssignments = new HashMap<>();
+        for(int i = 0; i < weightsList.size(); ++i){
+            allAssignments.put(weightsList.get(i).toString(), new ArrayList<IndividualAssignment>());
+            gradingDistribution.put(weightsList.get(i).toString(), Integer.parseInt(p.get(i).toString()));
+        }
     }
+
+
+    /**
+     * Add a new small assignment into grading distributions
+     * @param weight --  to which this assignment belongs to
+     * @param assignment -- assignment name
+     * @param y -- due date, year
+     * @param m -- due date, month
+     * @param d -- due date, day
+     */
+
+    public void addAssignments(String weight, String assignment, int y,int m, int d){
+        ArrayList temp = allAssignments.get(weight);
+        temp.add(new IndividualAssignment(assignment, y, m, d ));
+        assignmentList.add(assignment);
+
+    }
+
 
     /**
      * Getters
@@ -66,17 +92,26 @@ public class Courses {
     public boolean getLetter () {return this.isLetter;}
     public String getCourseId () {return this.courseId;}
 
+
+    /**
+     *
+     *
+     * @return  An ArrayList containing all the grading distributions.
+     */
     public ArrayList getWeights(){
-        return weights;
+        return weightsList;
     }
+
+    /**
+     *
+     * @return An ArrayList containing all the small assignments for displaying in individual course page
+     */
 
     public ArrayList getAssignments(){
-        return assignments;
+        return assignmentList;
     }
 
-    public void addAssignments(String hw){
-        assignments.add(hw);
-    }
+
 
 
 }
