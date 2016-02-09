@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
+import model.user;
 
 
 public class AddCourse extends AppCompatActivity implements View.OnClickListener{
@@ -119,9 +120,9 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
                 int courseUnit = Integer.parseInt(unit);
-                CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter, weights,percentages));
-                CoursePage.courses.add(courseID);
-                CoursePage.units.add(courseUnit);
+                user.myCourse.add(new Courses(courseID, courseUnit, letter, weights,percentages));
+                user.courses.add(courseID);
+                user.units.add(courseUnit);
                 startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:

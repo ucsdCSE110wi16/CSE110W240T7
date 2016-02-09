@@ -28,6 +28,7 @@ import java.util.Locale;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.IndividualCourse;
+import model.user;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,7 +45,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
-        weights = CoursePage.myCourse.get(CoursePage.p).getWeights();
+        weights = user.myCourse.get(CoursePage.p).getWeights();
 
         dateFormatter = new SimpleDateFormat("dd-mm-yyyy", Locale.US);
         
@@ -89,7 +90,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                 }
 //                int percent = Integer.parseInt(etScore.getText().toString());
                 //int data = Integer.parseInt(etDate.getText().toString());
-                CoursePage.myCourse.get(CoursePage.p).addAssignments(hw,hw,0,0,0);
+                user.myCourse.get(CoursePage.p).addAssignments(hw,hw,0,0,0);
                 int selectedId = weightsGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
