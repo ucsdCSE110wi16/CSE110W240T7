@@ -20,7 +20,10 @@ public class WeightListAdapter extends ArrayAdapter<String>{
     ArrayList percent;
 
     WeightListAdapter(Context c, ArrayList w, ArrayList p){
+
         super(c, R.layout.add_weight_row,R.id.weight,w);
+
+
         this.context = c;
         this.weight = w;
         this.percent = p;

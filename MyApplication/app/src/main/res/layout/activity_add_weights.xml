@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/addWeights"
+    android:padding="10dp"
+    style="@style/AppTheme.PopupOverlay"
+    android:background="@color/colorText"
+    >
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etWeightId"
+        android:textSize="18dp"
+        android:hint="Input Weight name here"
+        android:inputType="textShortMessage"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etWeightPercent"
+        android:textSize="18dp"
+        android:hint="Input weight percentage here"
+        android:layout_below="@+id/etWeightId"
+        android:layout_alignParentStart="true"
+        android:inputType="number"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Weight"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/bAddIndividualWeight"
+        android:layout_below="@+id/etWeightPercent"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

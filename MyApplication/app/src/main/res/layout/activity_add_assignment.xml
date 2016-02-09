@@ -30,14 +30,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:id="@+id/etDueDate" />
+        android:id="@+id/etDueDate"
+        android:inputType="date"/>
 
     <Button
         android:id="@+id/bAddAssignment"
         android:text ="Add Assignment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:background="@color/colorPrimaryLight"/>
 
 
 </LinearLayout>

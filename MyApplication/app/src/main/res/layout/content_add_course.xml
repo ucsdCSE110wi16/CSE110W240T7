@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/CourseID"
+        android:layout_width="wrap_content"
+        android:text="Course Name"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/etCourseID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="textShortMessage"
+        android:layout_below="@+id/CourseID"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Unit"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCourseID"
+        android:id="@+id/Unit"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/etUnit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:textSize="18dp"
+        android:layout_below="@id/Unit"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grade option"
+        android:textOn="P/NP"
+        android:textOff="Letter"
+        android:textSize="18dp"
+        android:textColor="#757575"
+        android:id="@+id/gradeSwitch"
+        android:layout_below="@+id/etUnit"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/GradeDistribution"
+        android:text="Grading Distribution"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gradeSwitch"
+        android:layout_marginTop="10dp"
+
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Grade Distribution"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginBottom="0dp"
+        android:layout_above="@+id/bAddCourse"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bAddWeights"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Course"
+        android:id="@+id/bAddCourse"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryLight"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_weights"
+        android:layout_below="@+id/GradeDistribution"
+        android:layout_above="@+id/bAddWeights"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
