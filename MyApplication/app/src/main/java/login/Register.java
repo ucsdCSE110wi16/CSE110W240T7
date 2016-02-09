@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.User;
+import model.user;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -80,7 +80,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          * Initialize user object
          */
 
-        User myUser = new User(fullName, major, college, password, graduateDate);
+        user myUser = new user(fullName, major, college, password, graduateDate);
         //ArrayList<Courses> courseList = myUser.getUsrArrayList();
         Courses test_1 = new Courses();
         Courses test_2 = new Courses();

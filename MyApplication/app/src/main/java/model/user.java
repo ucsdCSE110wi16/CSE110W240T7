@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Tianqi on 2/7/2016.
  */
 
-public class User {
+public class user {
 
     private String fullName;
     private String major;
@@ -19,7 +19,7 @@ public class User {
      * Defualt constructor for user
      */
 
-    public User(){}
+    public user(){}
 
     /**
      *
@@ -30,7 +30,7 @@ public class User {
      * @param graduateDate
      */
 
-    public User(String fullName, String major, String college, String password, String graduateDate){
+    public user(String fullName, String major, String college, String password, String graduateDate){
         this.fullName = fullName;
         this.major = major;
         this.college = college;
