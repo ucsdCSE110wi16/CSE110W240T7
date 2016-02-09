@@ -3,6 +3,7 @@ package login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -66,7 +67,35 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
-        String graduateDate = etCollege.getText().toString();
+        String graduateDate = etGraduate.getText().toString();
+
+
+
+
+        if (TextUtils.isEmpty(username)) {
+            etUsername.setError("Please input your username");
+            return;
+        }
+        else if (TextUtils.isEmpty(password)) {
+            etPassword.setError("Please input a password");
+            return;
+        }
+        else if (TextUtils.isEmpty(fullName)) {
+            etName.setError("Please input your name");
+            return;
+        }
+        else if (TextUtils.isEmpty(college)) {
+            etCollege.setError("Please input your college");
+            return;
+        }
+        else if (TextUtils.isEmpty(major)) {
+            etMajor.setError("Please input your major");
+            return;
+        }
+        else if (TextUtils.isEmpty(graduateDate)) {
+            etGraduate.setError("Please input graduate date");
+            return;
+        }
         //int graduateDate = Integer.parseInt(etCollege.getText().toString());
 
         /**

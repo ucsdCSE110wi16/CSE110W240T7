@@ -1,8 +1,9 @@
-package androidstudio.edbud.com.myapplication;
+package ui;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 
+import androidstudio.edbud.com.myapplication.R;
 import ui.BaseActivity;
 
 public class Homepage extends BaseActivity

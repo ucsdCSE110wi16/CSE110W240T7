@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,8 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
         switch(view.getId()){
             case R.id.bAddAssignment:
                 String hw = etAssignmentID.getText().toString();
+                if(TextUtils.isEmpty(hw))
+                    etAssignmentID.setError("Please input assignment name");
 //                int percent = Integer.parseInt(etScore.getText().toString());
                 //int data = Integer.parseInt(etDate.getText().toString());
                 Courses.CoursePage.myCourse.get(Courses.CoursePage.p).addAssignment(hw,hw);
