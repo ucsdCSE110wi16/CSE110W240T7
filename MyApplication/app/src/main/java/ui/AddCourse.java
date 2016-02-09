@@ -119,7 +119,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
                 int courseUnit = Integer.parseInt(unit);
-                CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter, weights));
+                CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter, weights,percentages));
                 CoursePage.courses.add(courseID);
                 CoursePage.units.add(courseUnit);
                 startActivity(new Intent(this, CoursePage.class));

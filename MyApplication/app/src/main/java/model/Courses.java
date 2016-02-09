@@ -24,13 +24,13 @@ import androidstudio.edbud.com.myapplication.R;
 
 public class Courses {
 
-    private ArrayList weightsList, assignmentList;
-    private double unit;
-    private boolean isLetter;
-    private String courseId;
-    private double gpa;
-    private Map <String, ArrayList<IndividualAssignment>> allAssignments;
-    private Map <String, Integer> gradingDistribution;
+    ArrayList weightsList, assignmentList;
+    double unit;
+     boolean isLetter;
+    String courseId;
+    double gpa;
+    Map <String, ArrayList<IndividualAssignment>> allAssignments;
+     Map <String, Integer> gradingDistribution;
 
     /**
      * Default constructor
@@ -59,6 +59,7 @@ public class Courses {
         this.weightsList = w;
         this.gradingDistribution = new HashMap<>();
         this.allAssignments = new HashMap<>();
+        this.assignmentList = new ArrayList();
         for(int i = 0; i < weightsList.size(); ++i){
             allAssignments.put(weightsList.get(i).toString(), new ArrayList<IndividualAssignment>());
             gradingDistribution.put(weightsList.get(i).toString(), Integer.parseInt(p.get(i).toString()));
