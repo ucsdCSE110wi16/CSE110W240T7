@@ -82,7 +82,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(this, Homepage.class));
 
         } else if (id == R.id.nav_course) {
-            startActivity(new Intent(this, Courses.CoursePage.class));
+            startActivity(new Intent(this, CoursePage.class));
 
         } else if (id == R.id.nav_4yearplan) {
 

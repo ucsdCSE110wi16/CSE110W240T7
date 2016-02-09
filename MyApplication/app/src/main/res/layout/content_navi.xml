@@ -17,20 +17,8 @@
         android:textSize="20dp"
         android:text="Recent Dues"
         android:id="@+id/textView7"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:id="@+id/progressBar"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:progress="0"
-        android:max="4"
-        android:progressDrawable="@android:drawable/progress_horizontal"
-        android:layout_marginTop="46dp" />
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

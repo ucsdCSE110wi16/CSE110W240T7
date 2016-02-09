@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/addWeights"
     android:padding="10dp"
-    style="@style/AppTheme.PopupOverlay"
-    android:background="@color/colorText"
-    >
+    android:background="@color/colorText">
 
 
     <EditText
@@ -33,6 +32,7 @@
         android:text="Add Weight"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/bAddIndividualWeight"
+        android:textColor="@color/colorPrimary"
         android:layout_below="@+id/etWeightPercent"
         android:layout_alignParentEnd="true" />
 

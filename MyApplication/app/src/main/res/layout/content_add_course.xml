@@ -37,17 +37,38 @@
         android:layout_below="@id/Unit"
         android:layout_alignParentStart="true" />
 
-    <Switch
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Grade option"
-        android:textOn="P/NP"
-        android:textOff="Letter"
-        android:textSize="18dp"
-        android:textColor="#757575"
-        android:id="@+id/gradeSwitch"
+        android:id="@+id/switchLayout"
         android:layout_below="@+id/etUnit"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:weightSum="2">
+
+        <Switch
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Grade option"
+            android:textOn="P/NP"
+            android:textOff="Letter"
+            android:textSize="18dp"
+            android:layout_weight="1"
+            android:textColor="#757575"
+            android:id="@+id/gradeSwitch"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="grade status"
+            android:id="@+id/switchStatus"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,7 +77,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gradeSwitch"
+        android:layout_below="@+id/switchLayout"
         android:layout_marginTop="10dp"
 
         android:layout_centerHorizontal="true" />
@@ -64,7 +85,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Grade Distribution"
+        android:text=" + Add Grade Distribution"
         style="?android:attr/borderlessButtonStyle"
         android:layout_marginBottom="0dp"
         android:layout_above="@+id/bAddCourse"
@@ -78,7 +99,8 @@
         android:id="@+id/bAddCourse"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimaryLight"/>
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorText"/>
 
     <ListView
         android:layout_width="wrap_content"
