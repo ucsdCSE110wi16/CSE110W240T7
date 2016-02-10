@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.Firebase.AuthResultHandler;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
@@ -49,14 +54,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         /**
          *Initialize the data base
          */
-        Firebase ref = new Firebase(Constant.DBURL);
+        //Firebase ref = new Firebase(Constant.DBURL);
 
         /**
          * convert to string block
          */
 
         String fullName = etName.getText().toString();
-
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
@@ -102,20 +106,35 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          * Set up the database
          */
 
-        Firebase usersRef = ref.child("users").child(fullName);
+        Firebase start = new Firebase(Constant.DBURL);
+        Firebase usersRef = start.child("userInfo").child(fullName);
 
         /**
          * Initialize user object
          */
 
         user myUser = new user(fullName, major, college, password, graduateDate, email);
+        usersRef.setValue(myUser);
+
 
         /**
          * Construct the user data structure
          */
 
+        Firebase ref = new Firebase(Constant.DBURL);
+        ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
 
-        usersRef.setValue(myUser);
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                System.out.println("Successfully created user account with uid: " + result.get("uid"));
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                // there was an error
+            }
+        });
+
 
         switch (v.getId()) {
             case R.id.bRegister:
