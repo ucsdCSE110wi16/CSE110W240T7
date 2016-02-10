@@ -21,8 +21,6 @@ import ui.CoursePage;
 
 public class IndividualCourse extends Activity implements View.OnClickListener{
     private TextView course, unit, letter,gpa;
-    private ArrayList<String> hws;
-    private Context context;
     private ListView assignmentList;
     private ArrayAdapter arrayAdapter;
     private Courses mycourse;
@@ -39,7 +37,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         fab2.setOnClickListener(this);
 
         assignmentList = (ListView) findViewById(R.id.expandableListView);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.myCourse.get(CoursePage.p).getAssignments());
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mycourse.getAssignments());
         assignmentList.setAdapter(arrayAdapter);
 
     }
@@ -60,8 +58,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
             letter.setText("Letter grade");
             gpa.setText("4.0");
         }
-        else
+        else{
             letter.setText("PNP");
+            gpa.setText("Pass");
+        }
 
     }
 

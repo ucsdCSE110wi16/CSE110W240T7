@@ -72,17 +72,21 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     switchStatus.setText("Pass/No Pass");
+                    letter = false;
                 }else{
                     switchStatus.setText("Letter grade");
+                    letter = true;
                 }
             }
         });
 
         if(gradeSwitch.isChecked()){
             switchStatus.setText("Pass/No Pass");
+            letter = false;
         }
         else {
             switchStatus.setText("Letter grade");
+            letter = true;
         }
     }
 

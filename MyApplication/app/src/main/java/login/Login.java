@@ -3,6 +3,7 @@ package login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -35,6 +36,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin:
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+
+                if (TextUtils.isEmpty(username)) {
+                    etUsername.setError("Please input your email");
+                    return;
+                }
+                else if (TextUtils.isEmpty(password)) {
+                    etPassword.setError("Please input a password");
+                    return;
+                }
+
                 startActivity(new Intent(this, Homepage.class));
                 break;
 
