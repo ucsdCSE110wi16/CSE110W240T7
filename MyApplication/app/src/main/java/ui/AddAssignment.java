@@ -90,7 +90,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                 }
 //                int percent = Integer.parseInt(etScore.getText().toString());
                 //int data = Integer.parseInt(etDate.getText().toString());
-                user.myCourse.get(CoursePage.p).addAssignments(hw,hw,0,0,0);
+
                 int selectedId = weightsGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
@@ -98,7 +98,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
                 Toast.makeText(this,
                         weightButton.getText(), Toast.LENGTH_SHORT).show();
-
+                user.myCourse.get(CoursePage.p).addAssignments(weightButton.getText().toString(), hw, 0, 0, 0);
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
             case R.id.etDueDate:
