@@ -9,14 +9,21 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import Constant.Constant;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
     Button bLogin;
-    EditText etUsername, etPassword;
+    EditText etEmail, etPassword;
     TextView tvRegisterLink;
+    boolean isLoginSuccess = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_login);
 
         bLogin = (Button) findViewById(R.id.bLogin);
-        etUsername = (EditText) findViewById(R.id.etUsername);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
 
@@ -34,21 +41,41 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Please input your email");
+            return;
+        }
+        else if (TextUtils.isEmpty(password)) {
+            etPassword.setError("Please input a password");
+            return;
+        }
+
+        Firebase ref = new Firebase(Constant.DBURL);
+
+        ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                //System.out.println("Login successfully!");
+
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                //System.err.println("Login unsuccessfully");
+                isLoginSuccess = false;
+                etPassword.setError("Please check your email or password");
+            }
+        });
+
+
         switch (view.getId()) {
             case R.id.bLogin:
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-
-                if (TextUtils.isEmpty(username)) {
-                    etUsername.setError("Please input your email");
-                    return;
-                }
-                else if (TextUtils.isEmpty(password)) {
-                    etPassword.setError("Please input a password");
-                    return;
-                }
-
-                startActivity(new Intent(this, Homepage.class));
+                startActivity(new Intent(this, Login.class));
                 break;
 
             case R.id.tvRegisterLink:

@@ -135,8 +135,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-
-
         switch (v.getId()) {
             case R.id.bRegister:
                 startActivity(new Intent(this, Login.class));
