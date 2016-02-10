@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class user {
 
+    private String email;
     private String fullName;
     private String major;
     private String college;
@@ -30,7 +31,8 @@ public class user {
      * @param graduateDate
      */
 
-    public user(String fullName, String major, String college, String password, String graduateDate){
+    public user(String fullName, String major, String college, String password, String graduateDate, String email){
+        this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
@@ -52,5 +54,6 @@ public class user {
     public String getPassword(){return this.password;}
     public String getGraduateDate(){return this.graduateDate;}
     public ArrayList<Courses> getUsrArrayList () {return this.usrArrayList;}
+    public String getEmail(){return this.email;}
 
 }

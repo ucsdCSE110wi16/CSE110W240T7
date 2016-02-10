@@ -20,17 +20,18 @@ import model.user;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etMajor, etUsername, etGraduate, etCollege, etPassword;
+    EditText etName, etMajor, etEmail, etGraduate, etCollege, etPassword;
     Button bRegister;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         etName = (EditText) findViewById(R.id.etName);
-        etUsername = (EditText) findViewById(R.id.etUsername);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
@@ -50,30 +51,30 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          */
         Firebase ref = new Firebase(Constant.DBURL);
 
-        /*
-        ArrayList<Integer> courseList = new ArrayList<Integer>();
-        courseList.add(1);
-        courseList.add(3);
-        courseList.add(2);
-        courseList.add(4);
-        */
-
         /**
          * convert to string block
          */
 
         String fullName = etName.getText().toString();
-        String username= etUsername.getText().toString();
+
+        String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
         String graduateDate = etGraduate.getText().toString();
 
 
+        /**
+         * Error handling
+         */
 
+        if(fullName.indexOf('.') >= 0){
+            etName.setError("Sorry, the fullname cannot contains dots ");
+            return;
+        }
 
-        if (TextUtils.isEmpty(username)) {
-            etUsername.setError("Please input your username");
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Please input your username");
             return;
         }
         else if (TextUtils.isEmpty(password)) {
@@ -96,45 +97,25 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             etGraduate.setError("Please input graduate date");
             return;
         }
-        //int graduateDate = Integer.parseInt(etCollege.getText().toString());
 
         /**
          * Set up the database
          */
 
-        Firebase usersRef = ref.child("users").child(username);
-
+        Firebase usersRef = ref.child("users").child(fullName);
 
         /**
          * Initialize user object
          */
 
-        user myUser = new user(fullName, major, college, password, graduateDate);
-        //ArrayList<Courses> courseList = myUser.getUsrArrayList();
-        Courses test_1 = new Courses();
-        Courses test_2 = new Courses();
-        Courses test_3 = new Courses();
-
-        ArrayList<Courses> courseList = new ArrayList<>();
-        courseList.add(test_1);
-        courseList.add(test_2);
-        courseList.add(test_3);
+        user myUser = new user(fullName, major, college, password, graduateDate, email);
 
         /**
          * Construct the user data structure
          */
 
+
         usersRef.setValue(myUser);
-
-        usersRef.child("fullName").setValue(fullName);
-        usersRef.child("major").setValue(major);
-        usersRef.child("college").setValue(college);
-        usersRef.child("password").setValue(password);
-        usersRef.child("graduateDate").setValue(graduateDate);
-        //usersRef.child("courseList").setValue(courseList);
-
-        //usersRef.setValue(courseList);
-
 
         switch (v.getId()) {
             case R.id.bRegister:
