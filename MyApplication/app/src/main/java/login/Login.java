@@ -47,16 +47,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
-        if (TextUtils.isEmpty(email)) {
-            Log.v("break1","break1");
-            etEmail.setError("Please input your email");
-            return;
-        }
-        else if (TextUtils.isEmpty(password)) {
-            Log.v("break2","break2");
-            etPassword.setError("Please input a password");
-            return;
-        }
+
 
         Firebase ref = new Firebase(Constant.DBURL);
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
@@ -93,7 +84,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         });
         switch (view.getId()) {
+
+            case R.id.tvRegisterLink:
+                startActivity(new Intent(this, Register.class));
+                break;
+
             case R.id.bLogin:
+                if (TextUtils.isEmpty(email)) {
+                    Log.v("break1","break1");
+                    etEmail.setError("Please input your email");
+                    return;
+                }
+                else if (TextUtils.isEmpty(password)) {
+                    Log.v("break2","break2");
+                    etPassword.setError("Please input a password");
+                    return;
+                }
                 Log.v("break4","break4");
                 if(isLoginSuccess != true) {
                     Log.v("break5","break5");
@@ -104,9 +110,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 startActivity(new Intent(this, Homepage.class));
                 break;
 
-            case R.id.tvRegisterLink:
-                startActivity(new Intent(this, Register.class));
-                break;
         }
 
 
