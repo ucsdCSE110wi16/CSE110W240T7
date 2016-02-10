@@ -55,23 +55,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
 
         Firebase ref = new Firebase(Constant.DBURL);
+        ref.authWithPassword(email, password,
+                new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {}
 
-        ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                //System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-                //System.out.println("Login successfully!");
-
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                //System.err.println("Login unsuccessfully");
-                isLoginSuccess = false;
-                etPassword.setError("Please check your email or password");
-            }
-        });
-
+                    @Override
+                    public void onAuthenticationError(FirebaseError error) {
+                        // Something went wrong :(
+                        switch (error.getCode()) {
+                            case FirebaseError.USER_DOES_NOT_EXIST:
+                                etPassword.setError("1");
+                                // handle a non existing user
+                                break;
+                            case FirebaseError.INVALID_PASSWORD:
+                                etPassword.setError("2");
+                                // handle an invalid password
+                                break;
+                            default:
+                                etPassword.setError("3");
+                                // handle other errors
+                                break;
+                        }
+                    }
+                });
 
         switch (view.getId()) {
             case R.id.bLogin:
