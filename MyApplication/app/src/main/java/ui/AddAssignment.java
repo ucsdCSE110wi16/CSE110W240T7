@@ -87,7 +87,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                     etDueDate.setError("Please input assignment due date");
                     return;
                 }
-                else if（selectedId == -1){
+                else if(selectedId == -1){
                     Toast.makeText(this, "Please choose assignment type",Toast.LENGTH_LONG).show();
                     return;
 
