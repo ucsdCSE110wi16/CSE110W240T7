@@ -31,7 +31,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
-        mycourse = CoursePage.myCourse.get(CoursePage.p);
+        mycourse = user.myCourse.get(CoursePage.p);
         this.setViews();
         this.setTitle(mycourse.courseId);
 
@@ -39,7 +39,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         fab2.setOnClickListener(this);
 
         assignmentList = (ListView) findViewById(R.id.expandableListView);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, CoursePage.myCourse.get(CoursePage.p).getAssignments());
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.myCourse.get(CoursePage.p).getAssignments());
         assignmentList.setAdapter(arrayAdapter);
 
     }

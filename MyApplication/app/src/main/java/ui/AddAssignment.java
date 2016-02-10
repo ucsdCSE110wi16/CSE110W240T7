@@ -28,25 +28,26 @@ import java.util.Locale;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.IndividualCourse;
+import model.user;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
 
     private Button bAddAssignment;
     private EditText etScore, etAssignmentID, etDueDate, etChooseWeight;
     private DatePickerDialog dueDatePickerDialog;
-    private SimpleDateFormat dateFormatter;
     private ArrayList weights;
     private RadioGroup weightsGroup;
     private RadioButton weightButton;
+    private int y,m,d;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
-        weights = CoursePage.myCourse.get(CoursePage.p).getWeights();
+        weights = user.myCourse.get(CoursePage.p).getWeights();
 
-        dateFormatter = new SimpleDateFormat("dd-mm-yyyy", Locale.US);
+    
         
         etDueDate = (EditText) findViewById(R.id.etDueDate);
         etDueDate.setInputType(InputType.TYPE_NULL);
@@ -54,8 +55,6 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
         bAddAssignment = (Button) findViewById(R.id.bAddAssignment);
         bAddAssignment.setOnClickListener(this);
-
-
 
         etAssignmentID = (EditText) findViewById(R.id.etAssignmentID);
 
@@ -79,6 +78,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
             case R.id.bAddAssignment:
                 String hw = etAssignmentID.getText().toString();
                 String date = etDueDate.getText().toString();
+                int selectedId = weightsGroup.getCheckedRadioButtonId();
                 if(TextUtils.isEmpty(hw)) {
                     etAssignmentID.setError("Please input assignment name");
                     return;
@@ -87,17 +87,18 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                     etDueDate.setError("Please input assignment due date");
                     return;
                 }
-//                int percent = Integer.parseInt(etScore.getText().toString());
-                //int data = Integer.parseInt(etDate.getText().toString());
-                CoursePage.myCourse.get(CoursePage.p).addAssignments(hw,hw,0,0,0);
-                int selectedId = weightsGroup.getCheckedRadioButtonId();
+                else if(selectedId == -1){
+                    Toast.makeText(this, "Please choose assignment type",Toast.LENGTH_LONG).show();
+                    return;
+
+                }
 
                 // find the radiobutton by returned id
                 weightButton = (RadioButton) findViewById(selectedId);
 
                 Toast.makeText(this,
                         weightButton.getText(), Toast.LENGTH_SHORT).show();
-
+                user.myCourse.get(CoursePage.p).addAssignments(weightButton.getText().toString(), hw, y, m, d);
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
             case R.id.etDueDate:
@@ -115,6 +116,9 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
         dueDatePickerDialog =  new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
  
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                y = year;
+                m = monthOfYear;
+                d = dayOfMonth;
                 etDueDate.setText(new StringBuilder().append(dayOfMonth)
                         .append("-").append(monthOfYear + 1).append("-").append(year)
                         .append(" "));

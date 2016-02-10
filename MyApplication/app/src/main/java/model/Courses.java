@@ -78,6 +78,12 @@ public class Courses {
 
     public void addAssignments(String weight, String assignment, int y,int m, int d){
         ArrayList temp = allAssignments.get(weight);
+
+        for(int i = 0; i < temp.size(); i++){
+            System.err.print("inside arraylist:  ");
+            System.err.println(temp.get(i));
+        }
+        System.err.println("Not ENTERED");
         temp.add(new IndividualAssignment(assignment, y, m, d ));
         assignmentList.add(assignment);
 

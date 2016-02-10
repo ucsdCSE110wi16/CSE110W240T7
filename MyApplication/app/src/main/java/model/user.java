@@ -14,7 +14,9 @@ public class user {
     private String college;
     private String password;
     private String graduateDate;
-    private ArrayList<Courses> usrArrayList;
+    public static ArrayList courses = new ArrayList();
+    public static ArrayList units = new ArrayList();
+    public static ArrayList<Courses> myCourse = new ArrayList<>();
 
     /**
      * Defualt constructor for user
@@ -39,8 +41,8 @@ public class user {
         this.password = password;
         this.graduateDate = graduateDate;
         Courses temp = new Courses();
-        this.usrArrayList = new ArrayList<Courses>();
-        usrArrayList.add(temp);
+        this.myCourse = new ArrayList<Courses>();
+        myCourse.add(temp);
     }
 
     /**
@@ -53,7 +55,11 @@ public class user {
     public String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
     public String getGraduateDate(){return this.graduateDate;}
+<<<<<<< HEAD
     public ArrayList<Courses> getUsrArrayList () {return this.usrArrayList;}
     public String getEmail(){return this.email;}
+=======
+    public ArrayList<Courses> getUsrArrayList () {return this.myCourse;}
+>>>>>>> origin/master
 
 }

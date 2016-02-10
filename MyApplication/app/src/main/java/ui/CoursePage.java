@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.IndividualCourse;
+import model.user;
 import ui.AddCourse;
 import ui.BaseActivity;
 
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
-    public static ArrayList courses = new ArrayList();
-    public static ArrayList units = new ArrayList();
-    public static ArrayList<Courses> myCourse = new ArrayList<>();
+
     private ListView coursesListView;
     private ArrayAdapter arrayAdapter;
     private Context context;
@@ -42,7 +41,7 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
 
 
         coursesListView = (ListView) findViewById(R.id.lsCourses);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, courses);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.courses);
         coursesListView.setAdapter(arrayAdapter);
         coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
