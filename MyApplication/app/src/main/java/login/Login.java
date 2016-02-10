@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         bLogin.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
+        Firebase.setAndroidContext(this);
     }
 
     @Override
@@ -58,22 +60,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         ref.authWithPassword(email, password,
                 new Firebase.AuthResultHandler() {
                     @Override
-                    public void onAuthenticated(AuthData authData) {}
+                    public void onAuthenticated(AuthData authData) {
+                        Log.d("0","0");
+                    }
 
                     @Override
                     public void onAuthenticationError(FirebaseError error) {
                         // Something went wrong :(
                         switch (error.getCode()) {
                             case FirebaseError.USER_DOES_NOT_EXIST:
-                                etPassword.setError("1");
+                                //etPassword.setError("1");
+                                Log.d("1","1");
                                 // handle a non existing user
                                 break;
                             case FirebaseError.INVALID_PASSWORD:
-                                etPassword.setError("2");
+                                //etPassword.setError("2");
+                                Log.d("2", "2");
                                 // handle an invalid password
                                 break;
                             default:
-                                etPassword.setError("3");
+                                //etPassword.setError("3");
+                                Log.d("3", "3");
                                 // handle other errors
                                 break;
                         }
@@ -82,7 +89,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         switch (view.getId()) {
             case R.id.bLogin:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, Homepage.class));
                 break;
 
             case R.id.tvRegisterLink:
