@@ -55,11 +55,8 @@ public class user {
     public String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
     public String getGraduateDate(){return this.graduateDate;}
-<<<<<<< HEAD
-    public ArrayList<Courses> getUsrArrayList () {return this.usrArrayList;}
+
     public String getEmail(){return this.email;}
-=======
-    public ArrayList<Courses> getUsrArrayList () {return this.myCourse;}
->>>>>>> origin/master
+
 
 }
