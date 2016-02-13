@@ -1,5 +1,6 @@
 package login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button bLogin;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
-    boolean isLoginSuccess = false;
 
 
     @Override
@@ -41,6 +41,34 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         Firebase.setAndroidContext(this);
     }
 
+    public boolean isValidPassword(String password) {
+        return password != null && password.trim().length() > 0;
+    }
+    public boolean isValidEmail(String email) {
+        return email != null && email.trim().length() > 0 && email.indexOf("@") > 0;
+    }
+    public void authenticateUser(String email, String password){
+        Firebase ref = new Firebase(Constant.DBURL);
+        if(!isValidEmail(email)){
+            etEmail.setError("Please enter a valid email address");
+        }
+        if(!isValidPassword(email)){
+            etPassword.setError("Please enter a correct password");
+        }
+        ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                startActivity(new Intent(Login.this, Homepage.class));
+
+            }
+            @Override
+            public void onAuthenticationError(FirebaseError error) {
+                // Something went wrong :(
+
+            }
+
+        });
+    }
     @Override
     public void onClick(View view) {
 
@@ -49,40 +77,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
 
 
-        Firebase ref = new Firebase(Constant.DBURL);
-        ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                isLoginSuccess = true;
-                Log.v("break2", "break2");
-                Log.v("0", "0");
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError error) {
-                // Something went wrong :(
-                Log.v("break3", "break3");
-                isLoginSuccess = false;
-                switch (error.getCode()) {
-                    case FirebaseError.USER_DOES_NOT_EXIST:
-                        //etPassword.setError("1");
-                        Log.v("1", "2");
-                        // handle a non existing user
-                        break;
-                    case FirebaseError.INVALID_PASSWORD:
-                        //etPassword.setError("2");
-                        Log.v("2", "2");
-                        // handle an invalid password
-                        break;
-                    default:
-                        //etPassword.setError("3");
-                        Log.v("3", "2");
-                        // handle other errors
-                        break;
-                }
-            }
-
-        });
         switch (view.getId()) {
 
             case R.id.tvRegisterLink:
@@ -90,25 +84,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 break;
 
             case R.id.bLogin:
-                if (TextUtils.isEmpty(email)) {
-                    Log.v("break1","break1");
-                    etEmail.setError("Please input your email");
-                    return;
-                }
-                else if (TextUtils.isEmpty(password)) {
-                    Log.v("break2","break2");
-                    etPassword.setError("Please input a password");
-                    return;
-                }
-                Log.v("break4","break4");
-                if(isLoginSuccess != true) {
-                    Log.v("break5","break5");
-                    Log.v("1", "1");
-                    return;
-
-                }
-                startActivity(new Intent(this, Homepage.class));
+                authenticateUser(email, password);
+                final ProgressDialog progressDialog = new ProgressDialog(Login.this);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Authenticating...");
+                progressDialog.show();
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
                 break;
+
 
         }
 
