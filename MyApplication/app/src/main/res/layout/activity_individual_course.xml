@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="model.IndividualCourse">
+    tools:context="ui.IndividualCourse"
+    android:foreground="@drawable/shape_window_dim"
+    android:id="@+id/individual_course_page">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -7,27 +7,17 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import androidstudio.edbud.com.myapplication.R;
-import model.Courses;
-import model.IndividualCourse;
 import model.user;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
@@ -98,7 +88,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
                 Toast.makeText(this,
                         weightButton.getText(), Toast.LENGTH_SHORT).show();
-                user.myCourse.get(CoursePage.p).addAssignments(weightButton.getText().toString(), hw, y, m, d);
+                user.myCourse.get(CoursePage.p).addAssignment(weightButton.getText().toString(), hw, y, m, d);
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
             case R.id.etDueDate:

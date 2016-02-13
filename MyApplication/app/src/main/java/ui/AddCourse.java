@@ -30,8 +30,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 
+import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
@@ -45,11 +48,11 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
     private Switch gradeSwitch;
     private boolean letter = true;
     private ListView weightList;
-    private ArrayList weights = new ArrayList();
-    private ArrayList percentages = new ArrayList();
+    private ArrayList<String> weights;
+    private ArrayList<Integer> percentages;
     private FrameLayout layout_main;
     private PopupWindow popup;
-    private int weightTotal = 0;
+    WeightListAdapter adapter;
 
 
     @Override
@@ -64,8 +67,12 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         bAddCourse.setOnClickListener(this);
         bAddWeights.setOnClickListener(this);
 
-        WeightListAdapter adapter = new WeightListAdapter(this, weights, percentages);
+        weights = new ArrayList<>();
+        percentages = new ArrayList<>();
+
+        adapter = new WeightListAdapter(this, weights, percentages);
         weightList.setAdapter(adapter);
+
 
 
         gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -119,14 +126,17 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 } else if (TextUtils.isEmpty(unit)) {
                     etcourseUnit.setError("Please input course unit");
                     return;
-                }else if(weightTotal != 100){
-                    Toast.makeText(this,"Weight percentage does not add up to 100%", Toast.LENGTH_LONG).show();
-                    return;
                 }
+
                 int courseUnit = Integer.parseInt(unit);
-                user.myCourse.add(new Courses(courseID, courseUnit, letter, weights,percentages));
+                Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights,percentages);
+                user.myCourse.add(courseToAdd);
                 user.courses.add(courseID);
-                user.units.add(courseUnit);
+                //Firebase start = new Firebase(Constant.DBURL);
+                //Firebase userCourses = start.child("userInfo").child("Lihui Lu").child("courses").child(courseID);
+                //userCourses.setValue(courseToAdd);
+
+
                 startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:
@@ -144,12 +154,21 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
                 int percent = Integer.parseInt(weightPercent);
+                if(weights.indexOf(weightID) != -1){
+                    Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 weights.add(weightID);
                 percentages.add(percent);
-                weightTotal += percent;
+                adapter.notifyDataSetChanged();
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
+            case R.id.bCancelAddIndividualWeight:
+                layout_main.getForeground().setAlpha(0);
+                popup.dismiss();
+                break;
+
 
         }
     }
@@ -179,6 +198,8 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
         // Getting a reference to Close button, and close the popup when clicked.
         Button close = (Button) layout.findViewById(R.id.bAddIndividualWeight);
+        Button cancel = (Button) layout.findViewById(R.id.bCancelAddIndividualWeight);
+        cancel.setOnClickListener(this);
         close.setOnClickListener(this);
 
     }

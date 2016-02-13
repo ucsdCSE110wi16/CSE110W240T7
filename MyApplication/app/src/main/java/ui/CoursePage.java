@@ -10,14 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import androidstudio.edbud.com.myapplication.R;
-import model.Courses;
-import model.IndividualCourse;
 import model.user;
-import ui.AddCourse;
-import ui.BaseActivity;
 
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
