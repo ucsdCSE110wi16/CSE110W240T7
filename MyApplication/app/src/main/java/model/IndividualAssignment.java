@@ -23,7 +23,5 @@ public class IndividualAssignment {
     public int getScore(){
         return score;
     }
-
-
-
+    
 }

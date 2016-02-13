@@ -26,11 +26,11 @@ public class Courses {
 
     ArrayList weightsList, assignmentList;
     double unit;
-     boolean isLetter;
+    boolean isLetter;
     String courseId;
     double gpa;
     Map <String, ArrayList<IndividualAssignment>> allAssignments;
-     Map <String, Integer> gradingDistribution;
+    Map <String, Integer> gradingDistribution;
 
     /**
      * Default constructor
