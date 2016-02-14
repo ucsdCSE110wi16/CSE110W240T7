@@ -11,13 +11,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="ui.Homepage">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:max="500"
+        android:progress="300"
+        android:progressDrawable="@drawable/progressdraw"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:text="Recent Dues"
         android:id="@+id/textView7"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
 
 
