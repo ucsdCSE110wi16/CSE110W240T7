@@ -51,7 +51,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onAuthenticated(AuthData authData) {
                 //new to create a new user and fetch data from Firebase
-                user.UID = authData.getUid();
+
+                user initialize = new user(authData.getUid());
+                Log.v("UID",user.UID);
                 startActivity(new Intent(Login.this, Homepage.class));
             }
 

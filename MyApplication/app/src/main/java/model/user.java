@@ -1,8 +1,13 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+
+import Constant.Constant;
 
 /**
  * Created by Tianqi on 2/7/2016.
@@ -13,7 +18,7 @@ public class user {
     private String email;
     private String fullName;
     private String major;
-    private String college;
+    public static String college;
     private String password;
     private String graduateDate;
 
@@ -32,10 +37,15 @@ public class user {
      */
 
     public user(String ID){
-        courses = new ArrayList();
-        units = new ArrayList();
-        myCourse = new ArrayList<>();
+
         this.UID = ID;
+        Firebase userinfo = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID);
+        this.college = userinfo.child("college").toString();
+        this.graduateDate = userinfo.child("graduateDate").toString();
+        this.fullName = userinfo.child("fullName").toString();
+        CourseListAdapter adapter = new CourseListAdapter(Constant.DBURLszh);
+
+
     }
 
     /**

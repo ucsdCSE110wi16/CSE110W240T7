@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import androidstudio.edbud.com.myapplication.R;
+import model.IndividualCourse;
 import model.user;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {

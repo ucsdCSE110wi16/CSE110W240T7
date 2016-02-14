@@ -49,6 +49,7 @@ public class Courses {
      */
 
     public Courses(String id, int u, boolean l, ArrayList<String> w, ArrayList<Integer> p){
+
         this.courseId = id;
         this.unit = u;
         this.isLetter = l;
@@ -57,7 +58,10 @@ public class Courses {
         this.categories = new HashMap<>();
         this.allAssignments = new HashMap<>();
         this.gpaThreshold = new HashMap<>();
+
+
         for(int i = 0; i < weightsList.size(); ++i){
+
             allAssignments.put(weightsList.get(i).toString(), new ArrayList<IndividualAssignment>());
             categories.put(weightsList.get(i).toString(), new Category(weightsList.get(i).toString(), Integer.parseInt(p.get(i).toString()), 0));
         }
@@ -119,9 +123,9 @@ public class Courses {
         System.err.println("Not ENTERED");*/
         IndividualAssignment assignmentToAdd = new IndividualAssignment(assignment, y, m, d);
         temp.add(assignmentToAdd);
-        Firebase start = new Firebase(Constant.DBURL);
-        Firebase userAssignments = start.child("userInfo").child("Lihui Lu").child("courses").child(courseId).child("categories").child(weight).child(assignment);
-        userAssignments.setValue(assignmentToAdd);
+        //Firebase start = new Firebase(Constant.DBURL);
+        //Firebase userAssignments = start.child("userInfo").child("Lihui Lu").child("courses").child(courseId).child("categories").child(weight).child(assignment);
+        //userAssignments.setValue(assignmentToAdd);
         //assignmentList.add(assignment);
 
     }

@@ -30,7 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="ui.AddCourse" />
         <activity
-            android:name="ui.IndividualCourse"
+            android:name="model.IndividualCourse"
             android:label="@string/title_activity_individual_course"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="ui.AddAssignment" />

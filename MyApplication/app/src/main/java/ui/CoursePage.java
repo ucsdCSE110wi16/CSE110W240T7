@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidstudio.edbud.com.myapplication.R;
+import model.IndividualCourse;
 import model.user;
 
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {

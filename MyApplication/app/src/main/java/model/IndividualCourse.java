@@ -1,4 +1,4 @@
-package ui;
+package model;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -28,6 +28,9 @@ import model.Courses;
 import model.IndividualAssignment;
 import model.user;
 import androidstudio.edbud.com.myapplication.R;
+import ui.AddAssignment;
+import ui.CoursePage;
+import ui.ExpandableListAdapter;
 
 public class IndividualCourse extends Activity implements View.OnClickListener{
     private TextView course, unit, letter,gpa;
