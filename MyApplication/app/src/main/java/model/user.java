@@ -25,13 +25,16 @@ public class user {
 
     public static ArrayList courses = new ArrayList();
     public static ArrayList units = new ArrayList();
-    public static ArrayList<Courses> myCourse;
+    public static ArrayList<Courses> myCourse = new ArrayList<>();
 
     /**
      * Defualt constructor for user
      */
 
     public user(String ID){
+        courses = new ArrayList();
+        units = new ArrayList();
+        myCourse = new ArrayList<>();
         this.UID = ID;
     }
 
@@ -57,7 +60,7 @@ public class user {
         this.UID = UID;
         Courses temp = new Courses();
 
-        this.myCourse = new ArrayList<Courses>();
+        this.myCourse = new ArrayList<>();
         //myCourse.add(temp);
     }
 
