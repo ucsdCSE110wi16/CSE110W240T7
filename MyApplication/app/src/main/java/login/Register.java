@@ -21,6 +21,7 @@ import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
+import ui.Homepage;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -41,11 +42,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
-
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
 
+    }
+
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
     }
 
     @Override
@@ -68,6 +81,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String graduateDate = etGraduate.getText().toString();
 
 
+
         /**
          * Error handling
          */
@@ -81,40 +95,46 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             etEmail.setError("Please input your username");
             return;
         }
+
+        else if(!email.contains("@")){
+            etEmail.setError("The input email format is not correct, must follow xxx@.com-format");
+            return;
+        }
+
         else if (TextUtils.isEmpty(password)) {
             etPassword.setError("Please input a password");
             return;
         }
+
+        else if(password.length() < 6){
+            etPassword.setError("Password must have at least six characters");
+            return;
+        }
+
         else if (TextUtils.isEmpty(fullName)) {
             etName.setError("Please input your name");
             return;
         }
+
         else if (TextUtils.isEmpty(college)) {
             etCollege.setError("Please input your college");
             return;
         }
+
         else if (TextUtils.isEmpty(major)) {
             etMajor.setError("Please input your major");
             return;
         }
+
         else if (TextUtils.isEmpty(graduateDate)) {
             etGraduate.setError("Please input graduate date");
             return;
         }
 
-        /**
-         * Set up the database
-         */
-
-        Firebase start = new Firebase(Constant.DBURL);
-        Firebase usersRef = start.child("userInfo").child(fullName);
-
-        /**
-         * Initialize user object
-         */
-
-        user myUser = new user(fullName, major, college, password, graduateDate, email);
-        usersRef.setValue(myUser);
+        else if(!isInteger(graduateDate)){
+            etGraduate.setError("Graduate date must be a number");
+            return;
+        }
 
 
         /**
@@ -126,7 +146,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
             @Override
             public void onSuccess(Map<String, Object> result) {
-                System.out.println("Successfully created user account with uid: " + result.get("uid"));
+                String fullName = etName.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String major = etMajor.getText().toString();
+                String college = etCollege.getText().toString();
+                String graduateDate = etGraduate.getText().toString();
+                String ID = result.get("uid").toString();
+                Firebase start = new Firebase(Constant.DBURL);
+                Firebase usersRef = start.child("userInfo").child(ID);
+
+                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
+                usersRef.setValue(myUser);
+
             }
 
             @Override
@@ -137,7 +169,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         switch (v.getId()) {
             case R.id.bRegister:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, Homepage.class));
                 break;
         }
     }

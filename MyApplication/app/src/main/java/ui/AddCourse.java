@@ -120,7 +120,9 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 user.myCourse.add(courseToAdd);
                 user.addUnit(courseUnit);
                 user.courses.add(courseID);
-                //Firebase start = new Firebase(Constant.DBURL);
+                //Firebase start = new Firebase(Constant.DBUserInfo + user.UID + "/courses");
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                start.child(courseToAdd.getCourseId()).setValue(courseToAdd);
                 //Firebase userCourses = start.child("userInfo").child("Lihui Lu").child("courses").child(courseID);
                 //userCourses.setValue(courseToAdd);
 

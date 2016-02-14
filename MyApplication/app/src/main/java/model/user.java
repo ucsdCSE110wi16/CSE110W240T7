@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 /**
@@ -14,8 +16,13 @@ public class user {
     private String college;
     private String password;
     private String graduateDate;
+
     private static int unit = 0;
     private static double gpa = 4.0;
+
+    @JsonIgnore
+    public static String UID;
+
     public static ArrayList courses = new ArrayList();
     public static ArrayList units = new ArrayList();
     public static ArrayList<Courses> myCourse;
@@ -24,7 +31,9 @@ public class user {
      * Defualt constructor for user
      */
 
-    public user(){}
+    public user(String ID){
+        this.UID = ID;
+    }
 
     /**
      *
@@ -35,14 +44,19 @@ public class user {
      * @param graduateDate
      */
 
-    public user(String fullName, String major, String college, String password, String graduateDate, String email){
+    public user(String fullName, String major, String college, String password, String graduateDate, String email,String UID){
         this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
         this.password = password;
         this.graduateDate = graduateDate;
+
         //Courses temp = new Courses();
+
+        this.UID = UID;
+        Courses temp = new Courses();
+
         this.myCourse = new ArrayList<Courses>();
         //myCourse.add(temp);
     }
@@ -53,6 +67,7 @@ public class user {
      */
     public String getFullName() {return this.fullName;}
     public String getMajor() {return this.major;}
+    public String getUID() {return this.UID;}
     public String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
     public ArrayList getCourses() {
