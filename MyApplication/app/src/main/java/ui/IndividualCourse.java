@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -200,7 +199,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.activity_add_weights, null);
+        View layout = layoutInflater.inflate(R.layout.popup_add_weights, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -1,40 +1,27 @@
 package ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.RequiresPermission;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-
 import java.util.ArrayList;
 
-import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
@@ -131,6 +118,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 int courseUnit = Integer.parseInt(unit);
                 Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights,percentages);
                 user.myCourse.add(courseToAdd);
+                user.addUnit(courseUnit);
                 user.courses.add(courseID);
                 //Firebase start = new Firebase(Constant.DBURL);
                 //Firebase userCourses = start.child("userInfo").child("Lihui Lu").child("courses").child(courseID);
@@ -178,7 +166,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.activity_add_weights, null);
+        View layout = layoutInflater.inflate(R.layout.popup_add_weights, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
