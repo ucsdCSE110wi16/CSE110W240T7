@@ -17,7 +17,7 @@ public class user {
     private String password;
     private String graduateDate;
     @JsonIgnore
-    private String UID;
+    public static String UID;
     public static ArrayList courses = new ArrayList();
     public static ArrayList units = new ArrayList();
     public static ArrayList<Courses> myCourse = new ArrayList<>();
@@ -26,7 +26,9 @@ public class user {
      * Defualt constructor for user
      */
 
-    public user(){}
+    public user(String ID){
+        this.UID = ID;
+    }
 
     /**
      *

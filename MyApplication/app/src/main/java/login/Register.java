@@ -21,6 +21,7 @@ import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
+import ui.Homepage;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -136,9 +137,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
 
 
-        
-
-
         /**
          * Construct the user data structure
          */
@@ -169,12 +167,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-
-
-
         switch (v.getId()) {
             case R.id.bRegister:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, Homepage.class));
                 break;
         }
     }

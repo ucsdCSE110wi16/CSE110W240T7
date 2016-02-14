@@ -16,6 +16,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import Constant.Constant;
+import model.user;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
 
@@ -49,6 +50,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                //new to create a new user and fetch data from Firebase
+                user.UID = authData.getUid();
                 startActivity(new Intent(Login.this, Homepage.class));
             }
 
