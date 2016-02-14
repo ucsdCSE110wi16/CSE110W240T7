@@ -41,7 +41,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
-
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
@@ -79,6 +78,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
         String graduateDate = etGraduate.getText().toString();
+
 
 
         /**
@@ -136,20 +136,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
 
 
-
-        /**
-         * Set up the database
-         */
-
-        Firebase start = new Firebase(Constant.DBURL);
-        Firebase usersRef = start.child("userInfo").child(fullName);
-
-        /**
-         * Initialize user object
-         */
-
-        user myUser = new user(fullName, major, college, password, graduateDate, email);
-        usersRef.setValue(myUser);
+        
 
 
         /**
@@ -161,7 +148,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
             @Override
             public void onSuccess(Map<String, Object> result) {
-                System.out.println("Successfully created user account with uid: " + result.get("uid"));
+                String fullName = etName.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String major = etMajor.getText().toString();
+                String college = etCollege.getText().toString();
+                String graduateDate = etGraduate.getText().toString();
+                String ID = result.get("uid").toString();
+                Firebase start = new Firebase(Constant.DBURL);
+                Firebase usersRef = start.child("userInfo").child(ID);
+
+                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
+                usersRef.setValue(myUser);
+
             }
 
             @Override
@@ -169,6 +168,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 // there was an error
             }
         });
+
+
+
 
         switch (v.getId()) {
             case R.id.bRegister:
