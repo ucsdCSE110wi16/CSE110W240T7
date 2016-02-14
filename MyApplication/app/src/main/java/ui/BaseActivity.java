@@ -50,6 +50,19 @@ public class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+<<<<<<< HEAD
+=======
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_navi);
+
+        TextView headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
+        TextView headerMajor = (TextView) headerView.findViewById(R.id.myMajor);
+        TextView headerYear = (TextView) headerView.findViewById(R.id.myYear);
+        headerCollege.setText(user.getCollege());
+        headerMajor.setText(user.getMajor());
+        headerYear.setText(user.getGraduateDate());
+
+
+>>>>>>> origin/master
     }
 
     @Override

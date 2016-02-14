@@ -78,15 +78,15 @@ public class user {
      * getters
      * @return
      */
-    public String getFullName() {return this.fullName;}
-    public String getMajor() {return this.major;}
+    public static String getFullName() {return this.fullName;}
+    public static String getMajor() {return this.major;}
     public String getUID() {return this.UID;}
-    public String getCollege() {return this.college;}
+    public static String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
     public ArrayList getCourses() {
         return this.myCourse;
     }
-    public String getGraduateDate(){return this.graduateDate;}
+    public static String getGraduateDate(){return this.graduateDate;}
     public String getEmail(){return this.email;}
 
     public static void addUnit(int n){
