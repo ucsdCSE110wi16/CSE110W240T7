@@ -135,6 +135,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.individual_fab:
+                if(mycourse.getCategories().isEmpty()){
+                    Toast.makeText(this,"Please add at least one grading distribution first", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 startActivity(new Intent(this, AddAssignment.class));
                 break;
             case R.id.bAddWeights_individual:

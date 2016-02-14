@@ -136,6 +136,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 break;
 
             case R.id.bLogin:
+
                 authenticateUser(email, password);
                 final ProgressDialog progressDialog = new ProgressDialog(Login.this);
 
