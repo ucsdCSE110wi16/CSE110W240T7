@@ -48,6 +48,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -81,26 +94,48 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             etEmail.setError("Please input your username");
             return;
         }
+
+        else if(!email.contains("@")){
+            etEmail.setError("The input email format is not correct, must follow xxx@.com-format");
+            return;
+        }
+
         else if (TextUtils.isEmpty(password)) {
             etPassword.setError("Please input a password");
             return;
         }
+
+        else if(password.length() < 6){
+            etPassword.setError("Password must have at least six characters");
+            return;
+        }
+
         else if (TextUtils.isEmpty(fullName)) {
             etName.setError("Please input your name");
             return;
         }
+
         else if (TextUtils.isEmpty(college)) {
             etCollege.setError("Please input your college");
             return;
         }
+
         else if (TextUtils.isEmpty(major)) {
             etMajor.setError("Please input your major");
             return;
         }
+
         else if (TextUtils.isEmpty(graduateDate)) {
             etGraduate.setError("Please input graduate date");
             return;
         }
+
+        else if(!isInteger(graduateDate)){
+            etGraduate.setError("Graduate date must be a number");
+            return;
+        }
+
+
 
         /**
          * Set up the database

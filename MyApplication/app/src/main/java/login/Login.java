@@ -41,41 +41,90 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         Firebase.setAndroidContext(this);
     }
 
-    public boolean isValidPassword(String password) {
-        return password != null && password.trim().length() > 0;
-    }
-    public boolean isValidEmail(String email) {
-        return email != null && email.trim().length() > 0 && email.indexOf("@") > 0;
-    }
+
     public void authenticateUser(String email, String password){
+
         Firebase ref = new Firebase(Constant.DBURL);
-        if(!isValidEmail(email)){
-            etEmail.setError("Please enter a valid email address");
-        }
-        if(!isValidPassword(email)){
-            etPassword.setError("Please enter a correct password");
-        }
+
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 startActivity(new Intent(Login.this, Homepage.class));
-
             }
+
             @Override
             public void onAuthenticationError(FirebaseError error) {
-                // Something went wrong :(
 
+                final ProgressDialog progressDialog = new ProgressDialog(Login.this);
+                //progressDialog.setIndeterminate(true);
+
+                switch (error.getCode()) {
+
+                    case FirebaseError.USER_DOES_NOT_EXIST:
+                        // handle a non existing user
+
+                        progressDialog.setTitle("Sorry, the username does not exist");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        bLogin.setVisibility(View.VISIBLE);
+
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        // On complete call either onLoginSuccess or onLoginFailed
+                                        // onLoginFailed();
+                                        progressDialog.dismiss();
+                                    }
+                                }, 3700);
+
+                        break;
+
+                    case FirebaseError.INVALID_PASSWORD:
+                        // handle an invalid password
+
+                        progressDialog.setTitle("Sorry, the password is not correct");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        bLogin.setVisibility(View.VISIBLE);
+
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        // On complete call either onLoginSuccess or onLoginFailed
+                                        // onLoginFailed();
+                                        progressDialog.dismiss();
+                                    }
+                                }, 3700);
+                        break;
+
+                    default:
+                        // handle other errors
+
+
+                        progressDialog.setTitle("Sorry the input Email format is not correct");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        bLogin.setVisibility(View.VISIBLE);
+
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        // On complete call either onLoginSuccess or onLoginFailed
+                                        // onLoginFailed();
+                                        progressDialog.dismiss();
+                                    }
+                                }, 3700);
+                        break;
+                }
             }
-
         });
     }
+
     @Override
     public void onClick(View view) {
 
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
-
-
 
         switch (view.getId()) {
 
@@ -84,11 +133,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 break;
 
             case R.id.bLogin:
+
                 authenticateUser(email, password);
                 final ProgressDialog progressDialog = new ProgressDialog(Login.this);
-                progressDialog.setIndeterminate(true);
+
+                //progressDialog.setIndeterminate(true);
+
+                progressDialog.setTitle("Please be patient, our server is amazing!");
                 progressDialog.setMessage("Authenticating...");
                 progressDialog.show();
+                progressDialog.setCancelable(false);
+
+                bLogin.setVisibility(View.GONE);
+
+
                 new android.os.Handler().postDelayed(
                         new Runnable() {
                             public void run() {
@@ -96,11 +154,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 // onLoginFailed();
                                 progressDialog.dismiss();
                             }
-                        }, 3000);
+                        }, 4000);
 
                 break;
-
-
 
         }
 
