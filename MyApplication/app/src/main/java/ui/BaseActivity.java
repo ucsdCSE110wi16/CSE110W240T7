@@ -14,10 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
 import model.Courses;
+import model.user;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +44,15 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_navi);
+
+        TextView headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
+        TextView headerMajor = (TextView) headerView.findViewById(R.id.myMajor);
+        TextView headerYear = (TextView) headerView.findViewById(R.id.myYear);
+        headerCollege.setText(user.getCollege());
+        headerMajor.setText(user.getMajor());
+        headerYear.setText(user.getGraduateDate());
 
 
     }
