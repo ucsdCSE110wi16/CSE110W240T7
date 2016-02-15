@@ -13,10 +13,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@mipmap/gkesden2"
         android:scaleType="fitXY"
+        android:paddingTop="10dp"
         android:layout_alignBottom="@+id/NaviYear"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
@@ -26,48 +27,54 @@
         android:layout_height="wrap_content"
         android:text="Name: "
         android:id="@+id/userName"
-        android:layout_toEndOf="@+id/imageView"
         android:textStyle="bold"
-        android:textSize="18dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:paddingTop="10dp"
+        android:textSize="14dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/NaviCollege"
         android:paddingTop="10dp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userName"
         android:layout_alignStart="@+id/userName"
         android:text="College: "
-        android:textSize="18dp"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="14dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myCollege"
-        android:text="This is my College"
+        android:text="My College"
         android:layout_alignBottom="@+id/NaviCollege"
         android:layout_toEndOf="@+id/NaviCollege"
-        android:textSize="18dp"/>
+        android:textSize="14dp"/>
 
     <TextView
         android:paddingTop="10dp"
         android:id="@+id/NaviMajor"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Major: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_below="@+id/NaviCollege"
         android:layout_alignStart="@+id/NaviCollege"
-        android:textSize="18dp"/>
+        android:textSize="14dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is my major"
+        android:text="My major"
         android:id="@+id/myMajor"
         android:layout_toEndOf="@+id/NaviMajor"
         android:layout_alignBottom="@+id/NaviMajor"
-        android:textSize="18dp"
+        android:textSize="14dp"
         />
 
     <TextView
@@ -75,19 +82,21 @@
         android:id="@+id/NaviYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Graduate Year"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Graduate Year: "
         android:layout_below="@+id/NaviMajor"
         android:layout_alignStart="@+id/NaviCollege"
-        android:textSize="18dp"/>
+        android:textSize="14dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is my Graduate Year"
+        android:text="YYYY"
         android:id="@+id/myYear"
         android:layout_toEndOf="@+id/NaviYear"
         android:layout_alignBottom="@+id/NaviYear"
-        android:textSize="18dp"
+        android:textSize="14dp"
         />
 
 </RelativeLayout>

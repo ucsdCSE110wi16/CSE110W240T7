@@ -111,7 +111,6 @@ public class user {
      * @return
      */
     public String getFullName() {return fullName;}
-<<<<<<< HEAD
     public String getMajor() {return major;}
     public String getUID() {return this.UID;}
     public String getCollege() {return this.college;}
@@ -120,16 +119,7 @@ public class user {
         return this.myCourse;
     }
     public String getGraduateDate(){return graduateDate;}
-=======
-    public static String getMajor() {return major;}
-    public String getUID() {return UID;}
-    public static String getCollege() {return college;}
-    public String getPassword(){return password;}
-    public static Courses getCourse(int i) {
-        return myCourse.get(i);
-    }
-    public static String getGraduateDate(){return graduateDate;}
->>>>>>> origin/master
+
     public String getEmail(){return this.email;}
 
     public static void addUnit(int n){
