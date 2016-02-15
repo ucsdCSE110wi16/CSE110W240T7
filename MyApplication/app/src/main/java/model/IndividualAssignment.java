@@ -48,6 +48,10 @@ public class IndividualAssignment {
         return scoreOutOf;
     }
 
+    public int getDueDate(){
+        return year*1000+month*100+day;
+    }
+
     /**Return Assignment percentage obtained, used for calculation
      *
      * @return percentage calculated using score/score out of

@@ -53,6 +53,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             final String childText = child.getAssignmentName();
             double childRawScore = child.getRawScore();
+            int duedate = child.getDueDate();
             double childScoreOutOf = child.getScoreOutOf();
 
             if (convertView == null) {
@@ -65,6 +66,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .findViewById(R.id.lblListIndividualAssignment);
 
             TextView gradeText = (TextView) convertView.findViewById(R.id.lblListIndividualGrade);
+
+            TextView duedateText = (TextView) convertView.findViewById(R.id.lblListIndividualDueDate);
+            int year, month,day;
+            year = duedate/10000;
+            duedate = duedate - year*10000;
+            month = duedate/100;
+            duedate = duedate - month*100;
+            day = duedate;
+            duedateText.setText(day+"-" + month+"-"+year);
             if(child.isSetScore())
                 gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
             else

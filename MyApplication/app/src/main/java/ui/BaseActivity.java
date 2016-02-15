@@ -52,7 +52,6 @@ public class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_navi);
 
         TextView headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
