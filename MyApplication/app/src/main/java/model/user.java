@@ -17,10 +17,10 @@ public class user {
 
     private String email;
     private String fullName;
-    private String major;
+    private static String major;
     public static String college;
     private String password;
-    private String graduateDate;
+    private static String graduateDate;
 
     private static int unit = 0;
     private static double gpa = 4.0;
@@ -40,6 +40,7 @@ public class user {
 
         this.UID = ID;
         Firebase userinfo = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID);
+
         this.college = userinfo.child("college").toString();
         this.graduateDate = userinfo.child("graduateDate").toString();
         this.fullName = userinfo.child("fullName").toString();
@@ -78,15 +79,15 @@ public class user {
      * getters
      * @return
      */
-    public static String getFullName() {return this.fullName;}
-    public static String getMajor() {return this.major;}
-    public String getUID() {return this.UID;}
-    public static String getCollege() {return this.college;}
-    public String getPassword(){return this.password;}
-    public ArrayList getCourses() {
-        return this.myCourse;
+    public String getFullName() {return fullName;}
+    public static String getMajor() {return major;}
+    public String getUID() {return UID;}
+    public static String getCollege() {return college;}
+    public String getPassword(){return password;}
+    public static Courses getCourse(int i) {
+        return myCourse.get(i);
     }
-    public static String getGraduateDate(){return this.graduateDate;}
+    public static String getGraduateDate(){return graduateDate;}
     public String getEmail(){return this.email;}
 
     public static void addUnit(int n){
