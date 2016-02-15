@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button bLogin;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
+    public static user initialize;
 
 
     @Override
@@ -52,7 +53,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             public void onAuthenticated(AuthData authData) {
                 //new to create a new user and fetch data from Firebase
 
-                user initialize = new user(authData.getUid());
+                initialize = new user(authData.getUid());
+                //Log.v("COLLEGE::", user.UID);
                 Log.v("UID",user.UID);
                 startActivity(new Intent(Login.this, Homepage.class));
             }
