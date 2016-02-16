@@ -62,7 +62,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
-        mycourse = Login.initialize.getCourses(CoursePage.p);
+        //mycourse = user.getCourse(CoursePage.p);
         if(mycourse == null){
             Log.v("p value is :", String.valueOf(CoursePage.p));
             Log.v("my course size: ", String.valueOf(user.myCourse.size()));
