@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import login.Login;
 import model.Category;
 import model.Courses;
 import model.IndividualAssignment;
@@ -60,7 +62,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
-        mycourse = user.getCourse(CoursePage.p);
+        mycourse = Login.initialize.getCourses(CoursePage.p);
         if(mycourse == null){
             Log.v("p value is :", String.valueOf(CoursePage.p));
             Log.v("my course size: ", String.valueOf(user.myCourse.size()));

@@ -1,6 +1,9 @@
 package model;
 
+import android.support.design.widget.NavigationView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ChildEventListener;
@@ -12,6 +15,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 
 import Constant.Constant;
+import androidstudio.edbud.com.myapplication.R;
 
 /**
  * Created by Tianqi on 2/7/2016.
@@ -20,11 +24,11 @@ import Constant.Constant;
 public class user {
 
     public static String email;
-    public  String fullName;
-    public  String major;
-    public  String college;
+    public  static String fullName;
+    public  static String major;
+    public  static String college;
     public  static String password;
-    public  String graduateDate;
+    public  static String graduateDate;
 
 
     private static int unit = 0;
@@ -44,40 +48,9 @@ public class user {
     public user(String ID){
 
         this.UID = ID;
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID);
-        ref.addValueEventListener(new myValueEventListener());
-
-        //Log.v("College", college);
-        //Log.v("graduateDate", this.graduateDate);
-        //Log.v("major", this.major);
-
-        CourseListAdapter adapter = new CourseListAdapter(Constant.DBURLszh);
-
 
     }
-    class myValueEventListener implements ValueEventListener{
 
-
-            public myValueEventListener(){
-                super();
-            }
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                college = snapshot.child("college").getValue().toString();
-                Log.v("College", college);
-                graduateDate = snapshot.child("graduateDate").getValue().toString();
-                Log.v("graduateDate", graduateDate);
-                major = snapshot.child("major").getValue().toString();
-                Log.v("major", major);
-                Log.v("UID", UID);
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-
-
-    }
 
 
     /**
@@ -106,30 +79,21 @@ public class user {
         //myCourse.add(temp);
     }
 
+
     /**
      * getters
      * @return
      */
     public String getFullName() {return fullName;}
-<<<<<<< HEAD
     public String getMajor() {return major;}
     public String getUID() {return this.UID;}
     public String getCollege() {return this.college;}
     public String getPassword(){return this.password;}
-    public ArrayList getCourses() {
-        return this.myCourse;
+    public Courses getCourses(int i) {
+        return this.myCourse.get(i);
     }
     public String getGraduateDate(){return graduateDate;}
-=======
-    public static String getMajor() {return major;}
-    public String getUID() {return UID;}
-    public static String getCollege() {return college;}
-    public String getPassword(){return password;}
-    public static Courses getCourse(int i) {
-        return myCourse.get(i);
-    }
-    public static String getGraduateDate(){return graduateDate;}
->>>>>>> origin/master
+
     public String getEmail(){return this.email;}
 
     public static void addUnit(int n){
