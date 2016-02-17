@@ -110,7 +110,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String headerTitle = header.getCategoryName();
             String headerPercent = "0.0";
                 if(header.isScoreInputted()) {
-                    headerPercent = Double.toString(header.getCurrPercent()*header.getTotalWeight());
+                    headerPercent = Double.toString(header.getCurrPercent()*100);
                 }
 
             if (convertView == null) {

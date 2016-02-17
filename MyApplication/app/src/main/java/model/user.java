@@ -51,9 +51,11 @@ public class user {
      * Defualt constructor for user
      */
 
-    public user(String ID){
+    public user(String ID) {
 
         this.UID = ID;
+
+
 
     }
 

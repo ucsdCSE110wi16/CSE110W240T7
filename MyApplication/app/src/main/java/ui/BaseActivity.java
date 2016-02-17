@@ -23,6 +23,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
 import model.Courses;
@@ -91,6 +93,14 @@ public class BaseActivity extends AppCompatActivity
             headerMajor.setText(snapshot.child("major").getValue().toString());
 
             headerName.setText(snapshot.child("fullName").getValue().toString());
+
+            initialize.myCourse = new ArrayList<>();
+            initialize.courses = new ArrayList();
+            for(DataSnapshot course: snapshot.child("courses").getChildren()){
+                Courses temp = course.getValue(Courses.class);
+                initialize.myCourse.add(temp);
+                initialize.courses.add(temp.getCourseId());
+            }
 
 
         }
