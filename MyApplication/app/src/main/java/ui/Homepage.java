@@ -21,5 +21,9 @@ public class Homepage extends BaseActivity
         super.onCreateNavigation();
     }
 
+    @Override
+    public void onBackPressed(){
+        // DO NOTHING
+    }
 }
 

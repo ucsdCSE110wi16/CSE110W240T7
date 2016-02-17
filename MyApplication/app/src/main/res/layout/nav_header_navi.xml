@@ -40,7 +40,6 @@
         android:id="@+id/myName"
         android:text="This is my Name"
         android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_alignBottom="@+id/userName"
         android:layout_toEndOf="@+id/userName"
         android:textSize="18dp"/>
