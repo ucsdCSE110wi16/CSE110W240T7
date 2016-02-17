@@ -22,6 +22,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Category;
@@ -60,7 +62,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
-        //mycourse = user.getCourse(CoursePage.p);
+        mycourse = user.myCourse.get(CoursePage.p);
         if(mycourse == null){
             Log.v("p value is :", String.valueOf(CoursePage.p));
             Log.v("my course size: ", String.valueOf(user.myCourse.size()));
@@ -171,6 +173,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int percent = Integer.parseInt(weightPercent);
                 if(mycourse.addWeight(weightID,percent)){
                     prepareListData();
+                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                    start.child(mycourse.getCourseId()).setValue(mycourse);
                     listAdapter.notifyDataSetChanged();}
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
@@ -197,7 +201,11 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
-                mycourse.addAssignmentScore(weight,index,r,s);
+                mycourse.addAssignmentScore(weight, index, r, s);
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                start.child(mycourse.getCourseId()).setValue(mycourse);
+                gpa.setText(Double.toString(mycourse.getGpa()));
+                listAdapter.notifyDataSetChanged();
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
@@ -276,7 +284,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         popup.setOutsideTouchable(false);
 
         etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
-        etWeightPercent = (EditText) layout.findViewById(R.id.etScoreOutOf);
+        etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
 
         //Dim the background
         layout_main.getForeground().setAlpha(220);

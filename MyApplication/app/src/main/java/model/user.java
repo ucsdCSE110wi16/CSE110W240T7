@@ -1,6 +1,7 @@
 package model;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ChildEventListener;
@@ -10,6 +11,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
 
 import Constant.Constant;
 
@@ -33,9 +36,11 @@ public class user {
     @JsonIgnore
     public static String UID;
 
+    public static ArrayList<IndividualAssignment> recentDues = new ArrayList<>();
     public static ArrayList courses = new ArrayList();
     public static ArrayList units = new ArrayList();
     public static ArrayList<Courses> myCourse = new ArrayList<>();
+    public static DueDateComparator dueDateComparator = new DueDateComparator();
 
     /**
      * Defualt constructor for user
@@ -70,6 +75,13 @@ public class user {
                 major = snapshot.child("major").getValue().toString();
                 Log.v("major", major);
                 Log.v("UID", UID);
+                myCourse = new ArrayList<>();
+                courses = new ArrayList();
+                for(DataSnapshot course: snapshot.child("courses").getChildren()){
+                    Courses temp = course.getValue(Courses.class);
+                    myCourse.add(temp);
+                    courses.add(temp.getCourseId());
+                }
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
@@ -119,8 +131,16 @@ public class user {
         return this.myCourse;
     }
     public String getGraduateDate(){return graduateDate;}
+    public static ArrayList<IndividualAssignment> getRecentDues() {
+        return recentDues;
+    }
 
     public String getEmail(){return this.email;}
+
+
+    public static void setRecentDues(ArrayList<IndividualAssignment> recentDues) {
+        user.recentDues = recentDues;
+    }
 
     public static void addUnit(int n){
         unit += n;
@@ -138,5 +158,27 @@ public class user {
 
     }
 
+    static class DueDateComparator implements Comparator<IndividualAssignment> {
+
+        @Override
+        public int compare(IndividualAssignment a1, IndividualAssignment a2){
+            if(a2.getYear() < a1.getYear()){
+                return 1;
+            }
+            else if(a2.getMonth() < a1.getMonth()){
+                return 1;
+            }
+            else if(a2.getDay() < a1.getDay()){
+                return 1;
+            }
+            else
+                return -1;
+
+        }
+
+    }
+
 
 }
+
+

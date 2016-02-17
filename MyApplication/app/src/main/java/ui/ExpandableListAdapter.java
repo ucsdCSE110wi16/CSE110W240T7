@@ -53,7 +53,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             final String childText = child.getAssignmentName();
             double childRawScore = child.getRawScore();
-            int duedate = child.getDueDate();
             double childScoreOutOf = child.getScoreOutOf();
 
             if (convertView == null) {
@@ -69,11 +68,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             TextView duedateText = (TextView) convertView.findViewById(R.id.lblListIndividualDueDate);
             int year, month,day;
-            year = duedate/10000;
-            duedate = duedate - year*10000;
-            month = duedate/100;
-            duedate = duedate - month*100;
-            day = duedate;
+            year = child.getYear();
+            month = child.getMonth();
+            day = child.getDay();
             duedateText.setText(day+"-" + month+"-"+year);
             if(child.isSetScore())
                 gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
@@ -85,8 +82,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .size();
+            if(this._listDataChild.get(this._listDataHeader.get(groupPosition)) == null){
+
+            }
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
         }
 
         @Override
@@ -111,7 +110,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String headerTitle = header.getCategoryName();
             String headerPercent = "0.0";
                 if(header.isScoreInputted()) {
-                    headerPercent = Double.toString(header.getCurrPercent());
+                    headerPercent = Double.toString(header.getCurrPercent()*header.getTotalWeight());
                 }
 
             if (convertView == null) {
