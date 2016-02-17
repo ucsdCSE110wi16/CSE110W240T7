@@ -41,5 +41,9 @@ public class Homepage extends BaseActivity
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        // DO NOTHING
+    }
 }
 
