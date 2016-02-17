@@ -65,6 +65,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .findViewById(R.id.lblListIndividualAssignment);
 
             TextView gradeText = (TextView) convertView.findViewById(R.id.lblListIndividualGrade);
+
+            TextView duedateText = (TextView) convertView.findViewById(R.id.lblListIndividualDueDate);
+            int year, month,day;
+            year = child.getYear();
+            month = child.getMonth();
+            day = child.getDay();
+            duedateText.setText(day+"-" + month+"-"+year);
             if(child.isSetScore())
                 gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
             else
@@ -75,8 +82,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                    .size();
+            if(this._listDataChild.get(this._listDataHeader.get(groupPosition)) == null){
+
+            }
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
         }
 
         @Override
@@ -101,7 +110,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String headerTitle = header.getCategoryName();
             String headerPercent = "0.0";
                 if(header.isScoreInputted()) {
-                    headerPercent = Double.toString(header.getCurrPercent());
+                    headerPercent = Double.toString(header.getCurrPercent()*header.getTotalWeight());
                 }
 
             if (convertView == null) {

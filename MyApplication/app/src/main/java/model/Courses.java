@@ -1,6 +1,8 @@
 package model;
 
 
+import android.util.Log;
+
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
@@ -16,15 +18,15 @@ import Constant.Constant;
 
 public class Courses {
 
-    ArrayList<String> weightsList;
+    ArrayList<String> weightsList = new ArrayList<>();
     double unit;
-    boolean isLetter;
+    boolean letter;
     boolean pass;
     String courseId;
     double gpa,totalPrecent;
-    HashMap <String, ArrayList<IndividualAssignment>> allAssignments;
-    HashMap <String, Double> gpaThreshold;
-    HashMap <String, Category> categories;
+    HashMap <String, ArrayList<IndividualAssignment>> allAssignments = new HashMap<>();
+    HashMap <String, Double> gpaThreshold = new HashMap<>();
+    HashMap <String, Category> categories = new HashMap<>();
     Comparator<IndividualAssignment> myComparator = new ScoreComparator();
 
     /**
@@ -33,10 +35,17 @@ public class Courses {
 
     public Courses(){
         this.unit = 0.0;
-        this.isLetter = true;
+        this.letter = true;
         this.courseId = "";
         this.gpa = 0.0;
         this.pass = true;
+        if(letter){
+            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0);
+            this.gpa = 4.0;
+        }
+        else
+            this.setGpaThresholdPNP(60.0);
+
     }
 
     /**
@@ -52,12 +61,12 @@ public class Courses {
 
         this.courseId = id;
         this.unit = u;
-        this.isLetter = l;
+        this.letter = l;
         this.pass = true;
         this.weightsList = w;
-        this.categories = new HashMap<>();
         this.allAssignments = new HashMap<>();
         this.gpaThreshold = new HashMap<>();
+        this.categories = new HashMap<>();
 
 
         for(int i = 0; i < weightsList.size(); ++i){
@@ -67,33 +76,38 @@ public class Courses {
         }
 
         //Initialize grade scale
-        if(isLetter){
-            setGpaThreshold(90.0,80.0,70.0,60.0);
+        if(letter){
+            this.setGpaThresholdLetter(90.0,75.0,60.0,40.0);
             this.gpa = 4.0;
         }
         else
-            setGpaThreshold(60.0);
+            this.setGpaThresholdPNP(60.0);
 
         this.totalPrecent = 100;
 
 
     }
 
-    public void setGpaThreshold(double a, double b, double c, double d){
-        gpaThreshold.put("A",a);
-        gpaThreshold.put("B",b);
-        gpaThreshold.put("C",c);
-        gpaThreshold.put("D",d);
+    public void setGpaThreshold(HashMap<String, Double> threshold){
+        this.gpaThreshold = threshold;
     }
 
-    public void setGpaThreshold(double pass){
-        gpaThreshold.put("P",pass);
+    public void setGpaThresholdLetter(double a, double b, double c, double d){
+        this.gpaThreshold.put("A",a);
+        this.gpaThreshold.put("B",b);
+        this.gpaThreshold.put("C",c);
+        this.gpaThreshold.put("D",d);
+    }
+
+    public void setGpaThresholdPNP(double pass){
+        this.gpaThreshold.put("P",pass);
 
     }
 
     public void setNumToDrop(String w, int n){
         categories.get(w).setNumToDrop(n);
     }
+
 
     public boolean addWeight(String weight, int p){
         if(weightsList.indexOf(weight) != -1)
@@ -112,8 +126,14 @@ public class Courses {
      * @param d -- due date, day
      */
 
-    public void addAssignment(String weight, String assignment, int y,int m, int d){
+    public boolean addAssignment(String weight, String assignment, int y,int m, int d){
         ArrayList<IndividualAssignment> temp = allAssignments.get(weight);
+        if(temp == null) {
+            temp = new ArrayList<IndividualAssignment>();
+            allAssignments.put(weight, temp);
+        }
+        if(temp.indexOf(assignment) != -1)
+            return false;
 
         /*
         for(int i = 0; i < temp.size(); i++){
@@ -121,12 +141,15 @@ public class Courses {
             System.err.println(temp.get(i));
         }
         System.err.println("Not ENTERED");*/
-        IndividualAssignment assignmentToAdd = new IndividualAssignment(assignment, y, m, d);
+        IndividualAssignment assignmentToAdd = new IndividualAssignment(this.getCourseId(),assignment, y, m, d);
         temp.add(assignmentToAdd);
+        user.recentDues.add(assignmentToAdd);
+        Collections.sort(user.recentDues, user.dueDateComparator);
         //Firebase start = new Firebase(Constant.DBURL);
         //Firebase userAssignments = start.child("userInfo").child("Lihui Lu").child("courses").child(courseId).child("categories").child(weight).child(assignment);
         //userAssignments.setValue(assignmentToAdd);
         //assignmentList.add(assignment);
+        return true;
 
     }
 
@@ -155,6 +178,7 @@ public class Courses {
         }
 
         currCategory.setCurrPercent(newPercent);
+        user.recentDues.remove(temp.get(index));
         totalPrecent = updateScores();
 
 
@@ -169,14 +193,14 @@ public class Courses {
         for(Category value : categories.values()){
             if(value.isScoreInputted()){
                 //System.out.println(value.getCategoryName() + "\ncurr percent:" + value.getCurrPercent() + "\nout of: " + value.getTotalWeight());
-                percentage += value.getCurrPercent();
+                percentage += value.getCurrPercent()*value.getTotalWeight();
                 totalWeight +=value.getTotalWeight();
             }
         }
         percentage = (percentage/totalWeight)*100;
         //System.out.println("percentage now: "+ percentage);
 
-        if(isLetter){
+        if(letter){
             if(percentage >= gpaThreshold.get("A")){
                 gpa = 4.0;
             }
@@ -208,9 +232,11 @@ public class Courses {
     public double getUnit (){return this.unit;}
     public double getGpa () {return this.gpa;}
     public boolean getPass(){return this.pass;}
-    public boolean getLetter () {return this.isLetter;}
+    public boolean getLetter () {return this.letter;}
     public String getCourseId () {return this.courseId;}
-
+    public HashMap<String, Double> getGpaThreshold() {
+        return gpaThreshold;
+    }
 
     /**
      *

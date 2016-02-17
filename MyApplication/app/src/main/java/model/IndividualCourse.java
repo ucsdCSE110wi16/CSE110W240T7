@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +22,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import login.Login;
 import model.Category;
 import model.Courses;
 import model.IndividualAssignment;
@@ -34,9 +39,10 @@ import ui.ExpandableListAdapter;
 
 public class IndividualCourse extends Activity implements View.OnClickListener{
     private TextView course, unit, letter,gpa;
-    private EditText etWeightID, etWeightPercent;
+    private EditText etWeightID, etWeightPercent, etRawScore, etScoreOutOf;
     private ListView assignmentList;
     private Courses mycourse;
+    private Context myContext;
 
 
 
@@ -48,6 +54,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     FloatingActionButton fab2;
     CoordinatorLayout layout_main;
     private PopupWindow popup;
+    int index;
+    String weight;
     Button bAddWeight;
     boolean showPercent = false;
 
@@ -55,7 +63,13 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
+        myContext = this;
         mycourse = user.myCourse.get(CoursePage.p);
+        if(mycourse == null){
+            Log.v("p value is :", String.valueOf(CoursePage.p));
+            Log.v("my course size: ", String.valueOf(user.myCourse.size()));
+            Log.v("my course:", "is null");
+        }
         this.setViews();
         this.setTitle(mycourse.getCourseId());
 
@@ -77,9 +91,9 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
 
-                String weight = listDataHeader.get(groupPosition).toString();
-
-
+                weight = listDataHeader.get(groupPosition).toString();
+                index = childPosition;
+                showSetScore((Activity) myContext);
                 // TODO Auto-generated method stub
                 Toast.makeText(
                         getApplicationContext(),
@@ -161,6 +175,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int percent = Integer.parseInt(weightPercent);
                 if(mycourse.addWeight(weightID,percent)){
                     prepareListData();
+                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                    start.child(mycourse.getCourseId()).setValue(mycourse);
                     listAdapter.notifyDataSetChanged();}
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
@@ -174,6 +190,30 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
+            case R.id.bSetScore:
+                String rawScore = etRawScore.getText().toString();
+                String ScoreOutOf = etScoreOutOf.getText().toString();
+                if(TextUtils.isEmpty(rawScore)){
+                    Toast.makeText(this,"Please input raw score",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(ScoreOutOf)){
+                    Toast.makeText(this,"Please input Score out of", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int r = Integer.parseInt(rawScore);
+                int s = Integer.parseInt(ScoreOutOf);
+                mycourse.addAssignmentScore(weight, index, r, s);
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                start.child(mycourse.getCourseId()).setValue(mycourse);
+                gpa.setText(Double.toString(mycourse.getGpa()));
+                listAdapter.notifyDataSetChanged();
+                layout_main.getForeground().setAlpha(0);
+                popup.dismiss();
+                break;
+            case R.id.bCancelSetScore:
+                layout_main.getForeground().setAlpha(0);
+                popup.dismiss();
             case R.id.GPA:
                 if(!showPercent){
                     gpa.setText(Double.toString(mycourse.getTotalPrecent()) + "%");
@@ -188,6 +228,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     gpa.setText("No Pass");
                     showPercent = false;
                 }
+
 
 
 
@@ -227,6 +268,37 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         // Getting a reference to Close button, and close the popup when clicked.
         Button close = (Button) layout.findViewById(R.id.bAddIndividualWeight);
         Button cancel = (Button) layout.findViewById(R.id.bCancelAddIndividualWeight);
+        cancel.setOnClickListener(this);
+        close.setOnClickListener(this);
+
+    }
+
+    public void showSetScore(Activity context){
+        // Inflate the popup_layout.xml
+        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_set_score, null);
+
+        // Creating the PopupWindow
+        popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setFocusable(true);
+        popup.setOutsideTouchable(false);
+
+        etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
+        etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
+
+        //Dim the background
+        layout_main.getForeground().setAlpha(220);
+
+
+        // Displaying the popup at the specified location, + offsets.
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+
+        // Getting a reference to Close button, and close the popup when clicked.
+        Button close = (Button) layout.findViewById(R.id.bSetScore);
+        Button cancel = (Button) layout.findViewById(R.id.bCancelSetScore);
         cancel.setOnClickListener(this);
         close.setOnClickListener(this);
 

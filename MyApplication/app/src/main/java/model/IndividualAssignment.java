@@ -10,14 +10,20 @@ public class IndividualAssignment {
     double rawScore, scoreOutOf, percent;
     int year, month, day;
     boolean setScore;
+    String belongsTo;
 
-    IndividualAssignment(String name, int y, int m, int d){
+    IndividualAssignment(){
+
+    }
+
+    IndividualAssignment(String weight, String name, int y, int m, int d){
         this.assignmentName =name;
         this.year=y;
         this.month = m;
         this.day = d;
         this.rawScore = 0;
         this.setScore = false;
+        this.belongsTo = weight;
     }
 
     public String getAssignmentName(){
@@ -35,6 +41,22 @@ public class IndividualAssignment {
         this.percent = rawScore/scoreOutOf;
     }
 
+    public void setBelongsTo(String weight){
+        this.belongsTo = weight;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
     /**Return score to show in individual course page
      *
      * @return double score;
@@ -47,6 +69,23 @@ public class IndividualAssignment {
     public double getScoreOutOf(){
         return scoreOutOf;
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public String getBelongsTo(){
+        return belongsTo;
+    }
+
 
     /**Return Assignment percentage obtained, used for calculation
      *

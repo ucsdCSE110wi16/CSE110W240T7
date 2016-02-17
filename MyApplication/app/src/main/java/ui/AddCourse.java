@@ -118,7 +118,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 }
 
                 int courseUnit = Integer.parseInt(unit);
-                Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights,percentages);
+                Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights, percentages);
                 user.myCourse.add(courseToAdd);
                 user.addUnit(courseUnit);
                 user.courses.add(courseID);

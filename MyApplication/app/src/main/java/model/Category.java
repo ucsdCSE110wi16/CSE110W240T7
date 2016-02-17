@@ -12,6 +12,10 @@ public class Category {
     private boolean scoreInputted;
     private String categoryName;
 
+    Category(){
+
+    }
+
     Category(String name, double weight, int n){
         this.categoryName = name;
         this.totalWeight = weight;
@@ -49,7 +53,7 @@ public class Category {
     }
 
     public double getCurrPercent(){
-        return currPercent * totalWeight;
+        return currPercent;
     }
 
     public boolean isScoreInputted(){

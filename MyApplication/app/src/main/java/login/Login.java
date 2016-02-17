@@ -12,11 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import Constant.Constant;
+import model.CourseListAdapter;
 import model.user;
+import ui.BaseActivity;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
 
@@ -25,6 +29,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button bLogin;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
+
 
 
     @Override
@@ -43,6 +48,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
 
+
+
     public void authenticateUser(String email, String password){
 
         Firebase ref = new Firebase(Constant.DBURL);
@@ -52,8 +59,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             public void onAuthenticated(AuthData authData) {
                 //new to create a new user and fetch data from Firebase
 
-                user initialize = new user(authData.getUid());
-                Log.v("UID",user.UID);
+                BaseActivity.initialize = new user(authData.getUid());
+                //Log.v("graduateDate", initialize.graduateDate);
+                //Log.v("College", initialize.college);
+                //Log.v("major", initialize.major);
+                //Log.v("UID", initialize.UID);
+
+                //CourseListAdapter adapter = new CourseListAdapter(Constant.DBURLszh)
                 startActivity(new Intent(Login.this, Homepage.class));
             }
 
