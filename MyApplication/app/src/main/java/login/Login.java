@@ -20,6 +20,7 @@ import com.firebase.client.ValueEventListener;
 import Constant.Constant;
 import model.CourseListAdapter;
 import model.user;
+import ui.BaseActivity;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
 
@@ -28,7 +29,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button bLogin;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
-    public static user initialize;
+
 
 
     @Override
@@ -58,7 +59,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             public void onAuthenticated(AuthData authData) {
                 //new to create a new user and fetch data from Firebase
 
-                initialize = new user(authData.getUid());
+                BaseActivity.initialize = new user(authData.getUid());
                 //Log.v("graduateDate", initialize.graduateDate);
                 //Log.v("College", initialize.college);
                 //Log.v("major", initialize.major);

@@ -34,6 +34,7 @@ public class BaseActivity extends AppCompatActivity
     TextView headerMajor;
     TextView headerYear;
     TextView headerName;
+    public static user initialize;
 
 
 
@@ -83,13 +84,13 @@ public class BaseActivity extends AppCompatActivity
         @Override
         public void onDataChange(DataSnapshot snapshot) {
 
-            //headerCollege.setText(snapshot.child("college").getValue().toString());
+            headerCollege.setText(snapshot.child("college").getValue().toString());
 
-            //headerYear.setText(snapshot.child("graduateDate").getValue().toString());
+            headerYear.setText(snapshot.child("graduateDate").getValue().toString());
 
-            //headerMajor.setText(snapshot.child("major").getValue().toString());
+            headerMajor.setText(snapshot.child("major").getValue().toString());
 
-            //headerName.setText(snapshot.child("fullName").getValue().toString());
+            headerName.setText(snapshot.child("fullName").getValue().toString());
 
 
         }

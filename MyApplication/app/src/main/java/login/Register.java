@@ -22,6 +22,7 @@ import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
+import ui.BaseActivity;
 import ui.Homepage;
 
 
@@ -60,6 +61,39 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         // only got here if we didn't return false
         return true;
+    }
+
+    public void RegisterUser(){
+        Firebase ref = new Firebase(Constant.DBURL);
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                Log.v("Entered","Success");
+                String fullName = etName.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String major = etMajor.getText().toString();
+                String college = etCollege.getText().toString();
+                String graduateDate = etGraduate.getText().toString();
+                String ID = result.get("uid").toString();
+                Firebase start = new Firebase(Constant.DBURL);
+                Firebase usersRef = start.child("userInfo").child(ID);
+
+                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
+                usersRef.setValue(myUser);
+                BaseActivity.initialize = new user(myUser.getUID());
+                startActivity(new Intent(Register.this, Homepage.class));
+
+            }
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                // there was an error
+            }
+        });
+
     }
 
     @Override
@@ -142,36 +176,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
          * Construct the user data structure
          */
 
-        Firebase ref = new Firebase(Constant.DBURL);
-        ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
 
-            @Override
-            public void onSuccess(Map<String, Object> result) {
-                Log.v("Entered","Success");
-                String fullName = etName.getText().toString();
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-                String major = etMajor.getText().toString();
-                String college = etCollege.getText().toString();
-                String graduateDate = etGraduate.getText().toString();
-                String ID = result.get("uid").toString();
-                Firebase start = new Firebase(Constant.DBURL);
-                Firebase usersRef = start.child("userInfo").child(ID);
-
-                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
-                usersRef.setValue(myUser);
-
-            }
-
-            @Override
-            public void onError(FirebaseError firebaseError) {
-                // there was an error
-            }
-        });
 
         switch (v.getId()) {
             case R.id.bRegister:
-                startActivity(new Intent(this, Homepage.class));
+                RegisterUser();
                 break;
         }
     }
