@@ -57,7 +57,7 @@ public class user {
 
     }
 
-
+    class myValueEventListener implements ValueEventListener{
             public myValueEventListener(){
                 super();
             }
@@ -126,6 +126,9 @@ public class user {
     public String getPassword(){return this.password;}
     public Courses getCourses(int i) {
         return this.myCourse.get(i);
+    }
+    public ArrayList getCourses() {
+        return this.myCourse;
     }
     public String getGraduateDate(){return graduateDate;}
     public static ArrayList<IndividualAssignment> getRecentDues() {
