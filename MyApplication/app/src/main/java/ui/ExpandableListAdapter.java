@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         // child data in format of header title, child title
         private HashMap<String, ArrayList<IndividualAssignment>> _listDataChild;
         private HashMap<String, Category> _listCategory;
+        DecimalFormat df = new DecimalFormat("#.##");
         public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, Category> listCategory,
                                      HashMap<String, ArrayList<IndividualAssignment>> listChildData) {
             this._context = context;
@@ -83,7 +85,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         @Override
         public int getChildrenCount(int groupPosition) {
             if(this._listDataChild.get(this._listDataHeader.get(groupPosition)) == null){
-
+                    return 0;
             }
             return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
         }
@@ -110,7 +112,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String headerTitle = header.getCategoryName();
             String headerPercent = "0.0";
                 if(header.isScoreInputted()) {
-                    headerPercent = Double.toString(header.getCurrPercent()*100);
+                    headerPercent = df.format(header.getCurrPercent()*100);
                 }
 
             if (convertView == null) {

@@ -171,11 +171,26 @@ public class Courses {
             newPercent = 1.0;
         }
         else{
+            /*
             for(int i = 0; i < temp.size() - numToDrop; ++i){
                 newPercent += temp.get(i).getPercent();
             }
-            newPercent = newPercent/(temp.size() - numToDrop);
+            newPercent = newPercent/(temp.size() - numToDrop);*/
+            int i = 0;
+            for(; i < temp.size()-numToDrop; ++i){
+            if(!temp.get(i).isSetScore()){
+                break;
+            }
+            else{
+                newPercent += temp.get(i).getPercent();
+            }
         }
+            newPercent = newPercent/i;
+        }
+
+
+
+        
 
         currCategory.setCurrPercent(newPercent);
         user.recentDues.remove(temp.get(index));

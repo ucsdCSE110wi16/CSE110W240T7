@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,6 +44,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     private ListView assignmentList;
     private Courses mycourse;
     private Context myContext;
+    DecimalFormat df = new DecimalFormat("#.##");
 
 
 
@@ -191,6 +193,9 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 popup.dismiss();
                 break;
             case R.id.bSetScore:
+                if(mycourse.getAllAssignments().get(weight).get(index).isSetScore()){
+                    //show popup asking if the user wants to change the score already inputted
+                }
                 String rawScore = etRawScore.getText().toString();
                 String ScoreOutOf = etScoreOutOf.getText().toString();
                 if(TextUtils.isEmpty(rawScore)){
@@ -216,7 +221,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 popup.dismiss();
             case R.id.GPA:
                 if(!showPercent){
-                    gpa.setText(Double.toString(mycourse.getTotalPrecent()) + "%");
+                    gpa.setText(df.format(mycourse.getTotalPrecent()) + "%");
                     showPercent = true;
                 }else if(mycourse.getLetter()){
                     gpa.setText(Double.toString(mycourse.getGpa()));

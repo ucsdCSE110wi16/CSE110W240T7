@@ -27,19 +27,11 @@
         android:layout_height="wrap_content"
         android:text="Name: "
         android:id="@+id/userName"
-<<<<<<< HEAD
         android:paddingTop="10dp"
         android:layout_toEndOf="@+id/imageView"
         android:textStyle="bold"
         android:textSize="14dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-=======
-        android:textStyle="bold"
-        android:paddingTop="10dp"
-        android:textSize="14dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/imageView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,7 +42,6 @@
         android:layout_alignBottom="@+id/userName"
         android:layout_toEndOf="@+id/userName"
         android:textSize="18dp"/>
->>>>>>> origin/master
 
     <TextView
         android:id="@+id/NaviCollege"
@@ -61,10 +52,7 @@
         android:layout_below="@+id/userName"
         android:layout_alignStart="@+id/userName"
         android:text="College: "
-<<<<<<< HEAD
-=======
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
->>>>>>> origin/master
         android:textSize="14dp"/>
 
     <TextView
