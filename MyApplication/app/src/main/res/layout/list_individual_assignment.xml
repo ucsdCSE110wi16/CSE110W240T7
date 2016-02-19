@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
     android:weightSum= "3">
 
 
@@ -30,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=" "
+        android:text="3"
         android:textSize="18dp"
         android:gravity="center"
         android:layout_weight="1"

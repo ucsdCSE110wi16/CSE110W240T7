@@ -2,7 +2,9 @@ package model;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,24 +97,36 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
                 weight = listDataHeader.get(groupPosition).toString();
                 index = childPosition;
-                showSetScore((Activity) myContext);
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                return false;
+                if (mycourse.getAllAssignments().get(weight).get(index).isSetScore()) {
+                    //show popup asking if the user wants to change the score already inputted
+                    new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " + mycourse.getAllAssignments().get(weight).get(index).getAssignmentName()+". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which){
+                                    showSetScore((Activity) myContext, true);
+                        }
+
+                            }).show();
+                }
+                else
+                    showSetScore((Activity) myContext, false);
+                    /*Toast.makeText(
+                            getApplicationContext(),
+                            listDataHeader.get(groupPosition)
+                                    + " : "
+                                    + listDataChild.get(
+                                    listDataHeader.get(groupPosition)).get(
+                                    childPosition), Toast.LENGTH_SHORT)
+                            .show();*/
+                    return false;
+                }
             }
-        });
 
-    }
+            );
+
+        }
 
 
-    @TargetApi(Build.VERSION_CODES.M)
+        @TargetApi(Build.VERSION_CODES.M)
     private void setViews(){
         course = (TextView) findViewById(R.id.individual_course);
         unit = (TextView) findViewById(R.id.individual_unit);
@@ -193,9 +207,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 popup.dismiss();
                 break;
             case R.id.bSetScore:
-                if(mycourse.getAllAssignments().get(weight).get(index).isSetScore()){
-                    //show popup asking if the user wants to change the score already inputted
-                }
                 String rawScore = etRawScore.getText().toString();
                 String ScoreOutOf = etScoreOutOf.getText().toString();
                 if(TextUtils.isEmpty(rawScore)){
@@ -278,7 +289,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     }
 
-    public void showSetScore(Activity context){
+    public void showSetScore(Activity context, boolean hasSetted){
         // Inflate the popup_layout.xml
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
@@ -292,6 +303,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
         etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
         etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
+        TextView assignmentName = (TextView) layout.findViewById(R.id.textview_assignment_name);
+        assignmentName.setText(mycourse.getAllAssignments().get(weight).get(index).getAssignmentName());
+        if(hasSetted){
+            etRawScore.setHint(Double.toString(mycourse.getAllAssignments().get(weight).get(index).getRawScore()));
+            etScoreOutOf.setHint(Double.toString(mycourse.getAllAssignments().get(weight).get(index).getScoreOutOf()));
+        }
 
         //Dim the background
         layout_main.getForeground().setAlpha(220);

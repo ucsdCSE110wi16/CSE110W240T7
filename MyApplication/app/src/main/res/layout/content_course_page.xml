@@ -22,10 +22,22 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/lsCourses"
+        android:divider="@null"
+        android:layout_marginTop="10dp"
+        android:dividerHeight="10dp"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/Courses" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/Courses"
+        android:layout_alignEnd="@+id/lsCourses" />
 
 
 </RelativeLayout>
