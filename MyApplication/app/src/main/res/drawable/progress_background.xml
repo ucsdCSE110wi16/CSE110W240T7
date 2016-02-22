@@ -4,12 +4,11 @@
         <shape
             android:innerRadius="80dp"
             android:shape="ring"
-            android:thickness="8dp"
-            android:useLevel="true">
+            android:thickness="8dp">
 
             <gradient
-                android:startColor="@color/colorPrimaryDark"
-                android:endColor="@color/colorPrimaryDark"
+                android:startColor="@color/colorPrimaryLight"
+                android:endColor="@color/colorPrimaryLight"
                 android:type="sweep" />
         </shape>
     </item>
