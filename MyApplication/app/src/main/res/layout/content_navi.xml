@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:max="40"
-        android:rotation="-90"
+        android:rotation="0"
         android:indeterminate="false"
         android:progressDrawable="@drawable/progressdraw"
         android:layout_alignParentTop="true"
