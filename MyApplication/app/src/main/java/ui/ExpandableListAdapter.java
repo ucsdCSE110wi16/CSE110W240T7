@@ -1,6 +1,7 @@
 package ui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import androidstudio.edbud.com.myapplication.R;
@@ -24,22 +26,21 @@ import model.IndividualAssignment;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context _context;
-        private List<String> _listDataHeader; // header titles
+        private ArrayList<String> weightsList; // header titles
         // child data in format of header title, child title
         private HashMap<String, ArrayList<IndividualAssignment>> _listDataChild;
         private HashMap<String, Category> _listCategory;
+        private LinkedHashMap<String, Category> categories;
         DecimalFormat df = new DecimalFormat("#.##");
-        public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, Category> listCategory,
-                                     HashMap<String, ArrayList<IndividualAssignment>> listChildData) {
+        public ExpandableListAdapter(Context context, ArrayList<String> weights, LinkedHashMap <String, Category> c) {
             this._context = context;
-            this._listDataHeader = listDataHeader;
-            this._listDataChild = listChildData;
-            this._listCategory = listCategory;
+            this.weightsList = weights;
+            this.categories = c;
         }
 
         @Override
         public Object getChild(int groupPosition, int childPosititon) {
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
+            return this.categories.get(this.weightsList.get(groupPosition)).getAssignments().get(childPosititon);
         }
 
         @Override
@@ -73,7 +74,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             year = child.getYear();
             month = child.getMonth();
             day = child.getDay();
-            duedateText.setText(day+"-" + month+"-"+year);
+            Resources rec = _context.getResources();
+            duedateText.setText(rec.getStringArray(R.array.Month)[month] + ", "+day+", "+year);
             if(child.isSetScore())
                 gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
             else
@@ -84,20 +86,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            if(this._listDataChild.get(this._listDataHeader.get(groupPosition)) == null){
+            if(this.categories.get(this.weightsList.get(groupPosition)).getAssignments() == null){
                     return 0;
             }
-            return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
+            return this.categories.get(this.weightsList.get(groupPosition)).getAssignments().size();
         }
 
         @Override
         public Category getGroup(int groupPosition) {
-            return this._listCategory.get(this._listDataHeader.get(groupPosition));
+            return this.categories.get(this.weightsList.get(groupPosition));
         }
 
         @Override
         public int getGroupCount() {
-            return this._listDataHeader.size();
+            return this.weightsList.size();
         }
 
         @Override

@@ -23,12 +23,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
-
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
-import model.Courses;
-import model.user;
+import model.User;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,7 +33,8 @@ public class BaseActivity extends AppCompatActivity
     TextView headerMajor;
     TextView headerYear;
     TextView headerName;
-    public static user initialize;
+    public static User initialize;
+    public static String uid;
 
 
 
@@ -45,6 +43,8 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.uid);
+        ref.addValueEventListener(new myValueEventListener());
 
     }
 
@@ -72,12 +72,10 @@ public class BaseActivity extends AppCompatActivity
         headerName = (TextView) headerView.findViewById(R.id.myName);
         //Log.v("UID",Login.initialize.UID);
         //Log.v("College",Login.initialize.college);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID);
-        ref.addValueEventListener(new myValueEventListener());
+
 
     }
     class myValueEventListener implements ValueEventListener {
-
 
 
         public myValueEventListener(){
@@ -94,13 +92,22 @@ public class BaseActivity extends AppCompatActivity
 
             headerName.setText(snapshot.child("fullName").getValue().toString());
 
-            initialize.myCourse = new ArrayList<>();
-            initialize.courses = new ArrayList();
-            for(DataSnapshot course: snapshot.child("courses").getChildren()){
-                Courses temp = course.getValue(Courses.class);
-                initialize.myCourse.add(temp);
-                initialize.courses.add(temp.getCourseId());
+            BaseActivity.initialize = snapshot.getValue(User.class);
+            //Log.v("currterm", BaseActivity.initialize.getCurrTerm());
+
+
+            /*LinkedHashMap<String, Term> temp4yearPlan = new LinkedHashMap<>();
+            ArrayList<IndividualAssignment> tempRecnetDues = new ArrayList<>();
+            for(DataSnapshot term: snapshot.child("4yearPlan").getChildren()){
+                Term temp = term.getValue(Term.class);
+                temp4yearPlan.put(temp.getTermName(), temp);
             }
+            BaseActivity.initialize.setMy4YearPlan(temp4yearPlan);
+            for(DataSnapshot dues: snapshot.child("recentDues").getChildren()){
+                IndividualAssignment due = dues.getValue(IndividualAssignment.class);
+                tempRecnetDues.add(due);
+            }
+            BaseActivity.initialize.setRecentDues(tempRecnetDues);*/
 
 
         }
@@ -151,6 +158,7 @@ public class BaseActivity extends AppCompatActivity
             startActivity(new Intent(this, CoursePage.class));
 
         } else if (id == R.id.nav_4yearplan) {
+            startActivity(new Intent(this, FourYearPlan.class));
 
         } else if (id == R.id.nav_gpacalculator) {
 

@@ -1,93 +1,55 @@
 package model;
 
-import android.support.design.widget.NavigationView;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.view.View;
-import android.widget.TextView;
-
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
-import Constant.Constant;
-import androidstudio.edbud.com.myapplication.R;
+import ui.BaseActivity;
 
 /**
  * Created by Tianqi on 2/7/2016.
  */
+public class User {
 
-public class user {
+    private String email;
+    private String fullName;
+    private String major;
+    private String college;
+    private String password;
+    private String graduateDate;
+    private String currTerm;
+    private boolean isTermSet;
+    private int unit;
+    private double gpa;
+    public String uid;
+    private ArrayList<IndividualAssignment> recentDues = new ArrayList<>();
+    private ArrayList<String> terms = new ArrayList<>();
+    private DueDateComparator dueDateComparator = new DueDateComparator();
+    private LinkedHashMap<String, Term> my4YearPlan = new LinkedHashMap<>();
 
-    public static String email;
-    public  static String fullName;
-    public  static String major;
-    public  static String college;
-    public  static String password;
-    public  static String graduateDate;
-
-
-    private static int unit = 0;
-    private static double gpa = 4.0;
-
-    @JsonIgnore
-    public static String UID;
-
-    public static ArrayList<IndividualAssignment> recentDues = new ArrayList<>();
-    public static ArrayList courses = new ArrayList();
-    public static ArrayList units = new ArrayList();
-    public static ArrayList<Courses> myCourse = new ArrayList<>();
-    public static DueDateComparator dueDateComparator = new DueDateComparator();
 
     /**
-     * Defualt constructor for user
+     * Default constructor for firebase
      */
 
-    public user(String ID) {
-
-        this.UID = ID;
-
-
+    public User(){
 
     }
 
-    class myValueEventListener implements ValueEventListener{
-            public myValueEventListener(){
-                super();
-            }
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                college = snapshot.child("college").getValue().toString();
-                Log.v("College", college);
-                graduateDate = snapshot.child("graduateDate").getValue().toString();
-                Log.v("graduateDate", graduateDate);
-                major = snapshot.child("major").getValue().toString();
-                Log.v("major", major);
-                Log.v("UID", UID);
-                myCourse = new ArrayList<>();
-                courses = new ArrayList();
-                for(DataSnapshot course: snapshot.child("courses").getChildren()){
-                    Courses temp = course.getValue(Courses.class);
-                    myCourse.add(temp);
-                    courses.add(temp.getCourseId());
-                }
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            System.out.println("The read failed: " + firebaseError.getMessage());
-            }
+    /**
+     * Default constructor for User
+     */
 
 
+    public User(String ID) {
+        this.uid = ID;
     }
-
 
 
     /**
@@ -99,68 +61,154 @@ public class user {
      * @param graduateDate
      */
 
-    public user(String fullName, String major, String college, String password, String graduateDate, String email,String UID){
+    public User(String fullName, String major, String college, String password, String graduateDate, String email, String UID){
         this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
         this.password = password;
         this.graduateDate = graduateDate;
-
-        //Courses temp = new Courses();
-
-        this.UID = UID;
-        Courses temp = new Courses();
-
-        this.myCourse = new ArrayList<>();
-        //myCourse.add(temp);
+        this.uid = UID;
+        this.currTerm = "current quarter";
+        this.isTermSet = false;
+        this.unit = 0;
+        this.gpa = 4.0;
     }
-
 
     /**
      * getters
-     * @return
+     *
      */
     public String getFullName() {return fullName;}
     public String getMajor() {return major;}
-    public String getUID() {return this.UID;}
-    public String getCollege() {return this.college;}
-    public String getPassword(){return this.password;}
-    public Courses getCourses(int i) {
-        return this.myCourse.get(i);
-    }
-    public ArrayList getCourses() {
-        return this.myCourse;
-    }
+    public String getUID() {return uid;}
+    public String getCollege() {return college;}
+    public String getPassword(){return password;}
     public String getGraduateDate(){return graduateDate;}
-    public static ArrayList<IndividualAssignment> getRecentDues() {
+    public String getEmail(){return email;}
+    public boolean getIsTermSet() {return isTermSet;}
+    public double getGpa() {return gpa;}
+
+    public LinkedHashMap<String, Term> getMy4YearPlan() {
+        return my4YearPlan;
+    }
+
+    public String getCurrTerm(){
+        return currTerm;
+    }
+
+
+    public ArrayList<IndividualAssignment> getRecentDues() {
+        if(recentDues.isEmpty()){
+            recentDues = new ArrayList<>();
+        }
         return recentDues;
     }
 
-    public String getEmail(){return this.email;}
 
-
-    public static void setRecentDues(ArrayList<IndividualAssignment> recentDues) {
-        user.recentDues = recentDues;
+    public Term getTerm(String term){
+        if(my4YearPlan.get(term) == null){
+            my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
+        }
+        return my4YearPlan.get(term);
     }
 
-    public static void addUnit(int n){
-        unit += n;
+    public ArrayList<String> getTerms() {
+        return terms;
     }
 
-    public static void update(){
+
+
+    /**
+     * Setters
+     */
+    public void setRecentDues(ArrayList<IndividualAssignment> recentDues) {
+        this.recentDues = recentDues;}
+
+    public void setTerms(ArrayList<String> terms) {
+        this.terms = terms;
+    }
+
+
+    public void setIsTermSet(boolean termSetted) {
+        this.isTermSet = termSetted;
+    }
+
+    public void setCurrTerm(String term) {
+        if(!isTermSet){
+            this.my4YearPlan.remove(this.currTerm);
+            this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
+            terms.remove(this.currTerm);
+            this.terms.add(term);
+        }
+        this.isTermSet = true;
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+        start.setValue(BaseActivity.initialize);
+    }
+
+
+
+    public void setMy4YearPlan(LinkedHashMap<String, Term> my4YearPlan) {
+        this.my4YearPlan = my4YearPlan;
+    }
+
+    /**
+    *Update current quarter unit
+    */
+
+
+    public void update(){
+        ArrayList<Courses> temp = my4YearPlan.get(currTerm).getTermCourses();
         double unitObtained = 0.0;
-        for(int i = 0; i < myCourse.size(); ++i){
-            Courses temp = myCourse.get(i);
-            if(temp.getLetter()){
-                unitObtained = temp.getUnit() * temp.getGpa();
+        for(int i = 0; i < temp.size(); ++i){
+            Courses course = temp.get(i);
+            if(course.getLetter()){
+                unitObtained = course.getUnit() * course.getGpa();
             }
+        }
+
+        unitObtained = 0.0;
+        my4YearPlan.get(currTerm).setTermGpa(unitObtained/unit);
+
+
+        for(Term term:my4YearPlan.values()){
+            unitObtained += term.getTermGpa() * term.getTermUnit();
         }
         gpa = unitObtained/unit;
 
+
     }
 
-    static class DueDateComparator implements Comparator<IndividualAssignment> {
+    public boolean addRecentDues(IndividualAssignment a){
+        if(recentDues.indexOf(a) != -1)
+            return false;
+        recentDues.add(a);
+        Collections.sort(recentDues, this.dueDateComparator);
+        return true;
+    }
+
+    public boolean removeRecentDues(IndividualAssignment a){
+        if(recentDues.indexOf(a) != -1)
+            return false;
+        recentDues.remove(a);
+        return true;
+    }
+
+    public boolean addCourse(Courses course){
+        if(my4YearPlan.isEmpty()){
+            my4YearPlan.put(currTerm, new Term(currTerm, false, 0.0, 0.0));
+        }
+        if(!BaseActivity.initialize.my4YearPlan.get(currTerm).addTermCourses(course)){
+            return false;
+        }
+        unit += course.getUnit();
+        BaseActivity.initialize.my4YearPlan.get(currTerm).addTermUnit(course.getUnit());
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
+        start.setValue(BaseActivity.initialize);
+        return true;
+    }
+
+   class DueDateComparator implements Comparator<IndividualAssignment> {
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){

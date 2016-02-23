@@ -20,13 +20,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-
 import java.util.ArrayList;
 
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.user;
 
 
 public class AddCourse extends AppCompatActivity implements View.OnClickListener{
@@ -119,16 +116,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
                 int courseUnit = Integer.parseInt(unit);
                 Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights, percentages);
-                user.myCourse.add(courseToAdd);
-                user.addUnit(courseUnit);
-                user.courses.add(courseID);
-                //Firebase start = new Firebase(Constant.DBUserInfo + user.UID + "/courses");
-                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
-                start.child(courseToAdd.getCourseId()).setValue(courseToAdd);
-                //Firebase userCourses = start.child("userInfo").child("Lihui Lu").child("courses").child(courseID);
-                //userCourses.setValue(courseToAdd);
-
-
+                BaseActivity.initialize.addCourse(courseToAdd);
                 startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:

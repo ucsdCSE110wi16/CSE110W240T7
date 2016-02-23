@@ -38,7 +38,7 @@ public class CourseListAdapter{
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             Courses existingCourse = dataSnapshot.child("CSE11").getValue(Courses.class);
-            user.myCourse.add(existingCourse);
+            //User.myCourse.add(existingCourse);
             Log.v("key", dataSnapshot.getKey());
 
         }
@@ -46,10 +46,10 @@ public class CourseListAdapter{
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             Courses existingCourse = dataSnapshot.child("CSE11").getValue(Courses.class);
-            user.myCourse.add(existingCourse);
+            //User.myCourse.add(existingCourse);
             Log.v("key", dataSnapshot.getKey());
             //Courses existingCourse = dataSnapshot.getVC(Courses.class);
-            //user.myCourse.add(existingCourse);
+            //User.myCourse.add(existingCourse);
 
         }
 
