@@ -9,23 +9,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="model.Courses$CoursePage"
-    android:id="@+id/coursePage"
-    tools:showIn="@layout/activity_course_page"
-    android:foreground="@drawable/shape_window_dim">
-
-    <TextView
-        android:id="@+id/Courses"
-        android:layout_width="wrap_content"
-        android:text="Courses"
-        android:textSize="20dp"
-        android:layout_height="wrap_content" />
+    tools:context="ui.FourYearPlan"
+    tools:showIn="@layout/activity_4year">
 
 
-    <ListView
+    <ui.FourYearPlanListView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:id="@+id/lsCourses"
+        android:id="@+id/lsTerms"
         android:divider="@null"
         android:layout_marginTop="10dp"
         android:dividerHeight="10dp"

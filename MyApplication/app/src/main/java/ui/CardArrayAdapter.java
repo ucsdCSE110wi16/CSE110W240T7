@@ -17,7 +17,7 @@ import java.util.List;
 
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.user;
+import model.User;
 
 public class CardArrayAdapter extends ArrayAdapter {
     private ArrayList<Courses> courseList = new ArrayList<Courses>();

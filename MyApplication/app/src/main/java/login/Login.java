@@ -19,7 +19,7 @@ import com.firebase.client.ValueEventListener;
 
 import Constant.Constant;
 import model.CourseListAdapter;
-import model.user;
+import model.User;
 import ui.BaseActivity;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
@@ -52,14 +52,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     public void authenticateUser(String email, String password){
 
-        Firebase ref = new Firebase(Constant.DBURL);
+        final Firebase ref = new Firebase(Constant.DBURL);
 
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
-            public void onAuthenticated(AuthData authData) {
+            public void onAuthenticated(final AuthData authData) {
                 //new to create a new user and fetch data from Firebase
 
-                BaseActivity.initialize = new user(authData.getUid());
+                BaseActivity.initialize = new User(authData.getUid());
                 //Log.v("graduateDate", initialize.graduateDate);
                 //Log.v("College", initialize.college);
                 //Log.v("major", initialize.major);

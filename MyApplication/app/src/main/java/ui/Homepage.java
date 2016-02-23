@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import androidstudio.edbud.com.myapplication.R;
 import model.IndividualAssignment;
 import model.IndividualCourse;
-import model.user;
+import model.User;
 import ui.BaseActivity;
 
 public class Homepage extends BaseActivity
@@ -26,14 +26,14 @@ public class Homepage extends BaseActivity
         setContentView(R.layout.activity_navi);
 
         super.onCreateNavigation();
-        ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
-        progress_bar.setProgress(35);
-        TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
+       // ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+       // progress_bar.setProgress(35);
+        //TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
         Double gpa = 3.5;
         String str = String.valueOf(gpa);
-        gpanumber.setText(str);
+       // gpanumber.setText(str);
         ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
-        HomepageListAdapter adapter = new HomepageListAdapter(this, user.recentDues);
+        HomepageListAdapter adapter = new HomepageListAdapter(this, BaseActivity.initialize.getRecentDues());
         recentDueList.setAdapter(adapter);
         recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

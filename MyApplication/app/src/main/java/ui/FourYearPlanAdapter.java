@@ -142,9 +142,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         lblListHeaderPercent.setTypeface(null, Typeface.BOLD);
-
-        lblListHeaderPercent.setText("test");
-
+        lblListHeaderPercent.setText(Double.toString(_listDataChild.get(headerTitle).getTermGpa());
 
         return convertView;
     }

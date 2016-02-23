@@ -132,6 +132,8 @@ public class Courses {
     public void addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
         totalPrecent = updateScores();
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+        start.child("my4YearPlan").setValue(BaseActivity.initialize.getMy4YearPlan());
     }
 
     /**Update Scores, recalculate percentage, and update the new gpa or pass/nopass status

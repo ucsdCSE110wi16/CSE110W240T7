@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
-    android:weightSum= "3">
 
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="15dp"
+        android:weightSum="3"
+        android:descendantFocusability="afterDescendants">
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -15,7 +18,8 @@
         android:gravity="center"
         android:textSize="18dp"
         android:layout_weight="1"
-        android:id="@+id/lblListIndividualAssignment" />
+        android:id="@+id/lblListIndividualAssignment"
+        />
 
     <TextView
         android:layout_width="0dp"
@@ -38,4 +42,4 @@
         android:layout_weight="1"
         android:id="@+id/lblListIndividualDueDate"
         android:textColor="@color/colorSecondaryText"/>
-</LinearLayout>
+    </LinearLayout>

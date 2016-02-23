@@ -136,11 +136,12 @@ public class User {
 
     public void setCurrTerm(String term) {
         if(!isTermSet){
-            this.my4YearPlan.remove(this.currTerm);
+            this.my4YearPlan.clear();
             this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
-            terms.remove(this.currTerm);
+            terms.clear();
             this.terms.add(term);
         }
+        this.currTerm = term;
         this.isTermSet = true;
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
@@ -195,9 +196,6 @@ public class User {
     }
 
     public boolean addCourse(Courses course){
-        if(my4YearPlan.isEmpty()){
-            my4YearPlan.put(currTerm, new Term(currTerm, false, 0.0, 0.0));
-        }
         if(!BaseActivity.initialize.my4YearPlan.get(currTerm).addTermCourses(course)){
             return false;
         }

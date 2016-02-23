@@ -21,7 +21,7 @@ import java.util.Map;
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.user;
+import model.User;
 import ui.BaseActivity;
 import ui.Homepage;
 
@@ -82,9 +82,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 Firebase start = new Firebase(Constant.DBURL);
                 Firebase usersRef = start.child("userInfo").child(ID);
 
-                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
-                usersRef.setValue(myUser);
-                BaseActivity.initialize = new user(myUser.getUID());
+                BaseActivity.initialize = new User(fullName, major, college, password, graduateDate, email,ID);
+                usersRef.setValue(BaseActivity.initialize);
                 startActivity(new Intent(Register.this, Homepage.class));
 
             }

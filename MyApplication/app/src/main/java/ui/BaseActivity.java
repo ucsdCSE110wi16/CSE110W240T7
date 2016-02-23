@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity
     TextView headerMajor;
     TextView headerYear;
     TextView headerName;
-    public static User initialize;
+    public static User initialize = new User();
     public static String uid;
 
 
@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.uid);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         ref.addValueEventListener(new myValueEventListener());
 
     }
