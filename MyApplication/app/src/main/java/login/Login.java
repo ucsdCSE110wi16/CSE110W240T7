@@ -58,8 +58,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onAuthenticated(final AuthData authData) {
                 //new to create a new user and fetch data from Firebase
-
-                BaseActivity.initialize = new User(authData.getUid());
+                BaseActivity.uid = authData.getUid();
+                //BaseActivity.initialize = new User(authData.getUid());
                 //Log.v("graduateDate", initialize.graduateDate);
                 //Log.v("College", initialize.college);
                 //Log.v("major", initialize.major);

@@ -35,7 +35,7 @@ public class CourseListAdapter extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(R.layout.list_course_page, parent, false);
             TextView course = (TextView) row.findViewById(R.id.list_course_page);
-            TextView gpa = (TextView) row.findViewById(R.id.list_gpa);
+            TextView gpa = (TextView) row.findViewById(R.id.list_course_page_gpa);
 
         course.setText(courseList.get(position).getCourseId());
         gpa.setText(Double.toString(courseList.get(position).getGpa()));

@@ -22,7 +22,7 @@
             android:textColor="@color/colorPrimaryText"
             android:text="1"/>
 
-        <TextView android:id="@+id/list_gpa"
+        <TextView android:id="@+id/list_course_page_gpa"
             android:layout_weight="1"
             android:gravity="end|center_vertical"
             android:textSize="18dp"

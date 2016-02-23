@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 
+import java.text.DecimalFormat;
+
 import androidstudio.edbud.com.myapplication.R;
 import model.IndividualAssignment;
 import model.IndividualCourse;
@@ -19,6 +21,7 @@ import ui.BaseActivity;
 
 public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +29,11 @@ public class Homepage extends BaseActivity
         setContentView(R.layout.activity_navi);
 
         super.onCreateNavigation();
-       // ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
-       // progress_bar.setProgress(35);
-        //TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
-        Double gpa = 3.5;
-        String str = String.valueOf(gpa);
-       // gpanumber.setText(str);
+        Double gpa = BaseActivity.initialize.getGpa()*10.0;
+        ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+        progress_bar.setProgress(gpa.intValue());
+        TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
+        gpanumber.setText(df.format(gpa/10.00));
         ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
         HomepageListAdapter adapter = new HomepageListAdapter(this, BaseActivity.initialize.getRecentDues());
         recentDueList.setAdapter(adapter);

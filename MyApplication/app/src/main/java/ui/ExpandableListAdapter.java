@@ -99,7 +99,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         @Override
         public int getGroupCount() {
-            if(weightsList.isEmpty())
+            if(weightsList == null)
                 return 0;
             return this.weightsList.size();
         }

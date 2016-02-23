@@ -48,7 +48,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    ArrayList listDataHeader;
+    ArrayList<String> listDataHeader;
     LinkedHashMap<String, Category> listCategory;
     FloatingActionButton fab2;
     CoordinatorLayout layout_main;
@@ -94,7 +94,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 index = childPosition;
                 if (mycourse.getCategories().get(weight).getAssignments().get(index).isSetScore()) {
                     //show popup asking if the User wants to change the score already inputted
-                    new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " + mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName() + ". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " +
+                            mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
+                            ". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which){
                                     showSetScore((Activity) myContext, true);
@@ -185,8 +188,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int percent = Integer.parseInt(weightPercent);
                 if(mycourse.addWeight(weightID,percent)){
                     prepareListData();
-                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid + "/courses");
-                    start.child(mycourse.getCourseId()).setValue(mycourse);
+                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+                    start.setValue(BaseActivity.initialize);
                     listAdapter.notifyDataSetChanged();}
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
@@ -214,8 +217,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
                 mycourse.addAssignmentScore(weight, index, r, s);
-                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid + "/courses");
-                start.child(mycourse.getCourseId()).setValue(mycourse);
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+                start.setValue(BaseActivity.initialize);
                 gpa.setText(Double.toString(mycourse.getGpa()));
                 listAdapter.notifyDataSetChanged();
                 layout_main.getForeground().setAlpha(0);
@@ -226,7 +229,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 popup.dismiss();
             case R.id.GPA:
                 if(!showPercent){
-                    gpa.setText(df.format(mycourse.getTotalPrecent()) + "%");
+                    gpa.setText(df.format(mycourse.getTotalPercent()) + "%");
                     showPercent = true;
                 }else if(mycourse.getLetter()){
                     gpa.setText(Double.toString(mycourse.getGpa()));

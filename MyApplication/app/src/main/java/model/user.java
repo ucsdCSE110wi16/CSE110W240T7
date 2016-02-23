@@ -24,7 +24,6 @@ public class User {
     private String password;
     private String graduateDate;
     private String currTerm;
-    private boolean isTermSet;
     private int unit;
     private double gpa;
     public String uid;
@@ -40,6 +39,22 @@ public class User {
 
     public User(){
 
+    }
+
+    public User(User copy){
+        this.fullName = copy.getFullName();
+        this.major = copy.getMajor();
+        this.uid = copy.getUid();
+        this.college = copy.getCollege();
+        this.password = copy.getPassword();
+        this.graduateDate = copy.getGraduateDate();
+        this.email = copy.getEmail();
+        this.gpa = copy.getGpa();
+        this.unit = copy.getUnit();
+        this.my4YearPlan = copy.getMy4YearPlan();
+        this.currTerm = copy.getCurrTerm();
+        this.recentDues = copy.getRecentDues();
+        this.terms = copy.getTerms();
     }
 
     /**
@@ -61,7 +76,7 @@ public class User {
      * @param graduateDate
      */
 
-    public User(String fullName, String major, String college, String password, String graduateDate, String email, String UID){
+    public User(String fullName, String major, String college, String password, String graduateDate, String email, String UID, String term){
         this.email = email;
         this.fullName = fullName;
         this.major = major;
@@ -69,11 +84,13 @@ public class User {
         this.password = password;
         this.graduateDate = graduateDate;
         this.uid = UID;
-        this.currTerm = "current quarter";
-        this.isTermSet = false;
+        this.currTerm = term;
+        this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
+        this.terms.add(term);
         this.unit = 0;
         this.gpa = 4.0;
     }
+
 
     /**
      * getters
@@ -81,13 +98,17 @@ public class User {
      */
     public String getFullName() {return fullName;}
     public String getMajor() {return major;}
-    public String getUID() {return uid;}
+    public String getUid() {
+        return uid;
+    }
     public String getCollege() {return college;}
     public String getPassword(){return password;}
     public String getGraduateDate(){return graduateDate;}
     public String getEmail(){return email;}
-    public boolean getIsTermSet() {return isTermSet;}
     public double getGpa() {return gpa;}
+    public int getUnit() {
+        return unit;
+    }
 
     public LinkedHashMap<String, Term> getMy4YearPlan() {
         return my4YearPlan;
@@ -129,22 +150,8 @@ public class User {
         this.terms = terms;
     }
 
-
-    public void setIsTermSet(boolean termSetted) {
-        this.isTermSet = termSetted;
-    }
-
     public void setCurrTerm(String term) {
-        if(!isTermSet){
-            this.my4YearPlan.clear();
-            this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
-            terms.clear();
-            this.terms.add(term);
-        }
         this.currTerm = term;
-        this.isTermSet = true;
-        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
-        start.setValue(BaseActivity.initialize);
     }
 
 
@@ -168,10 +175,9 @@ public class User {
             }
         }
 
+        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained/my4YearPlan.get(currTerm).getTermUnit());
+
         unitObtained = 0.0;
-        my4YearPlan.get(currTerm).setTermGpa(unitObtained/unit);
-
-
         for(Term term:my4YearPlan.values()){
             unitObtained += term.getTermGpa() * term.getTermUnit();
         }
@@ -189,7 +195,7 @@ public class User {
     }
 
     public boolean removeRecentDues(IndividualAssignment a){
-        if(recentDues.indexOf(a) != -1)
+        if(recentDues.indexOf(a) == -1)
             return false;
         recentDues.remove(a);
         return true;

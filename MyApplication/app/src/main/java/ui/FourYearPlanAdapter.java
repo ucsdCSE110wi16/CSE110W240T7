@@ -70,35 +70,25 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        IndividualAssignment child = (IndividualAssignment) getChild(groupPosition, childPosition);
+        Courses child = (Courses) getChild(groupPosition, childPosition);
 
-        final String childText = child.getAssignmentName();
-        double childRawScore = child.getRawScore();
-        double childScoreOutOf = child.getScoreOutOf();
+        String courseId = child.getCourseId();
+        Double courseGpa = child.getGpa();
+
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_individual_assignment, parent,false);
+            convertView = infalInflater.inflate(R.layout.list_4year_courses, parent,false);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListIndividualAssignment);
+        TextView txtCourse = (TextView) convertView
+                .findViewById(R.id.lblListTermCourses);
 
-        TextView gradeText = (TextView) convertView.findViewById(R.id.lblListIndividualGrade);
+        TextView txtCourseGpa = (TextView) convertView.findViewById(R.id.lblListTermCourseGpa);
 
-        TextView duedateText = (TextView) convertView.findViewById(R.id.lblListIndividualDueDate);
-        int year, month,day;
-        year = child.getYear();
-        month = child.getMonth();
-        day = child.getDay();
-        Resources rec = _context.getResources();
-        duedateText.setText(rec.getStringArray(R.array.Month)[month] + ", "+day+", "+year);
-        if(child.isSetScore())
-            gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
-        else
-            gradeText.setText(" ");
-        txtListChild.setText(childText);
+        txtCourse.setText(courseId);
+        txtCourseGpa.setText(Double.toString(courseGpa));
         return convertView;
     }
 
@@ -142,7 +132,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         lblListHeaderPercent.setTypeface(null, Typeface.BOLD);
-        lblListHeaderPercent.setText(Double.toString(_listDataChild.get(headerTitle).getTermGpa());
+        lblListHeaderPercent.setText(Double.toString(_listDataChild.get(headerTitle).getTermGpa()));
 
         return convertView;
     }

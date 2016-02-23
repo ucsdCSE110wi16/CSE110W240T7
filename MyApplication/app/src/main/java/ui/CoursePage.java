@@ -81,64 +81,12 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
 
         switch(view.getId()) {
             case R.id.fab:
-            if (!BaseActivity.initialize.getIsTermSet()) {
-                showPop(this);
-                Toast.makeText(this, "Please input current term first", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-
             startActivity(new Intent(this, AddCourse.class));
-                break;
-            case R.id.bSetCurrTerm:
-                String term = etSetTerm.getText().toString();
-                if(TextUtils.isEmpty(term)){
-                    Toast.makeText(this,"Please input current term",Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                BaseActivity.initialize.setCurrTerm(term);
-
-                layout_main.getForeground().setAlpha(0);
-                popup.dismiss();
-                break;
-            case R.id.bCancelSetCurrTerm:
-                layout_main.getForeground().setAlpha(0);
-                popup.dismiss();
                 break;
         }
     }
 
 
-    public void showPop(Activity context){
-        // Inflate the popup_layout.xml
-        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_set_term, null);
-
-        // Creating the PopupWindow
-        popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popup.setFocusable(true);
-        popup.setOutsideTouchable(false);
-
-        etSetTerm= (EditText) layout.findViewById(R.id.etSetTerm);
-
-        //Dim the background
-        layout_main.getForeground().setAlpha(220);
-
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
-
-
-        // Getting a reference to Close button, and close the popup when clicked.
-        Button close = (Button) layout.findViewById(R.id.bSetCurrTerm);
-        Button cancel = (Button) layout.findViewById(R.id.bCancelSetCurrTerm);
-        cancel.setOnClickListener(this);
-        close.setOnClickListener(this);
-
-    }
 
 
 

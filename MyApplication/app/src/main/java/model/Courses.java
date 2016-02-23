@@ -19,7 +19,7 @@ public class Courses {
     boolean letter;
     boolean pass;
     String courseId;
-    double gpa,totalPrecent;
+    double gpa,totalPercent;
     ArrayList<String> weightsList;
     LinkedHashMap <String, Double> gpaThreshold = new LinkedHashMap<>();
     LinkedHashMap <String, Category> categories = new LinkedHashMap<>();
@@ -75,7 +75,7 @@ public class Courses {
         else
             this.setGpaThresholdPNP(60.0);
 
-        this.totalPrecent = 100;
+        this.totalPercent = 100;
 
 
     }
@@ -106,10 +106,13 @@ public class Courses {
 
 
     public boolean addWeight(String weight, int p){
-        if(weightsList.indexOf(weight) != -1)
+        if(this.weightsList == null){
+            this.weightsList = new ArrayList<>();
+        }
+        if(this.weightsList.indexOf(weight) != -1)
             return false;
-        weightsList.add(weight);
-        categories.put(weight, new Category(weight, p, 0));
+        this.weightsList.add(weight);
+        this.categories.put(weight, new Category(weight, p, 0));
         return true;
     }
     /**
@@ -125,15 +128,16 @@ public class Courses {
         if(! categories.get(weight).addAssignment(assignment,y,m,d))
             return false;
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
-        start.child("/my4YearPlan").child(BaseActivity.initialize.getCurrTerm()).child("/courses").child(getCourseId()).setValue(this);
+        start.setValue(BaseActivity.initialize);
         return true;
     }
 
     public void addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
-        totalPrecent = updateScores();
+        totalPercent = updateScores();
+        BaseActivity.initialize.update();
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
-        start.child("my4YearPlan").setValue(BaseActivity.initialize.getMy4YearPlan());
+        start.setValue(BaseActivity.initialize);
     }
 
     /**Update Scores, recalculate percentage, and update the new gpa or pass/nopass status
@@ -196,8 +200,8 @@ public class Courses {
         return categories;
     }
 
-    public double getTotalPrecent(){
-        return totalPrecent;
+    public double getTotalPercent(){
+        return totalPercent;
     }
 
     public ArrayList<String> getWeightsList(){
