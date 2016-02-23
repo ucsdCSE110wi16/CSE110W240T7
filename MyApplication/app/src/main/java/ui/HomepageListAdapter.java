@@ -36,8 +36,11 @@ public class HomepageListAdapter extends ArrayAdapter<String> {
         TextView dueDateRow = (TextView) row.findViewById(R.id.dueDate_homepage);
         TextView dueBelongRow = (TextView) row.findViewById(R.id.dueBelowsTo_homepage);
 
+
         dueRow.setText(recentDues.get(position).getAssignmentName());
-        dueDateRow.setText(recentDues.get(position).getDay() + "-" + recentDues.get(position).getMonth() + "-" + recentDues.get(position).getYear() );
+        dueDateRow.setText(context.getResources().getStringArray(R.array.Month)[recentDues.get(position).getMonth()] + ", "
+                + recentDues.get(position).getDay()+", "
+                + recentDues.get(position).getYear() );
         dueBelongRow.setText(recentDues.get(position).getBelongsTo());
 
         return row;

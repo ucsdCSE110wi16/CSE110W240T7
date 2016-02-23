@@ -28,15 +28,11 @@ import com.firebase.client.Firebase;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-import login.Login;
-import model.Category;
-import model.Courses;
-import model.IndividualAssignment;
-import model.user;
 import androidstudio.edbud.com.myapplication.R;
 import ui.AddAssignment;
+import ui.BaseActivity;
 import ui.CoursePage;
 import ui.ExpandableListAdapter;
 
@@ -52,9 +48,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    ArrayList listDataHeader;
-    HashMap<String, Category> listCategory;
-    HashMap<String, ArrayList<IndividualAssignment>> listDataChild;
+    ArrayList<String> listDataHeader;
+    LinkedHashMap<String, Category> listCategory;
     FloatingActionButton fab2;
     CoordinatorLayout layout_main;
     private PopupWindow popup;
@@ -68,10 +63,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
-        mycourse = user.myCourse.get(CoursePage.p);
+        mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
         if(mycourse == null){
             Log.v("p value is :", String.valueOf(CoursePage.p));
-            Log.v("my course size: ", String.valueOf(user.myCourse.size()));
+            //Log.v("my course size: ", String.valueOf(User.myCourse.size()));
             Log.v("my course:", "is null");
         }
         this.setViews();
@@ -83,7 +78,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listCategory,listDataChild);
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listCategory);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -97,9 +92,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
                 weight = listDataHeader.get(groupPosition).toString();
                 index = childPosition;
-                if (mycourse.getAllAssignments().get(weight).get(index).isSetScore()) {
-                    //show popup asking if the user wants to change the score already inputted
-                    new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " + mycourse.getAllAssignments().get(weight).get(index).getAssignmentName()+". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                if (mycourse.getCategories().get(weight).getAssignments().get(index).isSetScore()) {
+                    //show popup asking if the User wants to change the score already inputted
+                    new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " +
+                            mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
+                            ". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which){
                                     showSetScore((Activity) myContext, true);
@@ -159,8 +157,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     }
 
     private void prepareListData() {
-        listDataHeader = mycourse.getWeights();
-        listDataChild = mycourse.getAllAssignments();
+        listDataHeader = mycourse.getWeightsList();
         listCategory = mycourse.getCategories();
     }
 
@@ -191,8 +188,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int percent = Integer.parseInt(weightPercent);
                 if(mycourse.addWeight(weightID,percent)){
                     prepareListData();
-                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
-                    start.child(mycourse.getCourseId()).setValue(mycourse);
+                    Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+                    start.setValue(BaseActivity.initialize);
                     listAdapter.notifyDataSetChanged();}
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
@@ -220,8 +217,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
                 mycourse.addAssignmentScore(weight, index, r, s);
-                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
-                start.child(mycourse.getCourseId()).setValue(mycourse);
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
+                start.setValue(BaseActivity.initialize);
                 gpa.setText(Double.toString(mycourse.getGpa()));
                 listAdapter.notifyDataSetChanged();
                 layout_main.getForeground().setAlpha(0);
@@ -232,7 +229,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 popup.dismiss();
             case R.id.GPA:
                 if(!showPercent){
-                    gpa.setText(df.format(mycourse.getTotalPrecent()) + "%");
+                    gpa.setText(df.format(mycourse.getTotalPercent()) + "%");
                     showPercent = true;
                 }else if(mycourse.getLetter()){
                     gpa.setText(Double.toString(mycourse.getGpa()));
@@ -304,10 +301,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
         etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
         TextView assignmentName = (TextView) layout.findViewById(R.id.textview_assignment_name);
-        assignmentName.setText(mycourse.getAllAssignments().get(weight).get(index).getAssignmentName());
+        assignmentName.setText(mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName());
         if(hasSetted){
-            etRawScore.setHint(Double.toString(mycourse.getAllAssignments().get(weight).get(index).getRawScore()));
-            etScoreOutOf.setHint(Double.toString(mycourse.getAllAssignments().get(weight).get(index).getScoreOutOf()));
+            etRawScore.setHint(Double.toString(mycourse.getCategories().get(weight).getAssignments().get(index).getRawScore()));
+            etScoreOutOf.setHint(Double.toString(mycourse.getCategories().get(weight).getAssignments().get(index).getScoreOutOf()));
         }
 
         //Dim the background

@@ -13,25 +13,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.user;
 
-public class CardArrayAdapter extends ArrayAdapter {
+public class CourseListAdapter extends ArrayAdapter {
     private ArrayList<Courses> courseList = new ArrayList<Courses>();
-    private ArrayList courseNameList = new ArrayList();
     Context context;
 
 
-    public CardArrayAdapter(Context context,  ArrayList courseName, ArrayList courses) {
+    public CourseListAdapter(Context context, ArrayList<Courses> course) {
 
-        super(context, R.layout.list_course_page, R.id.list_course_page, courseName);
+        super(context, R.layout.list_course_page, R.id.list_course_page, course);
 
         this.context = context;
-        this.courseNameList = courseName;
-        this.courseList = courses;
+        this.courseList = course;
     }
 
 
@@ -39,9 +35,9 @@ public class CardArrayAdapter extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(R.layout.list_course_page, parent, false);
             TextView course = (TextView) row.findViewById(R.id.list_course_page);
-            TextView gpa = (TextView) row.findViewById(R.id.list_gpa);
+            TextView gpa = (TextView) row.findViewById(R.id.list_course_page_gpa);
 
-        course.setText(courseNameList.get(position).toString());
+        course.setText(courseList.get(position).getCourseId());
         gpa.setText(Double.toString(courseList.get(position).getGpa()));
         return row;
     }

@@ -97,6 +97,11 @@
         android:id="@+id/lvExp"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:divider="@null"
+        android:layout_marginTop="5dp"
+        android:dividerHeight="10dp"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:layout_below="@+id/textview_assignments"/>
 
 

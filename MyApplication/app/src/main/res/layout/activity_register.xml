@@ -75,6 +75,17 @@
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Term"/>
+
+    <EditText
+        android:id="@+id/etCurrentTerm"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"/>
+
 
     <Button
         android:id="@+id/bRegister"

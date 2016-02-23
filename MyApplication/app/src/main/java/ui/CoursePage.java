@@ -1,21 +1,27 @@
 package ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-
-import com.fasterxml.jackson.databind.deser.Deserializers;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidstudio.edbud.com.myapplication.R;
-import login.Login;
 import model.IndividualCourse;
-import model.user;
 
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -24,7 +30,10 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
     private Context context;
     public static String course_chosen;
     public static int p;
-    private CardArrayAdapter cardArrayAdapter;
+    private CourseListAdapter courseListAdapter;
+    private PopupWindow popup;
+    private EditText etSetTerm;
+    private RelativeLayout layout_main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +47,22 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
         fab.setOnClickListener(this);
 
 
+        layout_main = (RelativeLayout) findViewById( R.id.coursePage);
+        layout_main.getForeground().setAlpha(0);
+
+
 
         coursesListView = (ListView) findViewById(R.id.lsCourses);
         //coursesListView.addHeaderView(new View(this));
         //coursesListView.addFooterView(new View(this));
 
 
-        cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), BaseActivity.initialize.courses,BaseActivity.initialize.myCourse);
-        coursesListView.setAdapter(cardArrayAdapter);
+        courseListAdapter = new CourseListAdapter(getApplicationContext(),
+                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses());
+        coursesListView.setAdapter(courseListAdapter);
 
 
-        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.courses);
+        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, User.courses);
         //coursesListView.setAdapter(arrayAdapter);
         coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -64,8 +78,15 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
     }
 
     public void onClick(View view) {
-        startActivity(new Intent(this, AddCourse.class));
+
+        switch(view.getId()) {
+            case R.id.fab:
+            startActivity(new Intent(this, AddCourse.class));
+                break;
+        }
     }
+
+
 
 
 

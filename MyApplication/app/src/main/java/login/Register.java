@@ -21,14 +21,14 @@ import java.util.Map;
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
-import model.user;
+import model.User;
 import ui.BaseActivity;
 import ui.Homepage;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etMajor, etEmail, etGraduate, etCollege, etPassword;
+    EditText etName, etMajor, etEmail, etGraduate, etCollege, etPassword, etCurrentTerm;
     Button bRegister;
 
 
@@ -44,6 +44,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
+        etCurrentTerm = (EditText) findViewById(R.id.etCurrentTerm);
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
@@ -78,13 +79,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String major = etMajor.getText().toString();
                 String college = etCollege.getText().toString();
                 String graduateDate = etGraduate.getText().toString();
+                String currentTerm = etCurrentTerm.getText().toString();
                 String ID = result.get("uid").toString();
                 Firebase start = new Firebase(Constant.DBURL);
                 Firebase usersRef = start.child("userInfo").child(ID);
 
-                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
-                usersRef.setValue(myUser);
-                BaseActivity.initialize = new user(myUser.getUID());
+                BaseActivity.initialize = new User(fullName, major, college, password, graduateDate, email,ID, currentTerm);
+                usersRef.setValue(BaseActivity.initialize);
                 startActivity(new Intent(Register.this, Homepage.class));
 
             }
@@ -114,6 +115,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
         String graduateDate = etGraduate.getText().toString();
+        String currentTerm = etCurrentTerm.getText().toString();
 
 
 
@@ -164,6 +166,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         else if (TextUtils.isEmpty(graduateDate)) {
             etGraduate.setError("Please input graduate date");
             return;
+        }
+
+        else if(TextUtils.isEmpty(currentTerm)){
+            etCurrentTerm.setError("Please input current term");
         }
 
         else if(!isInteger(graduateDate)){

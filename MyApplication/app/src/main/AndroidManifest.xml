@@ -38,6 +38,9 @@
             android:name="ui.CoursePage"
             android:label="@string/title_activity_course_page"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="ui.FourYearPlan"
+            android:label="@string/title_activity_4year"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

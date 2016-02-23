@@ -14,8 +14,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import androidstudio.edbud.com.myapplication.R;
 import model.Category;
 import model.Courses;
 import model.IndividualCourse;
-import model.user;
 
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,7 +40,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
-        mycourse = user.myCourse.get(CoursePage.p);
+        mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
         //weights = mycourse.getWeights();
         categories = mycourse.getCategories();
 
@@ -104,8 +101,6 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                 if(!mycourse.addAssignment(weightButton.getText().toString(), hw, y, m, d)){
                 Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
                 }
-                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
-                start.child(mycourse.getCourseId()).setValue(mycourse);
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
             case R.id.etDueDate:
