@@ -12,23 +12,45 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
 
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
 import model.Courses;
+import model.user;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    TextView headerCollege;
+    TextView headerMajor;
+    TextView headerYear;
+    TextView headerName;
+    public static user initialize;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
+
     }
 
     protected void onCreateNavigation() {
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,9 +64,53 @@ public class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_navi);
+
+        headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
+        headerMajor = (TextView) headerView.findViewById(R.id.myMajor);
+        headerYear = (TextView) headerView.findViewById(R.id.myYear);
+        headerName = (TextView) headerView.findViewById(R.id.myName);
+        //Log.v("UID",Login.initialize.UID);
+        //Log.v("College",Login.initialize.college);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID);
+        ref.addValueEventListener(new myValueEventListener());
 
     }
+    class myValueEventListener implements ValueEventListener {
 
+
+
+        public myValueEventListener(){
+            super();
+        }
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+
+            headerCollege.setText(snapshot.child("college").getValue().toString());
+
+            headerYear.setText(snapshot.child("graduateDate").getValue().toString());
+
+            headerMajor.setText(snapshot.child("major").getValue().toString());
+
+            headerName.setText(snapshot.child("fullName").getValue().toString());
+
+            initialize.myCourse = new ArrayList<>();
+            initialize.courses = new ArrayList();
+            for(DataSnapshot course: snapshot.child("courses").getChildren()){
+                Courses temp = course.getValue(Courses.class);
+                initialize.myCourse.add(temp);
+                initialize.courses.add(temp.getCourseId());
+            }
+
+
+        }
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println("The read failed: " + firebaseError.getMessage());
+        }
+
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

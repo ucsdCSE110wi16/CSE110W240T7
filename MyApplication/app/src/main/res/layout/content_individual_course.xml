@@ -64,13 +64,23 @@
         android:layout_toEndOf="@+id/textview_letter" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Assignments"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/textview_letter" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" + Add Grade Distribution"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/bAddWeights_individual"
+        android:layout_below="@+id/individual_letter"
+        android:layout_alignBottom="@+id/textview_assignments"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,12 +93,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/individual_course" />
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/expandableListView"
-        android:layout_below="@+id/textview_assignments"
-        android:layout_alignParentStart="true" />
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/textview_assignments"/>
 
 
 </RelativeLayout>

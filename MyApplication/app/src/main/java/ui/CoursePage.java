@@ -10,23 +10,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.databind.deser.Deserializers;
 
 import androidstudio.edbud.com.myapplication.R;
-import model.Courses;
+import login.Login;
 import model.IndividualCourse;
-import ui.AddCourse;
-import ui.BaseActivity;
+import model.user;
 
 public class CoursePage extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
-    public static ArrayList courses = new ArrayList();
-    public static ArrayList units = new ArrayList();
-    public static ArrayList<Courses> myCourse = new ArrayList<>();
+
     private ListView coursesListView;
     private ArrayAdapter arrayAdapter;
     private Context context;
     public static String course_chosen;
     public static int p;
+    private CardArrayAdapter cardArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +40,16 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
 
 
         coursesListView = (ListView) findViewById(R.id.lsCourses);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, courses);
-        coursesListView.setAdapter(arrayAdapter);
+        //coursesListView.addHeaderView(new View(this));
+        //coursesListView.addFooterView(new View(this));
+
+
+        cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), BaseActivity.initialize.courses,BaseActivity.initialize.myCourse);
+        coursesListView.setAdapter(cardArrayAdapter);
+
+
+        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, user.courses);
+        //coursesListView.setAdapter(arrayAdapter);
         coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

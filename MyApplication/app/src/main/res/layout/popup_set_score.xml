@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/setScore"
+    android:padding="20dp"
+    android:background="@color/colorText">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Assignment Name"
+        android:textSize="25dp"
+        android:id="@+id/textview_assignment_name"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:weightSum="3"
+        android:id="@+id/input_score"
+        android:layout_below="@+id/textview_assignment_name"
+        android:layout_alignEnd="@+id/textview_assignment_name">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/etRawScore"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Score"
+            android:inputType="number"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Out Of"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/etScoreOutOf"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Score"
+            android:inputType="number"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/bCancelSetScore"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:layout_alignTop="@+id/bSetScore"
+        android:layout_toStartOf="@+id/bSetScore" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Score"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/bSetScore"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/input_score"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp" />
+
+
+</RelativeLayout>

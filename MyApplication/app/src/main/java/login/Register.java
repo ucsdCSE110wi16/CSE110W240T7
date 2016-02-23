@@ -4,41 +4,95 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.Firebase.AuthResultHandler;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.user;
+import ui.BaseActivity;
+import ui.Homepage;
 
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etMajor, etUsername, etGraduate, etCollege, etPassword;
+    EditText etName, etMajor, etEmail, etGraduate, etCollege, etPassword;
     Button bRegister;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         etName = (EditText) findViewById(R.id.etName);
-        etUsername = (EditText) findViewById(R.id.etUsername);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
         etGraduate = (EditText) findViewById(R.id.etGraduate);
-
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
+
+    }
+
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
+    public void RegisterUser(){
+        Firebase ref = new Firebase(Constant.DBURL);
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                Log.v("Entered","Success");
+                String fullName = etName.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String major = etMajor.getText().toString();
+                String college = etCollege.getText().toString();
+                String graduateDate = etGraduate.getText().toString();
+                String ID = result.get("uid").toString();
+                Firebase start = new Firebase(Constant.DBURL);
+                Firebase usersRef = start.child("userInfo").child(ID);
+
+                user myUser = new user(fullName, major, college, password, graduateDate, email,ID);
+                usersRef.setValue(myUser);
+                BaseActivity.initialize = new user(myUser.getUID());
+                startActivity(new Intent(Register.this, Homepage.class));
+
+            }
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                // there was an error
+            }
+        });
 
     }
 
@@ -48,22 +102,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         /**
          *Initialize the data base
          */
-        Firebase ref = new Firebase(Constant.DBURL);
-
-        /*
-        ArrayList<Integer> courseList = new ArrayList<Integer>();
-        courseList.add(1);
-        courseList.add(3);
-        courseList.add(2);
-        courseList.add(4);
-        */
+        //Firebase ref = new Firebase(Constant.DBURL);
 
         /**
          * convert to string block
          */
 
         String fullName = etName.getText().toString();
-        String username= etUsername.getText().toString();
+        String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
@@ -71,74 +117,70 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
 
+        /**
+         * Error handling
+         */
 
-        if (TextUtils.isEmpty(username)) {
-            etUsername.setError("Please input your username");
+        if(fullName.indexOf('.') >= 0){
+            etName.setError("Sorry, the fullname cannot contains dots ");
             return;
         }
+
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Please input your username");
+            return;
+        }
+
+        else if(!email.contains("@")){
+            etEmail.setError("The input email format is not correct, must follow xxx@.com-format");
+            return;
+        }
+
         else if (TextUtils.isEmpty(password)) {
             etPassword.setError("Please input a password");
             return;
         }
+
+        else if(password.length() < 6){
+            etPassword.setError("Password must have at least six characters");
+            return;
+        }
+
         else if (TextUtils.isEmpty(fullName)) {
             etName.setError("Please input your name");
             return;
         }
+
         else if (TextUtils.isEmpty(college)) {
             etCollege.setError("Please input your college");
             return;
         }
+
         else if (TextUtils.isEmpty(major)) {
             etMajor.setError("Please input your major");
             return;
         }
+
         else if (TextUtils.isEmpty(graduateDate)) {
             etGraduate.setError("Please input graduate date");
             return;
         }
-        //int graduateDate = Integer.parseInt(etCollege.getText().toString());
 
-        /**
-         * Set up the database
-         */
+        else if(!isInteger(graduateDate)){
+            etGraduate.setError("Graduate date must be a number");
+            return;
+        }
 
-        Firebase usersRef = ref.child("users").child(username);
-
-
-        /**
-         * Initialize user object
-         */
-
-        user myUser = new user(fullName, major, college, password, graduateDate);
-        //ArrayList<Courses> courseList = myUser.getUsrArrayList();
-        Courses test_1 = new Courses();
-        Courses test_2 = new Courses();
-        Courses test_3 = new Courses();
-
-        ArrayList<Courses> courseList = new ArrayList<>();
-        courseList.add(test_1);
-        courseList.add(test_2);
-        courseList.add(test_3);
 
         /**
          * Construct the user data structure
          */
 
-        usersRef.setValue(myUser);
-
-        usersRef.child("fullName").setValue(fullName);
-        usersRef.child("major").setValue(major);
-        usersRef.child("college").setValue(college);
-        usersRef.child("password").setValue(password);
-        usersRef.child("graduateDate").setValue(graduateDate);
-        //usersRef.child("courseList").setValue(courseList);
-
-        //usersRef.setValue(courseList);
 
 
         switch (v.getId()) {
             case R.id.bRegister:
-                startActivity(new Intent(this, Login.class));
+                RegisterUser();
                 break;
         }
     }

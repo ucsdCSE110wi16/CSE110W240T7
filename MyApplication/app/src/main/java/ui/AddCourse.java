@@ -1,39 +1,32 @@
 package ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.RequiresPermission;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 
 import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
+import model.user;
 
 
 public class AddCourse extends AppCompatActivity implements View.OnClickListener{
@@ -44,11 +37,11 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
     private Switch gradeSwitch;
     private boolean letter = true;
     private ListView weightList;
-    private ArrayList weights = new ArrayList();
-    private ArrayList percentages = new ArrayList();
+    private ArrayList<String> weights;
+    private ArrayList<Integer> percentages;
     private FrameLayout layout_main;
     private PopupWindow popup;
-    private int weightTotal = 0;
+    WeightListAdapter adapter;
 
 
     @Override
@@ -63,25 +56,33 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
         bAddCourse.setOnClickListener(this);
         bAddWeights.setOnClickListener(this);
 
-        WeightListAdapter adapter = new WeightListAdapter(this, weights, percentages);
+        weights = new ArrayList<>();
+        percentages = new ArrayList<>();
+
+        adapter = new WeightListAdapter(this, weights, percentages);
         weightList.setAdapter(adapter);
+
 
 
         gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     switchStatus.setText("Pass/No Pass");
+                    letter = false;
                 }else{
                     switchStatus.setText("Letter grade");
+                    letter = true;
                 }
             }
         });
 
         if(gradeSwitch.isChecked()){
             switchStatus.setText("Pass/No Pass");
+            letter = false;
         }
         else {
             switchStatus.setText("Letter grade");
+            letter = true;
         }
     }
 
@@ -114,14 +115,20 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                 } else if (TextUtils.isEmpty(unit)) {
                     etcourseUnit.setError("Please input course unit");
                     return;
-                }else if(weightTotal != 100){
-                    Toast.makeText(this,"Weight percentage does not add up to 100%", Toast.LENGTH_LONG).show();
-                    return;
                 }
+
                 int courseUnit = Integer.parseInt(unit);
-                CoursePage.myCourse.add(new Courses(courseID, courseUnit, letter, weights,percentages));
-                CoursePage.courses.add(courseID);
-                CoursePage.units.add(courseUnit);
+                Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights, percentages);
+                user.myCourse.add(courseToAdd);
+                user.addUnit(courseUnit);
+                user.courses.add(courseID);
+                //Firebase start = new Firebase(Constant.DBUserInfo + user.UID + "/courses");
+                Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + user.UID + "/courses");
+                start.child(courseToAdd.getCourseId()).setValue(courseToAdd);
+                //Firebase userCourses = start.child("userInfo").child("Lihui Lu").child("courses").child(courseID);
+                //userCourses.setValue(courseToAdd);
+
+
                 startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:
@@ -139,12 +146,21 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
                 int percent = Integer.parseInt(weightPercent);
+                if(weights.indexOf(weightID) != -1){
+                    Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 weights.add(weightID);
                 percentages.add(percent);
-                weightTotal += percent;
+                adapter.notifyDataSetChanged();
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
+            case R.id.bCancelAddIndividualWeight:
+                layout_main.getForeground().setAlpha(0);
+                popup.dismiss();
+                break;
+
 
         }
     }
@@ -154,7 +170,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.activity_add_weights, null);
+        View layout = layoutInflater.inflate(R.layout.popup_add_weights, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -174,6 +190,8 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
         // Getting a reference to Close button, and close the popup when clicked.
         Button close = (Button) layout.findViewById(R.id.bAddIndividualWeight);
+        Button cancel = (Button) layout.findViewById(R.id.bCancelAddIndividualWeight);
+        cancel.setOnClickListener(this);
         close.setOnClickListener(this);
 
     }
