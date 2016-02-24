@@ -10,7 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="ui.FourYearPlan"
-    tools:showIn="@layout/activity_4year">
+    tools:showIn="@layout/activity_4year"
+    android:id="@+id/fourYearPlan"
+    android:foreground="@drawable/shape_window_dim">
 
 
     <ui.FourYearPlanListView

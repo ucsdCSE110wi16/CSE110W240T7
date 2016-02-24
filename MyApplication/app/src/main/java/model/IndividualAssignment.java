@@ -16,14 +16,14 @@ public class IndividualAssignment {
 
     }
 
-    IndividualAssignment(String weight, String name, int y, int m, int d){
+    IndividualAssignment(String course, String name, int y, int m, int d){
         this.assignmentName =name;
         this.year=y;
         this.month = m;
         this.day = d;
         this.rawScore = 0;
         this.setScore = false;
-        this.belongsTo = weight;
+        this.belongsTo = course;
     }
 
     public String getAssignmentName(){

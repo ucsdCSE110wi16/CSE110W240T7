@@ -41,6 +41,8 @@
         <activity android:name="ui.FourYearPlan"
             android:label="@string/title_activity_4year"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="ui.AddTerm"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
