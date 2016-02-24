@@ -4,7 +4,9 @@ package ui;
  * Created by LunaLu on 2/4/16.
  */
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +25,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
 import model.User;
@@ -93,21 +96,7 @@ public class BaseActivity extends AppCompatActivity
             headerName.setText(snapshot.child("fullName").getValue().toString());
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
-            //Log.v("currterm", BaseActivity.initialize.getCurrTerm());
 
-
-            /*LinkedHashMap<String, Term> temp4yearPlan = new LinkedHashMap<>();
-            ArrayList<IndividualAssignment> tempRecnetDues = new ArrayList<>();
-            for(DataSnapshot term: snapshot.child("4yearPlan").getChildren()){
-                Term temp = term.getValue(Term.class);
-                temp4yearPlan.put(temp.getTermName(), temp);
-            }
-            BaseActivity.initialize.setMy4YearPlan(temp4yearPlan);
-            for(DataSnapshot dues: snapshot.child("recentDues").getChildren()){
-                IndividualAssignment due = dues.getValue(IndividualAssignment.class);
-                tempRecnetDues.add(due);
-            }
-            BaseActivity.initialize.setRecentDues(tempRecnetDues);*/
 
 
         }
@@ -165,8 +154,9 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_logout) {
+            SharedPreferences sp = this.getSharedPreferences(Constant.myPrefer,Context.MODE_PRIVATE);
+            sp.edit().putBoolean("AutoLogin",false).commit();
             startActivity(new Intent(this, Login.class));
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
