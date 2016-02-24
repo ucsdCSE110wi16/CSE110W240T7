@@ -1,25 +1,21 @@
 package login;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import Constant.Constant;
-import model.CourseListAdapter;
-import model.User;
 import ui.BaseActivity;
 import ui.Homepage;
 import androidstudio.edbud.com.myapplication.R;
@@ -29,12 +25,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button bLogin;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
-
-
+    public SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sp = this.getSharedPreferences(Constant.myPrefer, Context.MODE_PRIVATE);
+
+        if(sp.getBoolean("AutoLogin", true)){
+            BaseActivity.uid = sp.getString("UID","DefaultStringIfNotFound");
+            startActivity(new Intent(Login.this, Homepage.class));
+        }
+
         setContentView(R.layout.activity_login);
 
         bLogin = (Button) findViewById(R.id.bLogin);
@@ -45,6 +48,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         bLogin.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
         Firebase.setAndroidContext(this);
+
+
     }
 
 
@@ -58,14 +63,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onAuthenticated(final AuthData authData) {
                 //new to create a new user and fetch data from Firebase
-                BaseActivity.uid = authData.getUid();
-                //BaseActivity.initialize = new User(authData.getUid());
-                //Log.v("graduateDate", initialize.graduateDate);
-                //Log.v("College", initialize.college);
-                //Log.v("major", initialize.major);
-                //Log.v("UID", initialize.UID);
 
-                //CourseListAdapter adapter = new CourseListAdapter(Constant.DBURLszh)
+
+                sp.edit().putBoolean("AutoLogin", true).commit();
+                sp.edit().putString("UID",authData.getUid()).commit();
+
+
+                BaseActivity.uid = authData.getUid();
                 startActivity(new Intent(Login.this, Homepage.class));
             }
 
@@ -172,12 +176,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                 progressDialog.dismiss();
                             }
                         }, 4000);
-
                 break;
-
         }
-
-
-
     }
 }
