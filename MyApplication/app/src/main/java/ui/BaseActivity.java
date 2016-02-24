@@ -158,6 +158,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             SharedPreferences sp = this.getSharedPreferences(Constant.myPrefer,Context.MODE_PRIVATE);
             sp.edit().putBoolean("AutoLogin",false).commit();
+            sp.edit().putString("check","").commit();
             startActivity(new Intent(this, Login.class));
         }
 
