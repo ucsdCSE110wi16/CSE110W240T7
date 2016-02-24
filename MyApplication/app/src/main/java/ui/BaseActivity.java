@@ -42,12 +42,14 @@ public class BaseActivity extends AppCompatActivity
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
         Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.uid);
         ref.addValueEventListener(new myValueEventListener());
+
 
     }
 

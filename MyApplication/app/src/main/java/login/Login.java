@@ -32,11 +32,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         sp = this.getSharedPreferences(Constant.myPrefer, Context.MODE_PRIVATE);
+        //sp.edit().putBoolean("AutoLogin", false).apply();
 
-        if(sp.getBoolean("AutoLogin", true)){
+
+
+        if(sp.getBoolean("AutoLogin", true) && sp.getString("check","").length() != 0 ){
             BaseActivity.uid = sp.getString("UID","DefaultStringIfNotFound");
             startActivity(new Intent(Login.this, Homepage.class));
         }
+
 
         setContentView(R.layout.activity_login);
 
@@ -58,6 +62,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void authenticateUser(String email, String password){
 
         final Firebase ref = new Firebase(Constant.DBURL);
+        sp.edit().putBoolean("AutoLogin", false).commit();
+        sp.edit().putString("check","check").commit();
 
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
