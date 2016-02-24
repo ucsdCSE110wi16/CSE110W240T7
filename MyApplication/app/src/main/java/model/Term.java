@@ -1,6 +1,10 @@
 package model;
 
+import com.firebase.client.Firebase;
+
 import java.util.ArrayList;
+
+import ui.BaseActivity;
 
 /**
  * Created by LunaLu on 2/19/16.
@@ -9,8 +13,10 @@ public class Term {
     String termName;
     double termGpa=0.0;
     ArrayList<Courses> termCourses=new ArrayList<>();
+    ArrayList<String> termCourseList = new ArrayList<>();
     boolean termPassed=false;
     double termUnit=0.0;
+    double termLetterUnit = 0.0;
 
     Term(){
 
@@ -21,6 +27,14 @@ public class Term {
         this.termPassed = passed;
         this.termUnit = unit;
         this.termGpa = gpa;
+    }
+
+    public Term(String name, boolean passed, double unit, double gpa, ArrayList<Courses> course) {
+        this.termName=name;
+        this.termPassed = passed;
+        this.termUnit = unit;
+        this.termGpa = gpa;
+        this.termCourses = course;
     }
 
     /**
@@ -50,6 +64,14 @@ public class Term {
         return termUnit;
     }
 
+    public double getTermLetterUnit() {
+        return termLetterUnit;
+    }
+
+    public ArrayList<String> getTermCourseList() {
+        return termCourseList;
+    }
+
     /**
      * Setters
      */
@@ -70,8 +92,16 @@ public class Term {
         this.termCourses = termCourses;
     }
 
+    public void setTermLetterUnit(double termLetterUnit) {
+        this.termLetterUnit = termLetterUnit;
+    }
+
     public void setTermUnit(double unit){
         this.termUnit = unit;
+    }
+
+    public void setTermCourseList(ArrayList<String> termCourseList) {
+        this.termCourseList = termCourseList;
     }
 
     public boolean addTermCourses(Courses course){
@@ -79,7 +109,14 @@ public class Term {
             if(termCourses.contains(course))
             return false;
         }
+        if(course.getLetter()){
+            termLetterUnit += course.getUnit();
+        }
+        addTermUnit(course.getUnit());
         this.termCourses.add(course);
+        this.termCourseList.add(course.getCourseId());
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
+        start.setValue(BaseActivity.initialize);
         return true;
     }
 

@@ -1,6 +1,8 @@
 package model;
 
 
+import android.support.v4.app.INotificationSideChannel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.Firebase;
@@ -168,20 +170,23 @@ public class User {
     public void update(){
         ArrayList<Courses> temp = my4YearPlan.get(currTerm).getTermCourses();
         double unitObtained = 0.0;
+        double letterUnit = this.unit;
         for(int i = 0; i < temp.size(); ++i){
             Courses course = temp.get(i);
+
             if(course.getLetter()){
                 unitObtained = course.getUnit() * course.getGpa();
-            }
+            }else
+                letterUnit -=course.getUnit();
         }
 
         this.my4YearPlan.get(currTerm).setTermGpa(unitObtained/my4YearPlan.get(currTerm).getTermUnit());
 
         unitObtained = 0.0;
         for(Term term:my4YearPlan.values()){
-            unitObtained += term.getTermGpa() * term.getTermUnit();
+            unitObtained += term.getTermGpa() * term.getTermLetterUnit();
         }
-        gpa = unitObtained/unit;
+        gpa = unitObtained/letterUnit;
 
 
     }
@@ -195,18 +200,31 @@ public class User {
     }
 
     public boolean removeRecentDues(IndividualAssignment a){
-        if(recentDues.indexOf(a) == -1)
-            return false;
-        recentDues.remove(a);
+        Firebase temp = new Firebase("https://edbud.firebaseio.com/userInfo/"+BaseActivity.initialize.uid+"/recentDues");
+        temp.removeValue();
+        this.recentDues.remove(a);
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
+        start.setValue(BaseActivity.initialize);
         return true;
     }
 
     public boolean addCourse(Courses course){
-        if(!BaseActivity.initialize.my4YearPlan.get(currTerm).addTermCourses(course)){
+        if(!this.my4YearPlan.get(currTerm).addTermCourses(course)){
             return false;
         }
         unit += course.getUnit();
-        BaseActivity.initialize.my4YearPlan.get(currTerm).addTermUnit(course.getUnit());
+        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
+        start.setValue(BaseActivity.initialize);
+        return true;
+    }
+
+    public boolean addTerm(Term term){
+        if(this.my4YearPlan.get(term.getTermName()) != null){
+            return false;
+        }
+        this.terms.add(term.getTermName());
+        unit += term.getTermUnit();
+        this.my4YearPlan.put(term.getTermName(), term);
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;

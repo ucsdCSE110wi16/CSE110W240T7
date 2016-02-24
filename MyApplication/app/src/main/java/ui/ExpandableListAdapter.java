@@ -76,10 +76,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             day = child.getDay();
             Resources rec = _context.getResources();
             duedateText.setText(rec.getStringArray(R.array.Month)[month] + ", "+day+", "+year);
-            if(child.isSetScore())
+            if(child.isSetScore()) {
                 gradeText.setText(Double.toString(childRawScore) + " / " + Double.toString(childScoreOutOf));
-            else
+                txtListChild.setTypeface(null, Typeface.NORMAL);
+            }
+            else {
                 gradeText.setText(" ");
+                txtListChild.setTypeface(null, Typeface.BOLD);
+            }
             txtListChild.setText(childText);
             return convertView;
         }

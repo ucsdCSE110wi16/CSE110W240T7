@@ -11,7 +11,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingRight="15dp"
-        android:background="@drawable/card_background_selector"
         android:descendantFocusability="afterDescendants">
 
         <ImageView
@@ -47,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Large Text"
             android:id="@+id/due_homepage"
             android:gravity="center"
@@ -56,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Large Text"
             android:id="@+id/dueDate_homepage"
             android:gravity="center"

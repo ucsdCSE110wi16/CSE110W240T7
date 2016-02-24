@@ -32,6 +32,8 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
     private HashMap<String, Term> _listDataChild;
     private int selectedGroup;
     private int selectedChild;
+    DecimalFormat df = new DecimalFormat("#.##");
+
 
     public FourYearPlanAdapter(Context context, ArrayList<String> listDataHeader, HashMap<String, Term> listChildData) {
         this._context = context;
@@ -88,7 +90,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         TextView txtCourseGpa = (TextView) convertView.findViewById(R.id.lblListTermCourseGpa);
 
         txtCourse.setText(courseId);
-        txtCourseGpa.setText(Double.toString(courseGpa));
+        txtCourseGpa.setText(df.format(courseGpa));
         return convertView;
     }
 
@@ -132,7 +134,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         lblListHeaderPercent.setTypeface(null, Typeface.BOLD);
-        lblListHeaderPercent.setText(Double.toString(_listDataChild.get(headerTitle).getTermGpa()));
+        lblListHeaderPercent.setText(df.format(_listDataChild.get(headerTitle).getTermGpa()));
 
         return convertView;
     }

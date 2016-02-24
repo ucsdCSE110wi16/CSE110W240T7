@@ -43,6 +43,13 @@ public class Courses {
 
     }
 
+    public Courses(String id, int u, boolean l, double grade){
+        this.courseId = id;
+        this.unit = u;
+        this.letter = l;
+        this.gpa = grade;
+    }
+
     /**
      * Three-parameters constructor
      * @param id -- String, course id
@@ -125,7 +132,7 @@ public class Courses {
      */
 
     public boolean addAssignment(String weight, String assignment, int y,int m, int d){
-        if(! categories.get(weight).addAssignment(assignment,y,m,d))
+        if(! this.categories.get(weight).addAssignment(courseId,assignment,y,m,d))
             return false;
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
@@ -133,8 +140,8 @@ public class Courses {
     }
 
     public void addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
-        categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
-        totalPercent = updateScores();
+        this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
+        this.totalPercent = updateScores();
         BaseActivity.initialize.update();
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
@@ -192,20 +199,22 @@ public class Courses {
     public String getCourseId () {return this.courseId;}
     
     public HashMap<String, Double> getGpaThreshold() {
-        return gpaThreshold;
+        return this.gpaThreshold;
     }
 
 
     public LinkedHashMap<String, Category> getCategories(){
-        return categories;
+        return this.categories;
     }
 
     public double getTotalPercent(){
-        return totalPercent;
+        return this.totalPercent;
     }
 
     public ArrayList<String> getWeightsList(){
-        return weightsList;
+        if(weightsList == null)
+            weightsList = new ArrayList<>();
+        return this.weightsList;
     }
 
 }

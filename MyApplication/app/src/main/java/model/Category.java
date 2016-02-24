@@ -44,7 +44,7 @@ public class Category {
         this.numToDrop = n;
     }
 
-    public boolean addAssignment(String name, int y, int m, int d){
+    public boolean addAssignment(String course, String name, int y, int m, int d){
         if(assignments == null){
             assignments = new ArrayList<>();
         }
@@ -52,7 +52,7 @@ public class Category {
             return false;
         }
         else{
-            IndividualAssignment temp = new IndividualAssignment(categoryName, name, y, m, d);
+            IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
             assignments.add(temp);
             BaseActivity.initialize.addRecentDues(temp);
             return true;
@@ -62,15 +62,21 @@ public class Category {
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
 
         assignments.get(index).setScore(rawScore, scoreOutOf);
-
-        Collections.sort(assignments, myComparator);
+        BaseActivity.initialize.removeRecentDues(assignments.get(index));
+        IndividualAssignment tempAssignment = assignments.get(index);
+        assignments.remove(index);
+        assignments.add(tempAssignment);
+        ArrayList<IndividualAssignment> temp = new ArrayList<>();
+        for(int i = 0; i < assignments.size(); ++i)
+            temp.add(assignments.get(i));
+        Collections.sort(temp, myComparator);
         scoreInputted = true;
 
         //Update percent obtained inside this category
 
         double newPercent = 0.0;
 
-        if(numToDrop >= assignments.size()){
+        if(numToDrop >= temp.size()){
             newPercent = 1.0;
         }
         else{
@@ -80,19 +86,18 @@ public class Category {
             }
             newPercent = newPercent/(temp.size() - numToDrop);*/
             int i = 0;
-            for(; i < assignments.size()-numToDrop; ++i){
-                if(!assignments.get(i).isSetScore()){
+            for(; i < temp.size()-numToDrop; ++i){
+                if(!temp.get(i).isSetScore()){
                     break;
                 }
                 else{
-                    newPercent += assignments.get(i).getPercent();
+                    newPercent += temp.get(i).getPercent();
                 }
             }
                 newPercent = newPercent/i;
             }
 
             setCurrPercent(newPercent);
-            BaseActivity.initialize.removeRecentDues(assignments.get(index));
 
     }
 

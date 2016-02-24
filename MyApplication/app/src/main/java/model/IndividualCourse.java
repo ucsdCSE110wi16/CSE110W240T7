@@ -71,6 +71,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         }
         this.setViews();
         this.setTitle(mycourse.getCourseId());
+        listDataHeader = mycourse.getWeightsList();
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -157,7 +158,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     }
 
     private void prepareListData() {
-        listDataHeader = mycourse.getWeightsList();
+       // listDataHeader = mycourse.getWeightsList();
         listCategory = mycourse.getCategories();
     }
 
@@ -187,9 +188,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int percent = Integer.parseInt(weightPercent);
                 if(mycourse.addWeight(weightID,percent)){
-                    prepareListData();
                     Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                     start.setValue(BaseActivity.initialize);
+                   // listDataHeader.add(weightID);
+                    prepareListData();
                     listAdapter.notifyDataSetChanged();}
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
