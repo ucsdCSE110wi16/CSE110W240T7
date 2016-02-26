@@ -172,6 +172,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 myAdapter.notifyDataSetChanged();
+                listView.invalidate();
                 break;
             case R.id.bpopupCancelAddPastCourse:
                 layout_main.getForeground().setAlpha(0);

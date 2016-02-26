@@ -200,9 +200,13 @@ public class User {
     }
 
     public boolean removeRecentDues(IndividualAssignment a){
-        Firebase temp = new Firebase("https://edbud.firebaseio.com/userInfo/"+BaseActivity.initialize.uid+"/recentDues");
-        temp.removeValue();
-        this.recentDues.remove(a);
+        ArrayList<IndividualAssignment> temp = new ArrayList<>();
+        for(int i = 0; i < recentDues.size(); ++i){
+            temp.add(recentDues.get(i));
+        }
+        temp.remove(a);
+        recentDues.clear();
+        recentDues.addAll(temp);
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;
