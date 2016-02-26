@@ -35,7 +35,7 @@ public class Courses {
         this.gpa = 0.0;
         this.pass = true;
         if(letter){
-            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0);
+            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
             this.gpa = 4.0;
         }
         else
@@ -76,7 +76,7 @@ public class Courses {
 
         //Initialize grade scale
         if(letter){
-            this.setGpaThresholdLetter(90.0,75.0,60.0,40.0);
+            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
             this.gpa = 4.0;
         }
         else
@@ -91,11 +91,18 @@ public class Courses {
         this.gpaThreshold = threshold;
     }
 
-    public void setGpaThresholdLetter(double a, double b, double c, double d){
+    public void setGpaThresholdLetter(double a, double b, double c, double d,double ap, double am,
+                                      double bp, double bm, double cp, double cm){
         this.gpaThreshold.put("A",a);
         this.gpaThreshold.put("B",b);
         this.gpaThreshold.put("C",c);
         this.gpaThreshold.put("D",d);
+        this.gpaThreshold.put("A+",ap);
+        this.gpaThreshold.put("A-",am);
+        this.gpaThreshold.put("B+",bp);
+        this.gpaThreshold.put("B-",bm);
+        this.gpaThreshold.put("C+",cp);
+        this.gpaThreshold.put("C-",cm);
     }
 
     public void setGpaThresholdPNP(double pass){
@@ -167,11 +174,27 @@ public class Courses {
             if(percentage >= gpaThreshold.get("A")){
                 gpa = 4.0;
             }
+            else if(percentage >= gpaThreshold.get("A-")) {
+                gpa = 3.7;
+            }
+            else if(percentage >= gpaThreshold.get("B+")) {
+                gpa = 3.3;
+            }
             else if(percentage >= gpaThreshold.get("B")) {
                 gpa = 3.0;
             }
+            else if(percentage >= gpaThreshold.get("B-")) {
+                gpa = 2.7;
+            }
+            else if(percentage >= gpaThreshold.get("C+")) {
+                gpa = 2.3;
+            }
+
             else if(percentage >= gpaThreshold.get("C")) {
                 gpa = 2.0;
+            }
+            else if(percentage >= gpaThreshold.get("C-")) {
+                gpa = 1.7;
             }
             else if(percentage >= gpaThreshold.get("D")) {
                 gpa = 1.0;
