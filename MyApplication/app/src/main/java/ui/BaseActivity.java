@@ -47,7 +47,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.uid);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.getUid());
         ref.addValueEventListener(new myValueEventListener());
 
 

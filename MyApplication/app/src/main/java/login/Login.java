@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 sp.edit().putString("UID",authData.getUid()).commit();
 
 
-                BaseActivity.uid = authData.getUid();
+                BaseActivity.initialize.uid = authData.getUid();
                 startActivity(new Intent(Login.this, Homepage.class));
             }
 
