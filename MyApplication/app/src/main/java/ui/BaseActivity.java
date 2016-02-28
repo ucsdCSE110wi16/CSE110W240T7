@@ -71,7 +71,6 @@ public class BaseActivity extends AppCompatActivity
 
         headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
         headerMajor = (TextView) headerView.findViewById(R.id.myMajor);
-        headerYear = (TextView) headerView.findViewById(R.id.myYear);
         headerName = (TextView) headerView.findViewById(R.id.myName);
         //Log.v("UID",Login.initialize.UID);
         //Log.v("College",Login.initialize.college);
@@ -151,11 +150,8 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_4yearplan) {
             startActivity(new Intent(this, FourYearPlan.class));
 
-        } else if (id == R.id.nav_gpacalculator) {
-
-        } else if (id == R.id.nav_setting) {
-
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_logout) {
             SharedPreferences sp = this.getSharedPreferences(Constant.myPrefer,Context.MODE_PRIVATE);
             sp.edit().putBoolean("AutoLogin",false).commit();
             sp.edit().putString("check","").commit();

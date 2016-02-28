@@ -92,28 +92,5 @@
         android:textSize="14dp"
         />
 
-    <TextView
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="10dp"
-        android:id="@+id/NaviYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text="Graduate Year: "
-        android:layout_below="@+id/NaviMajor"
-        android:layout_alignStart="@+id/NaviCollege"
-        android:textSize="14dp"/>
-
-    <TextView
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="YYYY"
-        android:id="@+id/myYear"
-        android:layout_toEndOf="@+id/NaviYear"
-        android:layout_alignBottom="@+id/NaviYear"
-        android:textSize="14dp"
-        />
 
 </RelativeLayout>

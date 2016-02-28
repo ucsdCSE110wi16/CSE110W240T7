@@ -24,7 +24,6 @@ public class User {
     private String major;
     private String college;
     private String password;
-    private String graduateDate;
     private String currTerm;
     private int unit;
     private double gpa;
@@ -49,7 +48,6 @@ public class User {
         this.uid = copy.getUid();
         this.college = copy.getCollege();
         this.password = copy.getPassword();
-        this.graduateDate = copy.getGraduateDate();
         this.email = copy.getEmail();
         this.gpa = copy.getGpa();
         this.unit = copy.getUnit();
@@ -78,19 +76,18 @@ public class User {
      * @param graduateDate
      */
 
-    public User(String fullName, String major, String college, String password, String graduateDate, String email, String UID, String term){
+    public User(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
         this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
         this.password = password;
-        this.graduateDate = graduateDate;
         this.uid = UID;
         this.currTerm = term;
         this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
         this.terms.add(term);
-        this.unit = 0;
-        this.gpa = 4.0;
+        this.unit = unit;
+        this.gpa = gpa;
     }
 
 
@@ -105,7 +102,6 @@ public class User {
     }
     public String getCollege() {return college;}
     public String getPassword(){return password;}
-    public String getGraduateDate(){return graduateDate;}
     public String getEmail(){return email;}
     public double getGpa() {return gpa;}
     public int getUnit() {

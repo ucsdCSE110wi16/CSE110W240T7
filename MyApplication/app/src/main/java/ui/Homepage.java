@@ -56,8 +56,6 @@ public class Homepage extends BaseActivity
 
             headerCollege.setText(snapshot.child("college").getValue().toString());
 
-            headerYear.setText(snapshot.child("graduateDate").getValue().toString());
-
             headerMajor.setText(snapshot.child("major").getValue().toString());
 
             headerName.setText(snapshot.child("fullName").getValue().toString());

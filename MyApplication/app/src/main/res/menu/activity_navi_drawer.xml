@@ -14,18 +14,10 @@
             android:id="@+id/nav_4yearplan"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="Four year plan" />
-        <item
-            android:id="@+id/nav_gpacalculator"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="GPA calculator" />
     </group>
 
     <item android:title="Others">
         <menu>
-            <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Setting" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_power_settings_new_black_24dp"

@@ -28,7 +28,7 @@ import ui.Homepage;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etMajor, etEmail, etGraduate, etCollege, etPassword, etCurrentTerm;
+    EditText etName, etMajor, etEmail,etCollege, etPassword, etCurrentTerm, etGPA, etUnit;
     Button bRegister;
 
 
@@ -43,8 +43,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etPassword = (EditText) findViewById(R.id.etPassword);
         etMajor = (EditText) findViewById(R.id.etMajor);
         etCollege = (EditText) findViewById(R.id.etCollege);
-        etGraduate = (EditText) findViewById(R.id.etGraduate);
         etCurrentTerm = (EditText) findViewById(R.id.etCurrentTerm);
+        etGPA = (EditText) findViewById(R.id.etGPA);
+        etUnit = (EditText) findViewById(R.id.etUnit);
         bRegister = (Button) findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         Firebase.setAndroidContext(this);
@@ -55,6 +56,18 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
+    public static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
         } catch(NumberFormatException e) {
             return false;
         } catch(NullPointerException e) {
@@ -78,13 +91,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String password = etPassword.getText().toString();
                 String major = etMajor.getText().toString();
                 String college = etCollege.getText().toString();
-                String graduateDate = etGraduate.getText().toString();
                 String currentTerm = etCurrentTerm.getText().toString();
+                double preGPA = Double.parseDouble(etGPA.getText().toString());
+                int myUnit = Integer.parseInt(etUnit.getText().toString());
                 String ID = result.get("uid").toString();
                 Firebase start = new Firebase(Constant.DBURL);
                 Firebase usersRef = start.child("userInfo").child(ID);
 
-                BaseActivity.initialize = new User(fullName, major, college, password, graduateDate, email,ID, currentTerm);
+                BaseActivity.initialize = new User(fullName, major, college, password, email, ID, currentTerm, preGPA, myUnit);
                 usersRef.setValue(BaseActivity.initialize);
                 startActivity(new Intent(Register.this, Homepage.class));
 
@@ -114,8 +128,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String password = etPassword.getText().toString();
         String major = etMajor.getText().toString();
         String college = etCollege.getText().toString();
-        String graduateDate = etGraduate.getText().toString();
         String currentTerm = etCurrentTerm.getText().toString();
+        String GPA = etGPA.getText().toString();
+        String unit = etUnit.getText().toString();
 
 
 
@@ -158,22 +173,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
+        else if (TextUtils.isEmpty(GPA)){
+            etGPA.setError("Please input you GPA");
+        }
+
         else if (TextUtils.isEmpty(major)) {
             etMajor.setError("Please input your major");
             return;
         }
 
-        else if (TextUtils.isEmpty(graduateDate)) {
-            etGraduate.setError("Please input graduate date");
+        else if (TextUtils.isEmpty(unit)) {
+            etUnit.setError("Please input current unit");
             return;
         }
 
         else if(TextUtils.isEmpty(currentTerm)){
             etCurrentTerm.setError("Please input current term");
+            return;
         }
 
-        else if(!isInteger(graduateDate)){
-            etGraduate.setError("Graduate date must be a number");
+        else if(!isInteger(unit)){
+            etUnit.setError("Graduate date must be a number");
+            return;
+        }
+        else if(!isDouble(GPA)){
+            etGPA.setError("GPA need to be a double");
             return;
         }
 
