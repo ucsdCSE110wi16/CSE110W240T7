@@ -54,11 +54,11 @@ public class Homepage extends BaseActivity
         @Override
         public void onDataChange(DataSnapshot snapshot) {
 
-            headerCollege.setText(snapshot.child("college").getValue().toString());
+            //headerCollege.setText(snapshot.child("college").getValue().toString());
 
-            headerMajor.setText(snapshot.child("major").getValue().toString());
+            //headerMajor.setText(snapshot.child("major").getValue().toString());
 
-            headerName.setText(snapshot.child("fullName").getValue().toString());
+            //headerName.setText(snapshot.child("fullName").getValue().toString());
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
 

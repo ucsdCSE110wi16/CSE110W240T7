@@ -47,6 +47,8 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
+        ref.addValueEventListener(new secondValueEventListener());
 
 
     }
@@ -77,10 +79,10 @@ public class BaseActivity extends AppCompatActivity
 
 
     }
-    /*class myValueEventListener implements ValueEventListener {
+    class secondValueEventListener implements ValueEventListener {
 
 
-        public myValueEventListener(){
+        public secondValueEventListener(){
             super();
         }
         @Override
@@ -88,17 +90,11 @@ public class BaseActivity extends AppCompatActivity
 
             headerCollege.setText(snapshot.child("college").getValue().toString());
 
-            headerYear.setText(snapshot.child("graduateDate").getValue().toString());
-
             headerMajor.setText(snapshot.child("major").getValue().toString());
 
             headerName.setText(snapshot.child("fullName").getValue().toString());
 
-            BaseActivity.initialize = new User(snapshot.getValue(User.class));
-
             Log.v("Here","User is created");
-
-
 
         }
         @Override
@@ -107,7 +103,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
 
-    }*/
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
