@@ -47,7 +47,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.uid);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
         ref.addValueEventListener(new myValueEventListener());
 
 
@@ -98,6 +98,8 @@ public class BaseActivity extends AppCompatActivity
             headerName.setText(snapshot.child("fullName").getValue().toString());
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
+
+            Log.v("Here","User is created");
 
 
 
