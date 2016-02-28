@@ -13,6 +13,10 @@ import android.widget.TextView;
 import android.widget.ProgressBar;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.text.DecimalFormat;
 
@@ -32,29 +36,61 @@ public class Homepage extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
+        ref.addValueEventListener(new myValueEventListener());
         setContentView(R.layout.activity_navi);
-        context = this;
-
+        context  = this;
         super.onCreateNavigation();
-        Double gpa = BaseActivity.initialize.getGpa()*10.0;
-        ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
-        progress_bar.setProgress(gpa.intValue());
-        TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
-        gpanumber.setText(df.format(gpa/10.00));
-        ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
-        HomepageListAdapter adapter = new HomepageListAdapter(this, BaseActivity.initialize.getRecentDues());
-        recentDueList.setAdapter(adapter);
-        recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    final int position, long id) {
-                String courseId = BaseActivity.initialize.getRecentDues().get(position).getBelongsTo();
-                CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
-                startActivity(new Intent(context, IndividualCourse.class));
 
-            }
-        });
+    }
+
+    class myValueEventListener implements ValueEventListener {
+
+
+        public myValueEventListener(){
+            super();
+        }
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+
+            headerCollege.setText(snapshot.child("college").getValue().toString());
+
+            headerYear.setText(snapshot.child("graduateDate").getValue().toString());
+
+            headerMajor.setText(snapshot.child("major").getValue().toString());
+
+            headerName.setText(snapshot.child("fullName").getValue().toString());
+
+            BaseActivity.initialize = new User(snapshot.getValue(User.class));
+
+            Double gpa = BaseActivity.initialize.getGpa()*10.0;
+            ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+            progress_bar.setProgress(gpa.intValue());
+            TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
+            gpanumber.setText(df.format(gpa/10.00));
+            ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
+            HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDues());
+            recentDueList.setAdapter(adapter);
+            recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        final int position, long id) {
+                    String courseId = BaseActivity.initialize.getRecentDues().get(position).getBelongsTo();
+                    CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
+                    startActivity(new Intent(context, IndividualCourse.class));
+
+                }
+            });
+
+        }
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println("The read failed: " + firebaseError.getMessage());
+        }
+
+
     }
 
     @Override

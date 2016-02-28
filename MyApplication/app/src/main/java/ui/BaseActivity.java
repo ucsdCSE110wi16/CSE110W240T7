@@ -47,8 +47,6 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
-        ref.addValueEventListener(new myValueEventListener());
 
 
     }
@@ -80,7 +78,7 @@ public class BaseActivity extends AppCompatActivity
 
 
     }
-    class myValueEventListener implements ValueEventListener {
+    /*class myValueEventListener implements ValueEventListener {
 
 
         public myValueEventListener(){
@@ -110,7 +108,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
 
-    }
+    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
