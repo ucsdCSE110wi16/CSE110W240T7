@@ -11,7 +11,7 @@ import ui.BaseActivity;
  */
 public class Term {
     String termName;
-    double termGpa=4.0;
+    double termGpa=0.0;
     ArrayList<Courses> termCourses=new ArrayList<>();
     ArrayList<String> termCourseList = new ArrayList<>();
     boolean termPassed=false;
