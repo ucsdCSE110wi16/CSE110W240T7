@@ -51,11 +51,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <Button
         android:id= "@+id/tvRegisterLink"
         android:layout_width="wrap_content"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="10sp"
         android:text="Register Now"
-        android:textStyle="italic"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content" />
 

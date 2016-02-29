@@ -62,11 +62,11 @@ public class Homepage extends BaseActivity
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
 
-            Double gpa = BaseActivity.initialize.getGpa()*10.0;
+            Double gpa = BaseActivity.initialize.getGpa()*100.0;
             ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
             progress_bar.setProgress(gpa.intValue());
             TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
-            gpanumber.setText(df.format(gpa/10.00));
+            gpanumber.setText(df.format(gpa/100.00));
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
             HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDues());
             recentDueList.setAdapter(adapter);
