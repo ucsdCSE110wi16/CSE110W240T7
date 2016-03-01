@@ -35,12 +35,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         //sp.edit().putBoolean("AutoLogin", false).apply();
 
 
-
-        /*f(sp.getBoolean("AutoLogin", true) && sp.getString("check","").length() != 0 ){
-            BaseActivity.uid = sp.getString("UID","DefaultStringIfNotFound");
-            startActivity(new Intent(Login.this, Homepage.class));
-        }*/
-
         setContentView(R.layout.activity_login);
 
         bLogin = (Button) findViewById(R.id.bLogin);

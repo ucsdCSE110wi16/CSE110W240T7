@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add a past term"
+            android:text="Add a quarter"
             android:layout_toStartOf="@+id/fab_action_1"
             android:layout_alignTop="@+id/fab_action_1"
             android:layout_alignBottom="@+id/fab_action_1"
@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add a past course"
+            android:text="Add a course"
             android:id="@+id/txAddCourse"
             android:layout_alignTop="@+id/fab_action_2"
             android:layout_toStartOf="@+id/fab_action_2" />

@@ -28,10 +28,13 @@ import model.User;
 import ui.BaseActivity;
 
 public class Homepage extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     DecimalFormat df = new DecimalFormat("#.##");
     Context context;
-
+    TextView gpanumber;
+    boolean isCurrGpa = true;
+    ProgressBar progress_bar;
+    Double gpa, currGpa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +44,8 @@ public class Homepage extends BaseActivity
         setContentView(R.layout.activity_navi);
         context  = this;
         super.onCreateNavigation();
+        gpanumber = (TextView)findViewById(R.id.GPAnumber);
+        gpanumber.setOnClickListener(this);
 
 
     }
@@ -62,20 +67,22 @@ public class Homepage extends BaseActivity
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
 
-            Double gpa = BaseActivity.initialize.getGpa()*100.0;
-            ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
-            progress_bar.setProgress(gpa.intValue());
-            TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
-            gpanumber.setText(df.format(gpa/100.00));
+            gpa = BaseActivity.initialize.getGpa()*10.0;
+            currGpa = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermGpa()*10.0;
+            progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+            progress_bar.setProgress(currGpa.intValue());
+
+            gpanumber.setText(df.format(currGpa/10.0));
+
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
-            HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDues());
+            HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDueToShow());
             recentDueList.setAdapter(adapter);
             recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-                    String courseId = BaseActivity.initialize.getRecentDues().get(position).getBelongsTo();
+                    String courseId = BaseActivity.initialize.getRecentDueToShow().get(position).getBelongsTo();
                     CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
                     startActivity(new Intent(context, IndividualCourse.class));
 
@@ -92,10 +99,23 @@ public class Homepage extends BaseActivity
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         // DO NOTHING
     }
 
+    @Override
+    public void onClick(View v) {
+        if(isCurrGpa){
+            progress_bar.setProgress(gpa.intValue());
+            gpanumber.setText(df.format(gpa/10.00));
+            isCurrGpa = false;
+        }
+        else{
+            progress_bar.setProgress(currGpa.intValue());
+            gpanumber.setText(df.format(currGpa/10.00));
+            isCurrGpa = true;
+        }
 
+    }
 }
 

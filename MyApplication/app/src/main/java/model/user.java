@@ -1,14 +1,9 @@
 package model;
 
 
-import android.support.v4.app.INotificationSideChannel;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
@@ -29,9 +24,16 @@ public class User {
     private double gpa;
     public String uid;
     private ArrayList<IndividualAssignment> recentDues = new ArrayList<>();
-    private ArrayList<String> terms = new ArrayList<>();
+    private ArrayList<String> recentDueIds = new ArrayList<>();
+    private ArrayList<IndividualAssignment> recentDueToShow = new ArrayList<>();
     private DueDateComparator dueDateComparator = new DueDateComparator();
     private LinkedHashMap<String, Term> my4YearPlan = new LinkedHashMap<>();
+    private LinkedHashMap<String, Term> myPastTerms = new LinkedHashMap<>();
+    private LinkedHashMap<String, Term> myFutureTerms = new LinkedHashMap<>();
+    private ArrayList<String> terms = new ArrayList<>();
+    private ArrayList<String> pastTerms = new ArrayList<>();
+    private ArrayList<String> futureTerms = new ArrayList<>();
+
 
 
     /**
@@ -43,18 +45,32 @@ public class User {
     }
 
     public User(User copy){
+
+        //user info
         this.fullName = copy.getFullName();
         this.major = copy.getMajor();
         this.uid = copy.getUid();
         this.college = copy.getCollege();
         this.password = copy.getPassword();
         this.email = copy.getEmail();
+
+        //grade info
         this.gpa = copy.getGpa();
         this.unit = copy.getUnit();
-        this.my4YearPlan = copy.getMy4YearPlan();
+
+        //current quarter stuff
         this.currTerm = copy.getCurrTerm();
         this.recentDues = copy.getRecentDues();
+        this.recentDueIds = copy.getRecentDueIds();
+        this.recentDueToShow = copy.getRecentDueToShow();
+
+        //4 year plan
+        this.my4YearPlan = copy.getMy4YearPlan();
+        this.myFutureTerms=copy.getMyFutureTerms();
+        this.myPastTerms=copy.getMyPastTerms();
         this.terms = copy.getTerms();
+        this.futureTerms = copy.getFutureTerms();
+        this.pastTerms = copy.getPastTerms();
     }
 
     /**
@@ -73,26 +89,34 @@ public class User {
      * @param major
      * @param college
      * @param password
-     * @param graduateDate
      */
 
     public User(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
+
+        //user info
         this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
         this.password = password;
         this.uid = UID;
-        this.currTerm = term;
-        this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
-        this.terms.add(term);
         this.unit = unit;
         this.gpa = gpa;
+
+        //current term stuff
+        this.currTerm = term;
+
+
+        //4 year plan
+        this.my4YearPlan.put(term, new Term(term, 0.0, 4.0));
+        this.myFutureTerms.put(term, new Term(term,0.0, 4.0));
+        this.terms.add(term);
+        this.futureTerms.add(term);
     }
 
 
     /**
-     * getters
+     * getters for firebase
      *
      */
     public String getFullName() {return fullName;}
@@ -107,57 +131,72 @@ public class User {
     public int getUnit() {
         return unit;
     }
-
     public LinkedHashMap<String, Term> getMy4YearPlan() {
         return my4YearPlan;
     }
-
+    public LinkedHashMap<String, Term> getMyFutureTerms() {
+        return myFutureTerms;
+    }
+    public LinkedHashMap<String, Term> getMyPastTerms() {
+        return myPastTerms;
+    }
     public String getCurrTerm(){
         return currTerm;
     }
-
-
     public ArrayList<IndividualAssignment> getRecentDues() {
         if(recentDues.isEmpty()){
             recentDues = new ArrayList<>();
         }
         return recentDues;
     }
-
-
-    public Term getTerm(String term){
-        if(my4YearPlan.get(term) == null){
-            my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
-        }
-        return my4YearPlan.get(term);
+    public ArrayList<String> getRecentDueIds() {
+        return recentDueIds;
     }
-
+    public ArrayList<IndividualAssignment> getRecentDueToShow() {
+        return recentDueToShow;
+    }
+    public Term getTerm(String term){
+        if(myFutureTerms.containsKey(term))
+            return myFutureTerms.get(term);
+        else
+            return myPastTerms.get(term);
+    }
     public ArrayList<String> getTerms() {
         return terms;
     }
-
-
+    public ArrayList<String> getFutureTerms() {
+        return futureTerms;
+    }
+    public ArrayList<String> getPastTerms() {
+        return pastTerms;
+    }
 
     /**
-     * Setters
+     * Setters for firebase
      */
     public void setRecentDues(ArrayList<IndividualAssignment> recentDues) {
         this.recentDues = recentDues;}
-
+    public void setRecentDueIds(ArrayList<String> recentDueIds) {
+        this.recentDueIds = recentDueIds;
+    }
+    public void setRecentDueToShow(ArrayList<IndividualAssignment> recentDueToShow) {
+        this.recentDueToShow = recentDueToShow;
+    }
     public void setTerms(ArrayList<String> terms) {
         this.terms = terms;
     }
-
     public void setCurrTerm(String term) {
         this.currTerm = term;
     }
-
-
-
     public void setMy4YearPlan(LinkedHashMap<String, Term> my4YearPlan) {
         this.my4YearPlan = my4YearPlan;
     }
-
+    public void setMyFutureTerms(LinkedHashMap<String, Term> myFutureTerms) {
+        this.myFutureTerms = myFutureTerms;
+    }
+    public void setMyPastTerms(LinkedHashMap<String, Term> myPastTerms) {
+        this.myPastTerms = myPastTerms;
+    }
     /**
     *Update current quarter unit
     */
@@ -176,54 +215,65 @@ public class User {
                 letterUnit -=course.getUnit();
         }
 
-        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained/my4YearPlan.get(currTerm).getTermUnit());
+        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained / my4YearPlan.get(currTerm).getTermUnit());
 
-        unitObtained = 0.0;
+       /* unitObtained = 0.0;
         for(Term term:my4YearPlan.values()){
             unitObtained += term.getTermGpa() * term.getTermLetterUnit();
         }
-        gpa = unitObtained/letterUnit;
+        gpa = unitObtained/letterUnit;*/
 
 
     }
 
-    public boolean addRecentDues(IndividualAssignment a){
-        if(recentDues.indexOf(a) != -1)
+    public boolean addRecentDues(IndividualAssignment assignment){
+        if(recentDueIds.indexOf(assignment.getAssignmentName()) != -1)
             return false;
-        recentDues.add(a);
-        Collections.sort(recentDues, this.dueDateComparator);
+        recentDues.add(assignment);
+        recentDueToShow.add(assignment);
+        recentDueIds.add(assignment.getAssignmentName());
+
+        //Collections.sort(recentDueToShow, this.dueDateComparator);
         return true;
     }
 
-    public boolean removeRecentDues(IndividualAssignment a){
-        Firebase temp = new Firebase("https://edbud.firebaseio.com/userInfo/"+BaseActivity.initialize.uid+"/recentDues");
-        temp.removeValue();
-        this.recentDues.remove(a);
+    public boolean removeRecentDues(IndividualAssignment assignment){
+        IndividualAssignment toDelete = recentDues.get(recentDueIds.indexOf(assignment.getAssignmentName()));
+        for(int i = 0; i <recentDueToShow.size(); ++i){
+            if(recentDueToShow.get(i).getAssignmentName().equals(toDelete.getAssignmentName())){
+                if(recentDueToShow.get(i).getBelongsTo().equals(toDelete.getBelongsTo())){
+                    recentDueToShow.remove(i);
+                }
+            }
+        }
+        recentDues.remove(toDelete);
+        recentDueIds.remove(assignment.getAssignmentName());
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;
     }
 
-    public boolean addCourse(Courses course){
-        if(!this.my4YearPlan.get(currTerm).addTermCourses(course)){
+    public boolean addNewTerm(Term term){
+        if(this.myFutureTerms.get(term.getTermName()) != null){
             return false;
         }
-        unit += course.getUnit();
+        this.futureTerms.add(term.getTermName());
+        this.myFutureTerms.put(term.getTermName(), term);
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;
     }
 
-    public boolean addTerm(Term term){
-        if(this.my4YearPlan.get(term.getTermName()) != null){
+    public boolean addPastTerm(Term term){
+        if(this.myPastTerms.get(term.getTermName()) != null){
             return false;
         }
-        this.terms.add(term.getTermName());
-        unit += term.getTermUnit();
-        this.my4YearPlan.put(term.getTermName(), term);
+        this.pastTerms.add(term.getTermName());
+        this.myPastTerms.put(term.getTermName(), term);
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;
+
     }
 
    class DueDateComparator implements Comparator<IndividualAssignment> {

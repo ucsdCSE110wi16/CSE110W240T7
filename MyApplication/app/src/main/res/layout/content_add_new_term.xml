@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/NewTermID"
+        android:layout_width="wrap_content"
+        android:text="Term Name"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/etNewTermID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="textShortMessage"
+        android:layout_below="@+id/NewTermID"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total unit: "
+        android:textSize="18dp"
+        android:id="@+id/newTotalUnitTitle"
+        android:layout_below="@+id/etNewTermID" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0"
+        android:id="@+id/add_new_term_termUnit"
+        android:textSize="18dp"
+        android:layout_alignTop="@+id/newTotalUnitTitle"
+        android:layout_toStartOf="@+id/NewTermCourses"
+        android:layout_alignBottom="@+id/newTotalUnitTitle" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/NewTermCourses"
+        android:text="Term Courses"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTotalUnitTitle"
+        android:layout_marginTop="10dp"
+
+        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header"
+        android:layout_below="@+id/NewTermCourses">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Course Name"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Unit"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" + Add Term Courses"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginBottom="0dp"
+        android:layout_above="@+id/bAddNewTerm"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bAddNewTermCourses"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Term"
+        android:id="@+id/bAddNewTerm"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorText"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_add_new_term_courses"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/bAddNewTermCourses"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

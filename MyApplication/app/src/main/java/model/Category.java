@@ -18,6 +18,7 @@ public class Category {
     private String categoryName;
     private ArrayList<IndividualAssignment> assignments = new ArrayList<>();
     private Comparator<IndividualAssignment> myComparator = new ScoreComparator();
+    private Comparator<IndividualAssignment> dueDateComparator = new DueDateComparator();
 
     Category(){
 
@@ -48,27 +49,36 @@ public class Category {
         if(assignments == null){
             assignments = new ArrayList<>();
         }
-        if(assignments.indexOf(name) != -1){
-            return false;
+
+        for(int i = 0; i < assignments.size(); ++i){
+            if(assignments.get(i).getAssignmentName().equals(name))
+                return false;
         }
-        else{
-            IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
-            assignments.add(temp);
-            BaseActivity.initialize.addRecentDues(temp);
+
+        IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
+        assignments.add(temp);
+        Collections.sort(assignments, dueDateComparator);
+        BaseActivity.initialize.addRecentDues(temp);
             return true;
-        }
+
     }
 
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
+        //remove assignments from recent due
+        if(!assignments.get(index).isSetScore())
+            BaseActivity.initialize.removeRecentDues(assignments.get(index));
 
+        //set assignment score
         assignments.get(index).setScore(rawScore, scoreOutOf);
-        BaseActivity.initialize.removeRecentDues(assignments.get(index));
-        IndividualAssignment tempAssignment = assignments.get(index);
-        assignments.remove(index);
-        assignments.add(tempAssignment);
+
+        //sort new assignment arraylist
+        Collections.sort(assignments, dueDateComparator);
+
+        //update score
         ArrayList<IndividualAssignment> temp = new ArrayList<>();
         for(int i = 0; i < assignments.size(); ++i)
-            temp.add(assignments.get(i));
+            if(assignments.get(i).isSetScore())
+                temp.add(assignments.get(i));
         Collections.sort(temp, myComparator);
         scoreInputted = true;
 
@@ -132,17 +142,38 @@ public class Category {
 
 }
 
-class ScoreComparator implements Comparator<IndividualAssignment>{
+    class DueDateComparator implements Comparator<IndividualAssignment>{
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            if(a2.getPercent() > a1.getPercent()){
+            if((a1.isSetScore() && a2.isSetScore()) || (!a1.isSetScore() && !a2.isSetScore())){
+                if(a1.getYear() > a2.getYear())
+                    return 1;
+                else if(a1.getMonth() > a2.getMonth())
+                    return 1;
+                else if(a1.getDay() > a2.getDay())
+                    return 1;
+            }
+            else if(a1.isSetScore()){
                 return 1;
             }
+            else{
+                return -1;
+            }
+            return 0;
+
+        }
+
+    }
+
+    class ScoreComparator implements Comparator<IndividualAssignment>{
+        @Override
+        public int compare(IndividualAssignment lhs, IndividualAssignment rhs) {
+            if(lhs.getPercent() > rhs.getPercent())
+                return 1;
             else
                 return -1;
         }
-
     }
 
 

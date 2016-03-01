@@ -38,6 +38,7 @@ public class BaseActivity extends AppCompatActivity
     TextView headerName;
     public static User initialize = new User();
     public static String uid;
+    protected static Toolbar toolbar;
 
 
 
@@ -56,7 +57,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreateNavigation() {
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
