@@ -59,20 +59,28 @@ public class Homepage extends BaseActivity
         @Override
         public void onDataChange(DataSnapshot snapshot) {
 
-            headerCollege.setText(snapshot.child("college").getValue().toString());
+            //headerCollege.setText(snapshot.child("college").getValue().toString());
 
-            headerMajor.setText(snapshot.child("major").getValue().toString());
+            //headerMajor.setText(snapshot.child("major").getValue().toString());
 
-            headerName.setText(snapshot.child("fullName").getValue().toString());
+            //headerName.setText(snapshot.child("fullName").getValue().toString());
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
 
+<<<<<<< HEAD
             gpa = BaseActivity.initialize.getGpa()*10.0;
             currGpa = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermGpa()*10.0;
             progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
             progress_bar.setProgress(currGpa.intValue());
 
             gpanumber.setText(df.format(currGpa/10.00));
+=======
+            Double gpa = BaseActivity.initialize.getGpa()*100.0;
+            ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+            progress_bar.setProgress(gpa.intValue());
+            TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
+            gpanumber.setText(df.format(gpa/100.00));
+>>>>>>> ucsdCSE110wi16/master
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
             HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDueToShow());
             recentDueList.setAdapter(adapter);

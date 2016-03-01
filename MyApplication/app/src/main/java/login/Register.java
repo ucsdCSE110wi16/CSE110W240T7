@@ -192,14 +192,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
-        else if(!isInteger(unit)){
-            etUnit.setError("Graduate date must be a number");
-            return;
-        }
         else if(!isDouble(GPA)){
-            etGPA.setError("GPA need to be a double");
+            etGPA.setError("GPA need to be a number");
             return;
         }
+
+        else if(!isInteger(unit)){
+            etUnit.setError("Unit must be a number");
+            return;
+        }
+
 
 
         /**
