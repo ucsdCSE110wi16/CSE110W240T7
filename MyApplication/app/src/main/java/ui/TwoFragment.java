@@ -41,9 +41,9 @@ public class TwoFragment extends Fragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_past, container, false);
         listView = (ExpandableListView) v.findViewById(R.id.lsTerms_past);
-        ArrayList<String> termList = BaseActivity.initialize.getTerms();
-        LinkedHashMap<String, Term> fourYearList = BaseActivity.initialize.getMy4YearPlan();
-        myAdapter = new FourYearPlanAdapter(context, termList, fourYearList);
+        ArrayList<String> termList = BaseActivity.initialize.getPastTerms();
+        LinkedHashMap<String, Term> pastTermList = BaseActivity.initialize.getMyPastTerms();
+        myAdapter = new FourYearPlanAdapter(context, termList, pastTermList);
         //listView.setDragOnLongPress(true);
         // setting list adapter
         listView.setAdapter(myAdapter);

@@ -43,9 +43,9 @@ public class OneFragment extends Fragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_future, container, false);
         ExpandableListView listView = (ExpandableListView) v.findViewById(R.id.lsTerms_future);
-        ArrayList<String> termList = BaseActivity.initialize.getTerms();
-        LinkedHashMap<String, Term> fourYearList = BaseActivity.initialize.getMy4YearPlan();
-        FourYearPlanAdapter myAdapter = new FourYearPlanAdapter(context, termList, fourYearList);
+        ArrayList<String> termList = BaseActivity.initialize.getFutureTerms();
+        LinkedHashMap<String, Term> futureTermList = BaseActivity.initialize.getMyFutureTerms();
+        FourYearPlanAdapter myAdapter = new FourYearPlanAdapter(context, termList, futureTermList);
         //listView.setDragOnLongPress(true);
         // setting list adapter
         listView.setAdapter(myAdapter);

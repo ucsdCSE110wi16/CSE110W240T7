@@ -11,10 +11,9 @@ import ui.BaseActivity;
  */
 public class Term {
     String termName;
-    double termGpa=0.0;
+    double termGpa=4.0;
     ArrayList<Courses> termCourses=new ArrayList<>();
     ArrayList<String> termCourseList = new ArrayList<>();
-    boolean termPassed=false;
     double termUnit=0.0;
     double termLetterUnit = 0.0;
 
@@ -22,16 +21,14 @@ public class Term {
 
     }
 
-    Term(String name, boolean passed, double unit, double gpa){
+    Term(String name, double unit, double gpa){
         this.termName=name;
-        this.termPassed = passed;
         this.termUnit = unit;
         this.termGpa = gpa;
     }
 
-    public Term(String name, boolean passed, double unit, double gpa, ArrayList<Courses> course) {
+    public Term(String name, double unit, double gpa, ArrayList<Courses> course) {
         this.termName=name;
-        this.termPassed = passed;
         this.termUnit = unit;
         this.termGpa = gpa;
         this.termCourses = course;
@@ -56,9 +53,6 @@ public class Term {
         return termGpa;
     }
 
-    public boolean getTermPassed() {
-        return termPassed;
-    }
 
     public double getTermUnit(){
         return termUnit;
@@ -84,9 +78,6 @@ public class Term {
         this.termGpa = termGpa;
     }
 
-    public void setTermPassed(boolean termPassed) {
-        this.termPassed = termPassed;
-    }
 
     public void setTermCourses(ArrayList<Courses> termCourses) {
         this.termCourses = termCourses;

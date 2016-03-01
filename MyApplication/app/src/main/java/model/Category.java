@@ -49,9 +49,10 @@ public class Category {
         if(assignments == null){
             assignments = new ArrayList<>();
         }
+
         for(int i = 0; i < assignments.size(); ++i){
-            if(assignments.get(i).getAssignmentName().equals(name));
-            return false;
+            if(assignments.get(i).getAssignmentName().equals(name))
+                return false;
         }
 
         IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
@@ -63,10 +64,17 @@ public class Category {
     }
 
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
+        //remove assignments from recent due
+        if(!assignments.get(index).isSetScore())
+            BaseActivity.initialize.removeRecentDues(assignments.get(index));
 
+        //set assignment score
         assignments.get(index).setScore(rawScore, scoreOutOf);
-        BaseActivity.initialize.removeRecentDues(assignments.get(index));
-        Collections.sort(assignments, myComparator);
+
+        //sort new assignment arraylist
+        Collections.sort(assignments, dueDateComparator);
+
+        //update score
         ArrayList<IndividualAssignment> temp = new ArrayList<>();
         for(int i = 0; i < assignments.size(); ++i)
             if(assignments.get(i).isSetScore())
@@ -138,15 +146,13 @@ public class Category {
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            if(a1.isSetScore() && a2.isSetScore()){
+            if((a1.isSetScore() && a2.isSetScore()) || (!a1.isSetScore() && !a2.isSetScore())){
                 if(a1.getYear() > a2.getYear())
                     return 1;
                 else if(a1.getMonth() > a2.getMonth())
                     return 1;
                 else if(a1.getDay() > a2.getDay())
                     return 1;
-                else
-                    return a2.getAssignmentName().compareTo(a1.getAssignmentName());
             }
             else if(a1.isSetScore()){
                 return 1;
@@ -154,6 +160,7 @@ public class Category {
             else{
                 return -1;
             }
+            return 0;
 
         }
 
@@ -162,7 +169,7 @@ public class Category {
     class ScoreComparator implements Comparator<IndividualAssignment>{
         @Override
         public int compare(IndividualAssignment lhs, IndividualAssignment rhs) {
-            if(rhs.getPercent() > lhs.getPercent())
+            if(lhs.getPercent() > rhs.getPercent())
                 return 1;
             else
                 return -1;

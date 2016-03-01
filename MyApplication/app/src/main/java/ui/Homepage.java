@@ -72,7 +72,7 @@ public class Homepage extends BaseActivity
             progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
             progress_bar.setProgress(currGpa.intValue());
 
-            gpanumber.setText(df.format(currGpa/10.00));
+            gpanumber.setText(df.format(currGpa/10.0));
 
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
             HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDueToShow());

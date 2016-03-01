@@ -43,6 +43,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="ui.AddTerm"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="ui.AddNewTerm"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

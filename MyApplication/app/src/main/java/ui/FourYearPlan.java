@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -109,7 +110,19 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         fabAction1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context, AddTerm.class));
+                new AlertDialog.Builder(context).setMessage("Are you adding a past term or a new term?")
+                .setNegativeButton("Past", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+                                   startActivity(new Intent(context, AddTerm.class));
+                        }
+                }).setPositiveButton("New",
+                            new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which){
+                                   startActivity(new Intent(context, AddNewTerm.class));
+                        }
+
+                            }).show();
             }
         });
         fabAction2.setOnClickListener(new View.OnClickListener() {

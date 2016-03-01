@@ -125,15 +125,18 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_category, null);
+            convertView = infalInflater.inflate(R.layout.list_4year_term, null);
         }
 
-        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListCategory);
-        TextView lblListHeaderPercent = (TextView) convertView.findViewById(R.id.lblListCategoryPercent);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListTerm);
+        TextView lblListHeaderGpa = (TextView) convertView.findViewById(R.id.lblListTermGpa);
+        TextView lblListHeaderUnit = (TextView) convertView.findViewById(R.id.lblListTermUnit);
         lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeaderUnit.setTypeface(null, Typeface.BOLD);
+        lblListHeaderGpa.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        lblListHeaderPercent.setTypeface(null, Typeface.BOLD);
-        lblListHeaderPercent.setText(df.format(_listDataChild.get(headerTitle).getTermGpa()));
+        lblListHeaderUnit.setText(df.format(_listDataChild.get(headerTitle).getTermUnit()));
+        lblListHeaderGpa.setText(df.format(_listDataChild.get(headerTitle).getTermGpa()));
 
         return convertView;
     }

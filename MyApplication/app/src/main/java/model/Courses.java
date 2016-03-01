@@ -139,7 +139,7 @@ public class Courses {
      */
 
     public boolean addAssignment(String weight, String assignment, int y,int m, int d){
-        if(! this.categories.get(weight).addAssignment(courseId,assignment,y,m,d))
+        if(!this.categories.get(weight).addAssignment(courseId,assignment,y,m,d))
             return false;
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
