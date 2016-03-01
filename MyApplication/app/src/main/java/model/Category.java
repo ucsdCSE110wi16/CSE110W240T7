@@ -18,6 +18,7 @@ public class Category {
     private String categoryName;
     private ArrayList<IndividualAssignment> assignments = new ArrayList<>();
     private Comparator<IndividualAssignment> myComparator = new ScoreComparator();
+    private Comparator<IndividualAssignment> dueDateComparator = new DueDateComparator();
 
     Category(){
 
@@ -55,7 +56,7 @@ public class Category {
 
         IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
         assignments.add(temp);
-        Collections.sort(assignments, myComparator);
+        Collections.sort(assignments, dueDateComparator);
         BaseActivity.initialize.addRecentDues(temp);
             return true;
 

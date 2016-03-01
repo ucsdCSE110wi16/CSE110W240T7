@@ -9,12 +9,9 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="dimForeground">#000000</color>
-<<<<<<< HEAD
     <color name="navigationBarColor">#03A9F4</color>
     <color name="windowBackground">#FFFFFF</color>
-=======
     <color name="red">#E1372D</color>
     <color name="cursor">#47BE74</color>
     <color name="number">#F29B16</color>
->>>>>>> ucsdCSE110wi16/master
 </resources>
