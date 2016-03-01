@@ -38,6 +38,7 @@ public class BaseActivity extends AppCompatActivity
     TextView headerName;
     public static User initialize = new User();
     public static String uid;
+    protected static Toolbar toolbar;
 
 
 
@@ -47,8 +48,6 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.uid);
-        ref.addValueEventListener(new myValueEventListener());
 
 
     }
@@ -56,7 +55,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreateNavigation() {
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -73,14 +72,13 @@ public class BaseActivity extends AppCompatActivity
 
         headerCollege = (TextView) headerView.findViewById(R.id.myCollege);
         headerMajor = (TextView) headerView.findViewById(R.id.myMajor);
-        headerYear = (TextView) headerView.findViewById(R.id.myYear);
         headerName = (TextView) headerView.findViewById(R.id.myName);
         //Log.v("UID",Login.initialize.UID);
         //Log.v("College",Login.initialize.college);
 
 
     }
-    class myValueEventListener implements ValueEventListener {
+    /*class myValueEventListener implements ValueEventListener {
 
 
         public myValueEventListener(){
@@ -99,6 +97,8 @@ public class BaseActivity extends AppCompatActivity
 
             BaseActivity.initialize = new User(snapshot.getValue(User.class));
 
+            Log.v("Here","User is created");
+
 
 
         }
@@ -108,7 +108,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
 
-    }
+    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -151,11 +151,8 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_4yearplan) {
             startActivity(new Intent(this, FourYearPlan.class));
 
-        } else if (id == R.id.nav_gpacalculator) {
-
-        } else if (id == R.id.nav_setting) {
-
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_logout) {
             SharedPreferences sp = this.getSharedPreferences(Constant.myPrefer,Context.MODE_PRIVATE);
             sp.edit().putBoolean("AutoLogin",false).commit();
             sp.edit().putString("check","").commit();

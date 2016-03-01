@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firebase.client.Firebase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import ui.BaseActivity;
@@ -24,12 +26,13 @@ public class User {
     private String major;
     private String college;
     private String password;
-    private String graduateDate;
     private String currTerm;
     private int unit;
     private double gpa;
     public String uid;
     private ArrayList<IndividualAssignment> recentDues = new ArrayList<>();
+    private ArrayList<String> recentDueIds = new ArrayList<>();
+    private ArrayList<IndividualAssignment> recentDueToShow = new ArrayList<>();
     private ArrayList<String> terms = new ArrayList<>();
     private DueDateComparator dueDateComparator = new DueDateComparator();
     private LinkedHashMap<String, Term> my4YearPlan = new LinkedHashMap<>();
@@ -49,13 +52,14 @@ public class User {
         this.uid = copy.getUid();
         this.college = copy.getCollege();
         this.password = copy.getPassword();
-        this.graduateDate = copy.getGraduateDate();
         this.email = copy.getEmail();
         this.gpa = copy.getGpa();
         this.unit = copy.getUnit();
         this.my4YearPlan = copy.getMy4YearPlan();
         this.currTerm = copy.getCurrTerm();
         this.recentDues = copy.getRecentDues();
+        this.recentDueIds = copy.getRecentDueIds();
+        this.recentDueToShow=copy.getRecentDueToShow();
         this.terms = copy.getTerms();
     }
 
@@ -78,19 +82,18 @@ public class User {
      * @param graduateDate
      */
 
-    public User(String fullName, String major, String college, String password, String graduateDate, String email, String UID, String term){
+    public User(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
         this.email = email;
         this.fullName = fullName;
         this.major = major;
         this.college = college;
         this.password = password;
-        this.graduateDate = graduateDate;
         this.uid = UID;
         this.currTerm = term;
         this.my4YearPlan.put(term, new Term(term, false, 0.0, 0.0));
         this.terms.add(term);
-        this.unit = 0;
-        this.gpa = 4.0;
+        this.unit = unit;
+        this.gpa = gpa;
     }
 
 
@@ -105,7 +108,6 @@ public class User {
     }
     public String getCollege() {return college;}
     public String getPassword(){return password;}
-    public String getGraduateDate(){return graduateDate;}
     public String getEmail(){return email;}
     public double getGpa() {return gpa;}
     public int getUnit() {
@@ -128,6 +130,13 @@ public class User {
         return recentDues;
     }
 
+    public ArrayList<String> getRecentDueIds() {
+        return recentDueIds;
+    }
+
+    public ArrayList<IndividualAssignment> getRecentDueToShow() {
+        return recentDueToShow;
+    }
 
     public Term getTerm(String term){
         if(my4YearPlan.get(term) == null){
@@ -147,6 +156,14 @@ public class User {
      */
     public void setRecentDues(ArrayList<IndividualAssignment> recentDues) {
         this.recentDues = recentDues;}
+
+    public void setRecentDueIds(ArrayList<String> recentDueIds) {
+        this.recentDueIds = recentDueIds;
+    }
+
+    public void setRecentDueToShow(ArrayList<IndividualAssignment> recentDueToShow) {
+        this.recentDueToShow = recentDueToShow;
+    }
 
     public void setTerms(ArrayList<String> terms) {
         this.terms = terms;
@@ -180,33 +197,39 @@ public class User {
                 letterUnit -=course.getUnit();
         }
 
-        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained/my4YearPlan.get(currTerm).getTermUnit());
+        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained / my4YearPlan.get(currTerm).getTermUnit());
 
-        unitObtained = 0.0;
+       /* unitObtained = 0.0;
         for(Term term:my4YearPlan.values()){
             unitObtained += term.getTermGpa() * term.getTermLetterUnit();
         }
-        gpa = unitObtained/letterUnit;
+        gpa = unitObtained/letterUnit;*/
 
 
     }
 
-    public boolean addRecentDues(IndividualAssignment a){
-        if(recentDues.indexOf(a) != -1)
+    public boolean addRecentDues(IndividualAssignment assignment){
+        if(recentDueIds.indexOf(assignment.getAssignmentName()) != -1)
             return false;
-        recentDues.add(a);
-        Collections.sort(recentDues, this.dueDateComparator);
+        recentDues.add(assignment);
+        recentDueToShow.add(assignment);
+        recentDueIds.add(assignment.getAssignmentName());
+
+        //Collections.sort(recentDueToShow, this.dueDateComparator);
         return true;
     }
 
-    public boolean removeRecentDues(IndividualAssignment a){
-        ArrayList<IndividualAssignment> temp = new ArrayList<>();
-        for(int i = 0; i < recentDues.size(); ++i){
-            temp.add(recentDues.get(i));
+    public boolean removeRecentDues(IndividualAssignment assignment){
+        IndividualAssignment toDelete = recentDues.get(recentDueIds.indexOf(assignment.getAssignmentName()));
+        for(int i = 0; i <recentDueToShow.size(); ++i){
+            if(recentDueToShow.get(i).getAssignmentName().equals(toDelete.getAssignmentName())){
+                if(recentDueToShow.get(i).getBelongsTo().equals(toDelete.getBelongsTo())){
+                    recentDueToShow.remove(i);
+                }
+            }
         }
-        temp.remove(a);
-        recentDues.clear();
-        recentDues.addAll(temp);
+        recentDues.remove(toDelete);
+        recentDueIds.remove(assignment.getAssignmentName());
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;

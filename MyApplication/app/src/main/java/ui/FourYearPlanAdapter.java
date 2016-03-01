@@ -35,10 +35,10 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
     DecimalFormat df = new DecimalFormat("#.##");
 
 
-    public FourYearPlanAdapter(Context context, ArrayList<String> listDataHeader, HashMap<String, Term> listChildData) {
-        this._context = context;
+    public FourYearPlanAdapter(Context c, ArrayList<String> listDataHeader, HashMap<String, Term> listChildData) {
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this._context = c;
     }
 
     public void onPick(int[] position) {
@@ -121,7 +121,6 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String headerTitle = getGroup(groupPosition);
-
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context

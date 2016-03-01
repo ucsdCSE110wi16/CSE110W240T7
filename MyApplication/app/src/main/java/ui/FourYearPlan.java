@@ -5,11 +5,19 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +44,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
@@ -61,7 +70,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     TextView txAddTerm, txAddCourse;
     private Button bA, bB, bC, bD,bF;
     private EditText etTermCourseId, etTermCourseUnit;
-    private RelativeLayout layout_main;
+    private CoordinatorLayout layout_main;
     private PopupWindow popup;
     private double courseGpa=0.0;
     private int courseUnit = 0;
@@ -74,6 +83,11 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     private ArrayList termList;
     private LinkedHashMap<String, Term> fourYearList;
 
+    //Tab stuff
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +96,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         super.onCreateNavigation();
         context = this;
         activity = this;
-
-        layout_main = (RelativeLayout) findViewById(R.id.fourYearPlan);
+        layout_main = (CoordinatorLayout) findViewById(R.id.fourYearPlan);
         layout_main.getForeground().setAlpha(0);
-        listView = (FourYearPlanListView) findViewById(R.id.lsTerms);
         txAddCourse = (TextView) findViewById(R.id.txAddCourse);
         txAddTerm = (TextView) findViewById(R.id.txAddTerm);
         txAddCourse.setVisibility(View.GONE);
@@ -104,7 +116,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 showPop(activity);
-               // startActivity(new Intent(context, IndividualCourse.class));
+                // startActivity(new Intent(context, IndividualCourse.class));
             }
         });
 
@@ -132,13 +144,67 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             }
         });
 
+
         termList = BaseActivity.initialize.getTerms();
         fourYearList = BaseActivity.initialize.getMy4YearPlan();
         myAdapter = new FourYearPlanAdapter(this, termList, fourYearList);
-        listView.setDragOnLongPress(true);
+//        listView.setDragOnLongPress(true);
         // setting list adapter
-        listView.setAdapter(myAdapter);
+//        listView.setAdapter(myAdapter);
+
+
+        //Tab stuff
+        //toolbar = BaseActivity.toolbar;
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        OneFragment oneFragment = new OneFragment();
+        oneFragment.setContext(this);
+        adapter.addFragment(oneFragment, "Future");
+        TwoFragment twoFragment = new TwoFragment();
+        twoFragment.setContext(this);
+        adapter.addFragment(twoFragment, "Past");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+
 
 
     @Override

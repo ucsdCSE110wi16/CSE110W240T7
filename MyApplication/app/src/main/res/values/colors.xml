@@ -9,4 +9,6 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="dimForeground">#000000</color>
+    <color name="navigationBarColor">#03A9F4</color>
+    <color name="windowBackground">#FFFFFF</color>
 </resources>

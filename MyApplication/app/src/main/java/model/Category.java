@@ -48,27 +48,28 @@ public class Category {
         if(assignments == null){
             assignments = new ArrayList<>();
         }
-        if(assignments.indexOf(name) != -1){
+        for(int i = 0; i < assignments.size(); ++i){
+            if(assignments.get(i).getAssignmentName().equals(name));
             return false;
         }
-        else{
-            IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
-            assignments.add(temp);
-            BaseActivity.initialize.addRecentDues(temp);
+
+        IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
+        assignments.add(temp);
+        Collections.sort(assignments, myComparator);
+        BaseActivity.initialize.addRecentDues(temp);
             return true;
-        }
+
     }
 
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
 
         assignments.get(index).setScore(rawScore, scoreOutOf);
         BaseActivity.initialize.removeRecentDues(assignments.get(index));
-        IndividualAssignment tempAssignment = assignments.get(index);
-        assignments.remove(index);
-        assignments.add(tempAssignment);
+        Collections.sort(assignments, myComparator);
         ArrayList<IndividualAssignment> temp = new ArrayList<>();
         for(int i = 0; i < assignments.size(); ++i)
-            temp.add(assignments.get(i));
+            if(assignments.get(i).isSetScore())
+                temp.add(assignments.get(i));
         Collections.sort(temp, myComparator);
         scoreInputted = true;
 
@@ -132,17 +133,39 @@ public class Category {
 
 }
 
-class ScoreComparator implements Comparator<IndividualAssignment>{
+    class DueDateComparator implements Comparator<IndividualAssignment>{
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            if(a2.getPercent() > a1.getPercent()){
+            if(a1.isSetScore() && a2.isSetScore()){
+                if(a1.getYear() > a2.getYear())
+                    return 1;
+                else if(a1.getMonth() > a2.getMonth())
+                    return 1;
+                else if(a1.getDay() > a2.getDay())
+                    return 1;
+                else
+                    return a2.getAssignmentName().compareTo(a1.getAssignmentName());
+            }
+            else if(a1.isSetScore()){
                 return 1;
             }
+            else{
+                return -1;
+            }
+
+        }
+
+    }
+
+    class ScoreComparator implements Comparator<IndividualAssignment>{
+        @Override
+        public int compare(IndividualAssignment lhs, IndividualAssignment rhs) {
+            if(rhs.getPercent() > lhs.getPercent())
+                return 1;
             else
                 return -1;
         }
-
     }
 
 

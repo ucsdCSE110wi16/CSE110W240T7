@@ -13,6 +13,10 @@ import android.widget.TextView;
 import android.widget.ProgressBar;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.text.DecimalFormat;
 
@@ -24,43 +28,93 @@ import model.User;
 import ui.BaseActivity;
 
 public class Homepage extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     DecimalFormat df = new DecimalFormat("#.##");
     Context context;
-
+    TextView gpanumber;
+    boolean isCurrGpa = true;
+    ProgressBar progress_bar;
+    Double gpa, currGpa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
+        ref.addValueEventListener(new myValueEventListener());
         setContentView(R.layout.activity_navi);
-        context = this;
-
+        context  = this;
         super.onCreateNavigation();
-        Double gpa = BaseActivity.initialize.getGpa()*10.0;
-        ProgressBar progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
-        progress_bar.setProgress(gpa.intValue());
-        TextView gpanumber = (TextView)findViewById(R.id.GPAnumber);
-        gpanumber.setText(df.format(gpa/10.00));
-        ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
-        HomepageListAdapter adapter = new HomepageListAdapter(this, BaseActivity.initialize.getRecentDues());
-        recentDueList.setAdapter(adapter);
-        recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gpanumber = (TextView)findViewById(R.id.GPAnumber);
+        gpanumber.setOnClickListener(this);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    final int position, long id) {
-                String courseId = BaseActivity.initialize.getRecentDues().get(position).getBelongsTo();
-                CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
-                startActivity(new Intent(context, IndividualCourse.class));
 
-            }
-        });
+    }
+
+    class myValueEventListener implements ValueEventListener {
+
+
+        public myValueEventListener(){
+            super();
+        }
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+
+            headerCollege.setText(snapshot.child("college").getValue().toString());
+
+            headerMajor.setText(snapshot.child("major").getValue().toString());
+
+            headerName.setText(snapshot.child("fullName").getValue().toString());
+
+            BaseActivity.initialize = new User(snapshot.getValue(User.class));
+
+            gpa = BaseActivity.initialize.getGpa()*10.0;
+            currGpa = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermGpa()*10.0;
+            progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
+            progress_bar.setProgress(currGpa.intValue());
+
+            gpanumber.setText(df.format(currGpa/10.00));
+            ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
+            HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDueToShow());
+            recentDueList.setAdapter(adapter);
+            recentDueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        final int position, long id) {
+                    String courseId = BaseActivity.initialize.getRecentDueToShow().get(position).getBelongsTo();
+                    CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
+                    startActivity(new Intent(context, IndividualCourse.class));
+
+                }
+            });
+
+        }
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println("The read failed: " + firebaseError.getMessage());
+        }
+
+
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         // DO NOTHING
     }
 
+    @Override
+    public void onClick(View v) {
+        if(isCurrGpa){
+            progress_bar.setProgress(gpa.intValue());
+            gpanumber.setText(df.format(gpa/10.00));
+            isCurrGpa = false;
+        }
+        else{
+            progress_bar.setProgress(currGpa.intValue());
+            gpanumber.setText(df.format(currGpa/10.00));
+            isCurrGpa = true;
+        }
 
+    }
 }
 

@@ -99,7 +99,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
 
                 if(!mycourse.addAssignment(weightButton.getText().toString(), hw, y, m, d)){
-                Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
                 }
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;
