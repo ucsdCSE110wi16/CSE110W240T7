@@ -12,7 +12,7 @@ import ui.BaseActivity;
 /**
  * Created by Tianqi on 2/7/2016.
  */
-public class User {
+public class user {
 
     private String email;
     private String fullName;
@@ -40,11 +40,11 @@ public class User {
      * Default constructor for firebase
      */
 
-    public User(){
+    public user(){
 
     }
 
-    public User(User copy){
+    public user(user copy){
 
         //user info
         this.fullName = copy.getFullName();
@@ -78,7 +78,7 @@ public class User {
      */
 
 
-    public User(String ID) {
+    public user(String ID) {
         this.uid = ID;
     }
 
@@ -91,7 +91,7 @@ public class User {
      * @param password
      */
 
-    public User(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
+    public user(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
 
         //user info
         this.email = email;
