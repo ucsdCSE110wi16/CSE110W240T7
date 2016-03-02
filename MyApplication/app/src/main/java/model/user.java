@@ -12,7 +12,7 @@ import ui.BaseActivity;
 /**
  * Created by Tianqi on 2/7/2016.
  */
-public class user {
+public class User {
 
     private String email;
     private String fullName;
@@ -40,11 +40,11 @@ public class user {
      * Default constructor for firebase
      */
 
-    public user(){
+    public User(){
 
     }
 
-    public user(user copy){
+    public User(User copy){
 
         //user info
         this.fullName = copy.getFullName();
@@ -78,7 +78,7 @@ public class user {
      */
 
 
-    public user(String ID) {
+    public User(String ID) {
         this.uid = ID;
     }
 
@@ -91,7 +91,7 @@ public class user {
      * @param password
      */
 
-    public user(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
+    public User(String fullName, String major, String college, String password, String email, String UID, String term, double gpa, int unit){
 
         //user info
         this.email = email;
@@ -280,17 +280,14 @@ public class user {
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            if(a2.getYear() < a1.getYear()){
-                return 1;
-            }
-            else if(a2.getMonth() < a1.getMonth()){
-                return 1;
-            }
-            else if(a2.getDay() < a1.getDay()){
-                return 1;
-            }
-            else
+            int a1Date = a1.getYear() * 10000 + a1.getMonth() * 100 + a1.getDay();
+            int a2Date = a2.getYear() * 10000 + a2.getMonth() * 100 + a2.getDay();
+            if(a1Date < a2Date)
                 return -1;
+            else if(a1Date > a2Date)
+                return 1;
+            else
+                return (a1.getAssignmentName().compareTo(a2.getAssignmentName()));
 
         }
 

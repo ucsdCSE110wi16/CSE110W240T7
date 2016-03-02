@@ -58,6 +58,10 @@ public class Category {
         IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
         assignments.add(temp);
         Collections.sort(assignments, dueDateComparator);
+        System.out.println("test comparator print after adding score");
+        for(int i = 0; i < assignments.size(); ++i){
+        	System.out.println(assignments.get(i).getAssignmentName());
+        }
         BaseActivity.initialize.addRecentDues(temp);
             return true;
 
@@ -73,6 +77,11 @@ public class Category {
 
         //sort new assignment arraylist
         Collections.sort(assignments, dueDateComparator);
+
+        System.out.println("test comparator print after adding score");
+        for(int i = 0; i < assignments.size(); ++i){
+        	System.out.println(assignments.get(i).getAssignmentName());
+        }
 
         //update score
         ArrayList<IndividualAssignment> temp = new ArrayList<>();
@@ -146,13 +155,16 @@ public class Category {
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            if((a1.isSetScore() && a2.isSetScore()) || (!a1.isSetScore() && !a2.isSetScore())){
-                if(a1.getYear() > a2.getYear())
+            System.out.println("a1 is: " + a1.getAssignmentName() + " a2 is: " + a2.getAssignmentName());
+            if((a1.isSetScore() && a2.isSetScore()) || ((!a1.isSetScore()) && (!a2.isSetScore()))){
+                int a1Date = a1.getYear() * 10000 + a1.getMonth() * 100 + a1.getDay();
+                int a2Date = a2.getYear() * 10000 + a2.getMonth() * 100 + a2.getDay();
+                if(a1Date < a2Date)
+                    return -1;
+                else if(a1Date > a2Date)
                     return 1;
-                else if(a1.getMonth() > a2.getMonth())
-                    return 1;
-                else if(a1.getDay() > a2.getDay())
-                    return 1;
+                else
+                    return (a1.getAssignmentName().compareTo(a2.getAssignmentName()));
             }
             else if(a1.isSetScore()){
                 return 1;
@@ -160,7 +172,6 @@ public class Category {
             else{
                 return -1;
             }
-            return 0;
 
         }
 

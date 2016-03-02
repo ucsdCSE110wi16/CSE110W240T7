@@ -150,8 +150,6 @@ public class Courses {
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
         this.totalPercent = updateScores();
         BaseActivity.initialize.update();
-        Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
-        start.setValue(BaseActivity.initialize);
     }
 
     /**Update Scores, recalculate percentage, and update the new gpa or pass/nopass status
