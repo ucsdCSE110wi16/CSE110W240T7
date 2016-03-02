@@ -203,19 +203,19 @@ public class User {
 
 
     public void update(){
-        ArrayList<Courses> temp = my4YearPlan.get(currTerm).getTermCourses();
+        ArrayList<Courses> temp = myFutureTerms.get(currTerm).getTermCourses();
         double unitObtained = 0.0;
-        double letterUnit = this.unit;
-        for(int i = 0; i < temp.size(); ++i){
+        for(int i = 0; i < temp.size(); ++i) {
             Courses course = temp.get(i);
 
-            if(course.getLetter()){
-                unitObtained = course.getUnit() * course.getGpa();
-            }else
-                letterUnit -=course.getUnit();
+            if (course.getLetter()) {
+                unitObtained += course.getUnit() * course.getGpa();
+                System.out.println(unitObtained);
+            }
         }
-
-        this.my4YearPlan.get(currTerm).setTermGpa(unitObtained / my4YearPlan.get(currTerm).getTermUnit());
+            System.out.println(myFutureTerms.get(currTerm).getTermLetterUnit());
+        System.out.println(unitObtained / myFutureTerms.get(currTerm).getTermLetterUnit());
+        this.myFutureTerms.get(currTerm).setTermGpa(unitObtained / myFutureTerms.get(currTerm).getTermLetterUnit());
 
        /* unitObtained = 0.0;
         for(Term term:my4YearPlan.values()){
