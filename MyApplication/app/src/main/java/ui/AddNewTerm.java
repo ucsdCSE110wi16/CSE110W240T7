@@ -1,15 +1,23 @@
 package ui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +28,16 @@ import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.Term;
 
+import static androidstudio.edbud.com.myapplication.R.id.bpopupCancelAddTermCourse;
+
 /**
  * Created by LunaLu on 2/23/16.
  */
 public class AddNewTerm extends AppCompatActivity implements View.OnClickListener {
 
     private Button bAddTermCourses, bAddTerm;
-    private EditText etTermName;
+    private Button bA, bB, bC, bD,bF;
+    private EditText etTermName, etTermCourseId,etTermCourseUnit;
     private ArrayList<Courses> coursesArrayList = new ArrayList<>();
     private ListView courseList;
     private FrameLayout layout_main;
@@ -34,7 +45,9 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
     private AddTermListAdapter myAdapter;
     private double unit = 0.0;
     private int courseUnit = 0;
-    private TextView termUnit, termGpa;
+    private TextView termUnit, termGpa, switchStatus;
+    private Switch gradeSwitch;
+    private boolean letter = true;
     DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
@@ -80,9 +93,9 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 startActivity(new Intent(this, FourYearPlan.class));
                 break;
             case R.id.bAddNewTermCourses:
-               // showPop(this);
+                showPop(this);
                 break;
-           /* case R.id.bpopupAddNewTermCourse:
+            case R.id.bpopupAddTermCourse:
                 String courseId = etTermCourseId.getText().toString();
                 String courseUnitString = etTermCourseUnit.getText().toString();
                 if(TextUtils.isEmpty(courseId)){
@@ -95,7 +108,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 }
                 
                 courseUnit = Integer.parseInt(courseUnitString);
-                coursesArrayList.add(new Courses(courseId,courseUnit, letter, courseGpa));
+                coursesArrayList.add(new Courses(courseId,courseUnit,letter,4.0));
 
                 unit += courseUnit;
                 termUnit.setText(df.format(unit));
@@ -103,82 +116,67 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 popup.dismiss();
                 myAdapter.notifyDataSetChanged();
                 break;
-            //case R.id.bpopupCancelAddNewTermCourse:
+            case bpopupCancelAddTermCourse:
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
-                break;*/
+                break;
             
 
         }
     }
 
-   /* public void showPop(Activity context){
+    public void showPop(Activity context){
         // Inflate the popup_layout.xml
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_add_new_termcourse, null);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_add_termcourse, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
         popup.setOutsideTouchable(false);
 
-        etTermCourseId= (EditText) layout.findViewById(R.id.etNewTermCourseName);
-        etTermCourseUnit = (EditText) layout.findViewById(R.id.etNewTermCourseUnit);
+        etTermCourseId= (EditText) layout.findViewById(R.id.etTermCourseName);
+        etTermCourseUnit = (EditText) layout.findViewById(R.id.etTermCourseUnit);
 
         //Dim the background
         layout_main.getForeground().setAlpha(220);
 
+        bA = (Button) layout.findViewById(R.id.bA);
+        bB = (Button) layout.findViewById(R.id.bB);
+        bC = (Button) layout.findViewById(R.id.bC);
+        bD = (Button) layout.findViewById(R.id.bD);
+        bF = (Button) layout.findViewById(R.id.bF);
+        bA.setVisibility(View.GONE);
+        bB.setVisibility(View.GONE);
+        bC.setVisibility(View.GONE);
+        bD.setVisibility(View.GONE);
+        bF.setVisibility(View.GONE);
 
         // Displaying the popup at the specified location, + offsets.
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
 
         // Getting a reference to Close button, and close the popup when clicked.
-        Button close = (Button) layout.findViewById(R.id.bpopupAddNewTermCourse);
-        Button cancel = (Button) layout.findViewById(R.id.bpopupCancelAddNewTermCourse);
+        Button close = (Button) layout.findViewById(R.id.bpopupAddTermCourse);
+        Button cancel = (Button) layout.findViewById(bpopupCancelAddTermCourse);
         cancel.setOnClickListener(this);
         close.setOnClickListener(this);
+        gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
+        switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
+
+        gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    switchStatus.setText("Pass/No Pass");
+                    letter = false;
+                } else {
+                    switchStatus.setText("Letter grade");
+                    letter = true;
+                }
+            }
+        });
 
     }
-    private void changeButtonColor(String button){
-        switch(button){
-            case "A":
-                bA.setBackgroundColor(getColor(R.color.colorPrimaryLight));
-                bB.setBackgroundColor(Color.TRANSPARENT);
-                bC.setBackgroundColor(Color.TRANSPARENT);
-                bD.setBackgroundColor(Color.TRANSPARENT);
-                bF.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case "B":
-                bB.setBackgroundColor(getColor(R.color.colorPrimaryLight));
-                bA.setBackgroundColor(Color.TRANSPARENT);
-                bC.setBackgroundColor(Color.TRANSPARENT);
-                bD.setBackgroundColor(Color.TRANSPARENT);
-                bF.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case "C":
-                bC.setBackgroundColor(getColor(R.color.colorPrimaryLight));
-                bB.setBackgroundColor(Color.TRANSPARENT);
-                bA.setBackgroundColor(Color.TRANSPARENT);
-                bD.setBackgroundColor(Color.TRANSPARENT);
-                bF.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case "D":
-                bD.setBackgroundColor(getColor(R.color.colorPrimaryLight));
-                bB.setBackgroundColor(Color.TRANSPARENT);
-                bC.setBackgroundColor(Color.TRANSPARENT);
-                bA.setBackgroundColor(Color.TRANSPARENT);
-                bF.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case "F":
-                bF.setBackgroundColor(getColor(R.color.colorPrimaryLight));
-                bB.setBackgroundColor(Color.TRANSPARENT);
-                bC.setBackgroundColor(Color.TRANSPARENT);
-                bD.setBackgroundColor(Color.TRANSPARENT);
-                bA.setBackgroundColor(Color.TRANSPARENT);
-                break;
-        }
-    }*/
+
 }

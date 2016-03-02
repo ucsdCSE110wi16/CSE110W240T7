@@ -69,8 +69,9 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
      */
     private void findViewById(){
         layout_main = (FrameLayout) findViewById( R.id.addTerm);
-        etTermName = (EditText) findViewById(R.id.etNewTermID);
-        termUnit = (TextView) findViewById(R.id.add_new_term_termUnit);
+        etTermName = (EditText) findViewById(R.id.etTermID);
+        termUnit = (TextView) findViewById(R.id.add_term_termUnit);
+        termGpa = (TextView) findViewById(R.id.add_term_termGpa);
         bAddTerm = (Button) findViewById(R.id.bAddTerm);
         bAddTerm.setOnClickListener(this);
         bAddTermCourses = (Button) findViewById(R.id.bAddTermCourses);
