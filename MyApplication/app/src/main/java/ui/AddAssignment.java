@@ -40,9 +40,8 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_assignment);
-        mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
         //weights = mycourse.getWeights();
-        categories = mycourse.getCategories();
+        categories =BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories();
 
     
         
@@ -99,7 +98,8 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
                 weightButton = (RadioButton) findViewById(selectedId);
 
 
-                if(!mycourse.addAssignment(weightButton.getText().toString(), hw, y, m, d)){
+                if(!BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+                        .addAssignment(weightButton.getText().toString(), hw, y, m, d)){
                     Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
                     return;
                 }

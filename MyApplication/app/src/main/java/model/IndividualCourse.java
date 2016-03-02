@@ -40,7 +40,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     private TextView course, unit, letter,gpa;
     private EditText etWeightID, etWeightPercent, etRawScore, etScoreOutOf;
     private ListView assignmentList;
-    private Courses mycourse;
+   // private Courses BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
     private Context myContext;
     DecimalFormat df = new DecimalFormat("#.##");
 
@@ -63,21 +63,21 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
-        mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
-        if(mycourse == null){
+        if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p) == null){
             Log.v("p value is :", String.valueOf(CoursePage.p));
             //Log.v("my course size: ", String.valueOf(User.myCourse.size()));
             Log.v("my course:", "is null");
         }
         this.setViews();
-        this.setTitle(mycourse.getCourseId());
-        listDataHeader = mycourse.getWeightsList();
+        this.setTitle(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCourseId());
+        listDataHeader = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getWeightsList();
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         // preparing list data
-        prepareListData();
+        listCategory = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories();
+
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listCategory);
 
@@ -93,10 +93,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
                 weight = listDataHeader.get(groupPosition).toString();
                 index = childPosition;
-                if (mycourse.getCategories().get(weight).getAssignments().get(index).isSetScore()) {
+                if (BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+                .getCategories().get(weight).getAssignments().get(index).isSetScore()) {
                     //show popup asking if the User wants to change the score already inputted
                     new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " +
-                            mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
+                            BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+                                    .getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
                             ". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
 
@@ -131,10 +133,11 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         unit = (TextView) findViewById(R.id.individual_unit);
         letter = (TextView) findViewById(R.id.individual_letter);
         gpa = (TextView) findViewById(R.id.GPA);
-        course.setText(mycourse.getCourseId());
+        course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+                .getCourseId());
         fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
-        unit.setText(Double.toString(mycourse.getUnit()));
+        unit.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getUnit()));
 
         bAddWeight = (Button) findViewById(R.id.bAddWeights_individual);
         bAddWeight.setOnClickListener(this);
@@ -143,13 +146,14 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         layout_main.getForeground().setAlpha(0);
         gpa.setOnClickListener(this);
 
-        if(mycourse.getLetter()) {
+        if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+                .getLetter()) {
             letter.setText("Letter grade");
-            gpa.setText(Double.toString(mycourse.getGpa()));
+            gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
         }
         else{
             letter.setText("PNP");
-            if(mycourse.getPass())
+            if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getPass())
                 gpa.setText("Pass");
             else
                 gpa.setText("No pass");
@@ -157,16 +161,17 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     }
 
-    private void prepareListData() {
-       // listDataHeader = mycourse.getWeightsList();
-        listCategory = mycourse.getCategories();
+    private void prepareData() {
+        System.out.println("updated");
+        listCategory = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories();
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.individual_fab:
-                if(mycourse.getCategories().isEmpty()){
+                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().isEmpty()){
                     Toast.makeText(this,"Please add at least one grading distribution first", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -187,12 +192,14 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     return;
                 }
                 int percent = Integer.parseInt(weightPercent);
-                if(mycourse.addWeight(weightID,percent)){
+                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addWeight(weightID, percent)){
+                    System.out.println("add new weight: " + weightID);
                     Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                     start.setValue(BaseActivity.initialize);
                    // listDataHeader.add(weightID);
-                    prepareListData();
-                    listAdapter.notifyDataSetChanged();}
+
+                    prepareData();
+                }
                 else{
                     Toast.makeText(this,"This weight has already been added", Toast.LENGTH_LONG).show();
                     return;
@@ -218,25 +225,26 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
-                mycourse.addAssignmentScore(weight, index, r, s);
+                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+                prepareData();
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
-                gpa.setText(Double.toString(mycourse.getGpa()));
-                listAdapter.notifyDataSetChanged();
+                gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
+                System.out.println("after dismiss popup");
                 break;
             case R.id.bCancelSetScore:
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
             case R.id.GPA:
                 if(!showPercent){
-                    gpa.setText(df.format(mycourse.getTotalPercent()) + "%");
+                    gpa.setText(df.format(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getTotalPercent()) + "%");
                     showPercent = true;
-                }else if(mycourse.getLetter()){
-                    gpa.setText(Double.toString(mycourse.getGpa()));
+                }else if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getLetter()){
+                    gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
                     showPercent = false;
-                }else if(mycourse.getPass()){
+                }else if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getPass()){
                     gpa.setText("Pass");
                     showPercent = false;
                 }else{
@@ -303,10 +311,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
         etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
         TextView assignmentName = (TextView) layout.findViewById(R.id.textview_assignment_name);
-        assignmentName.setText(mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName());
+        assignmentName.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getAssignmentName());
         if(hasSetted){
-            etRawScore.setHint(Double.toString(mycourse.getCategories().get(weight).getAssignments().get(index).getRawScore()));
-            etScoreOutOf.setHint(Double.toString(mycourse.getCategories().get(weight).getAssignments().get(index).getScoreOutOf()));
+            etRawScore.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getRawScore()));
+            etScoreOutOf.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getScoreOutOf()));
         }
 
         //Dim the background
