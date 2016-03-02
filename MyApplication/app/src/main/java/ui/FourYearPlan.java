@@ -125,11 +125,13 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                             }).show();
             }
         });
+
         fabAction2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPop(activity);
-                // startActivity(new Intent(context, IndividualCourse.class));
+                System.out.println("showpopup?");
+                //startActivity(new Intent(context, IndividualCourse.class));
             }
         });
 
