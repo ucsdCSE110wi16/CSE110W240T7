@@ -31,7 +31,7 @@ public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     DecimalFormat df = new DecimalFormat("#.##");
     Context context;
-    TextView gpanumber;
+    TextView gpanumber, gpaText;
     boolean isCurrGpa = true;
     ProgressBar progress_bar;
     Double gpa, currGpa;
@@ -47,6 +47,8 @@ public class Homepage extends BaseActivity
         gpanumber = (TextView)findViewById(R.id.GPAnumber);
         gpanumber.setOnClickListener(this);
 
+        gpaText = (TextView) findViewById(R.id.GPAtext);
+        gpaText.setText("Current GPA");
 
     }
 
@@ -73,6 +75,7 @@ public class Homepage extends BaseActivity
             progress_bar.setProgress(currGpa.intValue());
 
             gpanumber.setText(df.format(currGpa/10.0));
+
 
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
             HomepageListAdapter adapter = new HomepageListAdapter(context, BaseActivity.initialize.getRecentDueToShow());
@@ -109,11 +112,13 @@ public class Homepage extends BaseActivity
             progress_bar.setProgress(gpa.intValue());
             gpanumber.setText(df.format(gpa/10.00));
             isCurrGpa = false;
+            gpaText.setText("Overall GPA");
         }
         else{
             progress_bar.setProgress(currGpa.intValue());
             gpanumber.setText(df.format(currGpa/10.00));
             isCurrGpa = true;
+            gpaText.setText("Current GPA");
         }
 
     }
