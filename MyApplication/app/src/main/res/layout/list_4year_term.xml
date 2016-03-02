@@ -14,7 +14,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:paddingRight="15dp"
-    android:weightSum="2"
+    android:weightSum="3"
         android:background="@drawable/card_background_selector"
     android:descendantFocusability="afterDescendants">
 
@@ -28,11 +28,22 @@
         android:layout_weight="1"
         android:id="@+id/lblListTerm" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="2"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/lblListTermUnit"
+            android:textColor="@color/colorPrimary"/>
+
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="2"
+        android:text="3"
         android:gravity="center"
         android:layout_weight="1"
         android:id="@+id/lblListTermGpa"

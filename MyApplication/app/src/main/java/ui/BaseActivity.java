@@ -28,7 +28,7 @@ import com.firebase.client.ValueEventListener;
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
-import model.User;
+import model.user;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,8 +36,9 @@ public class BaseActivity extends AppCompatActivity
     TextView headerMajor;
     TextView headerYear;
     TextView headerName;
-    public static User initialize = new User();
+    public static user initialize = new user();
     public static String uid;
+    protected static Toolbar toolbar;
 
 
 
@@ -56,7 +57,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreateNavigation() {
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 

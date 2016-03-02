@@ -92,6 +92,7 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
                 }else if(y == 0 && m == 0 && d ==0){
                     Toast.makeText(this, "Please pick a due date", Toast.LENGTH_LONG).show();
+                    return;
                 }
 
                 // find the radiobutton by returned id
@@ -99,7 +100,8 @@ public class AddAssignment extends AppCompatActivity implements View.OnClickList
 
 
                 if(!mycourse.addAssignment(weightButton.getText().toString(), hw, y, m, d)){
-                Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "This assignment has already been added", Toast.LENGTH_LONG).show();
+                    return;
                 }
                 startActivity(new Intent(this, IndividualCourse.class));
                 break;

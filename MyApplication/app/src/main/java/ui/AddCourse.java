@@ -116,7 +116,7 @@ public class AddCourse extends AppCompatActivity implements View.OnClickListener
 
                 int courseUnit = Integer.parseInt(unit);
                 Courses courseToAdd = new Courses(courseID, courseUnit, letter, weights, percentages);
-                BaseActivity.initialize.addCourse(courseToAdd);
+                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).addTermCourses(courseToAdd);
                 startActivity(new Intent(this, CoursePage.class));
                 break;
             case R.id.bAddWeights:
