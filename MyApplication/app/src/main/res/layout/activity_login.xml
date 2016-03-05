@@ -13,10 +13,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="236dp"
-        android:layout_height="283dp"
+        android:layout_width="200dp"
+        android:layout_height="239.8dp"
         android:layout_gravity="top|center"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/homepage_pic"
         android:layout_marginBottom="10dp" />
 
     <TextView
