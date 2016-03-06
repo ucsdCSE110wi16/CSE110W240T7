@@ -151,8 +151,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             @Override
             public boolean onPreDraw() {
                 fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                offset1 = fab.getY() - fabAction1.getY();
-                fabAction1.setTranslationY(offset1);
+                offset1 = fab.getX() - fabAction1.getX();
+                fabAction1.setTranslationX(offset1);
                 offset2 = fab.getY() - fabAction2.getY();
                 fabAction2.setTranslationY(offset2);
                 return true;
@@ -288,8 +288,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     private void collapseFab() {
         fab.setImageResource(R.drawable.animated_minus);
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createCollapseAnimator(fabAction1, offset1),
-                createCollapseAnimator(fabAction2, offset2),createCollapseAnimator(txAddCourse, offset2), createCollapseAnimator(txAddTerm, offset1));
+        animatorSet.playTogether(createCollapseAnimatorX(fabAction1, offset1),
+                createCollapseAnimatorY(fabAction2, offset2),createCollapseAnimatorY(txAddCourse, offset2), createCollapseAnimatorX(txAddTerm, offset1));
         animatorSet.start();
         animateFab();
         txAddTerm.setVisibility(View.GONE);
@@ -299,8 +299,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     private void expandFab() {
         fab.setImageResource(R.drawable.animated_plus);
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createExpandAnimator(fabAction1, offset1),
-                createExpandAnimator(fabAction2, offset2),createExpandAnimator(txAddCourse, offset2), createExpandAnimator(txAddTerm, offset1) );
+        animatorSet.playTogether(createExpandAnimatorX(fabAction1, offset1),
+                createExpandAnimatorY(fabAction2, offset2),createExpandAnimatorY(txAddCourse, offset2), createExpandAnimatorX(txAddTerm, offset1) );
         animatorSet.start();
         animateFab();
         txAddTerm.setVisibility(View.VISIBLE);
@@ -309,14 +309,26 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     }
 
     private static final String TRANSLATION_Y = "translationY";
+    private static final String TRANSLATION_X = "translationX";
 
-    private Animator createCollapseAnimator(View view, float offset) {
+
+    private Animator createCollapseAnimatorY(View view, float offset) {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, 0, offset)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
 
-    private Animator createExpandAnimator(View view, float offset) {
+    private Animator createCollapseAnimatorX(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_X, 0, offset)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private Animator createExpandAnimatorY(View view, float offset) {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private Animator createExpandAnimatorX(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_X, offset, 0)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
 

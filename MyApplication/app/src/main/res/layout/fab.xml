@@ -21,26 +21,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add a quarter"
-            android:layout_toStartOf="@+id/fab_action_1"
-            android:layout_alignTop="@+id/fab_action_1"
-            android:layout_alignBottom="@+id/fab_action_1"
-            android:id="@+id/txAddTerm" />
+            android:id="@+id/txAddTerm"
+            android:layout_below="@+id/fab_action_2"
+            android:layout_toStartOf="@id/fab" />
 
         <ImageButton
             android:id="@+id/fab_action_1"
             style="@style/FloatingActionButton.Mini"
             android:src="@drawable/plus"
-            android:layout_above="@id/fab"
-            android:layout_alignEnd="@id/fab"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/txAddTerm" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add a course"
             android:id="@+id/txAddCourse"
-            android:layout_alignTop="@+id/fab_action_2"
-            android:layout_toStartOf="@+id/fab_action_2" />
+            android:layout_above="@+id/fab_action_2"
+
+            android:layout_alignEnd="@+id/fab_action_2" />
 
         <ImageButton
             android:id="@id/fab"
