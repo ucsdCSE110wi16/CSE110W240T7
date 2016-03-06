@@ -66,7 +66,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Previous GPA (If you are a freshman or don't know you GPA, please enter 4.0) "
+        android:text="Previous GPA (If you are a freshman or don't know your previous GPA, please enter 4.0) "
         android:layout_height="wrap_content" />
 
     <EditText
@@ -78,7 +78,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Current Unit (Please enter units token by letter grades) "
+        android:text="Previous Unit (Please note that any P/NP unit should be included) "
         android:layout_height="wrap_content" />
 
     <EditText
