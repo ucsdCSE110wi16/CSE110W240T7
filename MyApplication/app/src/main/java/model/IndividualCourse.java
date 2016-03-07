@@ -62,6 +62,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
@@ -139,7 +140,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
             double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
 
             gpa = (TextView) findViewById(R.id.GPA);
-            if(myGPA > 3.0 ) gpa.setTextColor(Color.BLACK);
+            if(myGPA == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
+            else if(myGPA>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
+            else if(myGPA>2.0) gpa.setTextColor(Color.rgb(255,165,0));
+            else gpa.setTextColor(Color.rgb(255,69,0));
 
 
 
@@ -235,8 +239,13 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
-                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+                double gpanumber = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
                 prepareData();
+                if(gpanumber == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
+                else if(gpanumber>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
+                else if(gpanumber>2.0) gpa.setTextColor(Color.rgb(255,165,0));
+                else gpa.setTextColor(Color.rgb(255,69,0));
+
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
                 gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
@@ -334,6 +343,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         Button cancel = (Button) layout.findViewById(R.id.bCancelSetScore);
         cancel.setOnClickListener(this);
         close.setOnClickListener(this);
+
 
     }
 

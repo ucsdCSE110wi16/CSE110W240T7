@@ -76,7 +76,7 @@ public class Courses {
 
         //Initialize grade scale
         if(letter){
-            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
+            this.setGpaThresholdLetter(93.0,83.0,73.0,63.0,97.0,90.0,87.0,80.0,77.0,70.0);
             this.gpa = 4.0;
         }
         else
@@ -146,16 +146,17 @@ public class Courses {
         return true;
     }
 
-    public void addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
+    public double addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
-        this.totalPercent = updateScores();
+        updateScores();
         BaseActivity.initialize.update();
+        return gpa;
     }
 
     /**Update Scores, recalculate percentage, and update the new gpa or pass/nopass status
      *
      */
-    public double updateScores(){
+    public void updateScores(){
         double percentage = 0.0;
         double totalWeight = 0.0;
         for(Category value : categories.values()){
@@ -205,7 +206,7 @@ public class Courses {
                 pass = false;
             }
         }
-        return percentage;
+        this.totalPercent =  percentage;
 
     }
 
