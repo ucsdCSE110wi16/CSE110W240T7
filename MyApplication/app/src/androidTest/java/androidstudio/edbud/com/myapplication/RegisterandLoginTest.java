@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginTest {
+public class RegisterandLoginTest {
     @Rule
     public ActivityTestRule<Login> activityRule = new ActivityTestRule(Login.class);
 
@@ -49,6 +49,7 @@ public class LoginTest {
         onView(withId(R.id.bLogin)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
         onView(withId(R.id.tvRegisterLink)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
     }
+
     @Test
     public void testRegisterAndLogin(){
 
@@ -105,16 +106,6 @@ public class LoginTest {
             e.printStackTrace();
         }
         onView(withId(R.id.GPAnumber)).perform(click());
-
-
-
-
-
-
-
-        //onView(withId(R.id.nav_view)).perform(click());
-        /*onView(withId(R.id.nav_logout)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
-        onView(withId(R.id.nav_logout)).perform(click());*/
 
 
 

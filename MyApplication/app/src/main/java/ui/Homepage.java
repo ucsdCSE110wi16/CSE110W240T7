@@ -31,12 +31,8 @@ public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     DecimalFormat df = new DecimalFormat("#.##");
     Context context;
-<<<<<<< HEAD
-    TextView gpaword;
-    TextView gpanumber;
-=======
+
     TextView gpanumber, gpaText;
->>>>>>> origin/master
     boolean isCurrGpa = true;
     ProgressBar progress_bar;
     Double gpa, currGpa;
