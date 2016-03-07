@@ -31,6 +31,7 @@ public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     DecimalFormat df = new DecimalFormat("#.##");
     Context context;
+    TextView gpaword;
     TextView gpanumber;
     boolean isCurrGpa = true;
     ProgressBar progress_bar;
@@ -108,6 +109,7 @@ public class Homepage extends BaseActivity
         if(isCurrGpa){
             progress_bar.setProgress(gpa.intValue());
             gpanumber.setText(df.format(gpa/10.00));
+
             isCurrGpa = false;
         }
         else{

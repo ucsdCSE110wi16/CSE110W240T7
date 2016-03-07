@@ -13,7 +13,6 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="1"
         android:gravity="center"
         android:textSize="18dp"
@@ -24,7 +23,6 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="2"
         android:textSize="18dp"
         android:gravity="center"
@@ -35,7 +33,6 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="3"
         android:textSize="18dp"
         android:gravity="center"

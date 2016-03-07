@@ -41,11 +41,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
-        tvForgetPassword = (TextView) findViewById(R.id.tvForgetPassword);
 
         bLogin.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
-        tvForgetPassword.setOnClickListener(this);
         Firebase.setAndroidContext(this);
 
 
@@ -154,19 +152,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 startActivity(new Intent(this, Register.class));
                 break;
 
-            case R.id.tvForgetPassword:
-                final ProgressDialog progressD = new ProgressDialog(Login.this);
-                progressD.setTitle("No worry!");
-                progressD.setMessage("Let's just register a new account to make it simple!");
-                progressD.show();
-                progressD.setCancelable(false);
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                progressD.dismiss();
-                            }
-                        }, 4000);
-                break;
 
             case R.id.bLogin:
 

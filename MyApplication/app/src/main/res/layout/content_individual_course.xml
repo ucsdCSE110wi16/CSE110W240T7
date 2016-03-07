@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
+        android:textStyle="bold"
         android:id="@+id/individual_course"
         android:layout_alignParentTop="true" />
 
@@ -79,8 +80,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/bAddWeights_individual"
         android:layout_below="@+id/individual_letter"
-        android:layout_alignBottom="@+id/textview_assignments"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/individual_letter" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,8 +88,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="GPA"
         android:id="@+id/GPA"
-        android:textColor="#d50000"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="60dp"
+        android:paddingTop="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/individual_course" />
 
@@ -98,7 +99,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:divider="@null"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
