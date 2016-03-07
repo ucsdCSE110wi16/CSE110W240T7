@@ -48,7 +48,7 @@ public class Homepage extends BaseActivity
         gpanumber.setOnClickListener(this);
 
         gpaText = (TextView) findViewById(R.id.GPAtext);
-        gpaText.setText("Current GPA");
+        gpaText.setText("Term GPA");
 
     }
 
@@ -119,7 +119,7 @@ public class Homepage extends BaseActivity
             progress_bar.setProgress(currGpa.intValue());
             gpanumber.setText(df.format(currGpa/10.00));
             isCurrGpa = true;
-            gpaText.setText("Current GPA");
+            gpaText.setText("Term GPA");
         }
 
     }

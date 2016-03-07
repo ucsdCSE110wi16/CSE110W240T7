@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.collection.LLRBNode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -132,8 +134,16 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         course = (TextView) findViewById(R.id.individual_course);
         unit = (TextView) findViewById(R.id.individual_unit);
         letter = (TextView) findViewById(R.id.individual_letter);
-        gpa = (TextView) findViewById(R.id.GPA);
-        course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+
+
+            double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
+
+            gpa = (TextView) findViewById(R.id.GPA);
+            if(myGPA > 3.0 ) gpa.setTextColor(Color.BLACK);
+
+
+
+            course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
                 .getCourseId());
         fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
@@ -251,12 +261,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     gpa.setText("No Pass");
                     showPercent = false;
                 }
-
-
-
-
-
-
         }
     }
 
