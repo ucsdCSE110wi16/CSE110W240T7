@@ -43,8 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text = "                      Term                         Unit                     GPA"
-                android:textStyle="bold"
-                android:textColor="@color/colorSecondaryText"
+                android:textStyle="normal"
+                android:textColor="@color/colorText"
                 android:textSize="14dp"/>
 
 
