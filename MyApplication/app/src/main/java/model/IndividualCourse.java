@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.collection.LLRBNode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -60,6 +62,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_course);
         myContext = this;
@@ -132,8 +135,19 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         course = (TextView) findViewById(R.id.individual_course);
         unit = (TextView) findViewById(R.id.individual_unit);
         letter = (TextView) findViewById(R.id.individual_letter);
-        gpa = (TextView) findViewById(R.id.GPA);
-        course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
+
+
+            double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
+
+            gpa = (TextView) findViewById(R.id.GPA);
+            if(myGPA == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
+            else if(myGPA>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
+            else if(myGPA>2.0) gpa.setTextColor(Color.rgb(255,165,0));
+            else gpa.setTextColor(Color.rgb(255,69,0));
+
+
+
+            course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
                 .getCourseId());
         fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
@@ -225,8 +239,13 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
-                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+                double gpanumber = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
                 prepareData();
+                if(gpanumber == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
+                else if(gpanumber>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
+                else if(gpanumber>2.0) gpa.setTextColor(Color.rgb(255,165,0));
+                else gpa.setTextColor(Color.rgb(255,69,0));
+
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
                 gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
@@ -251,12 +270,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     gpa.setText("No Pass");
                     showPercent = false;
                 }
-
-
-
-
-
-
         }
     }
 
@@ -330,6 +343,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         Button cancel = (Button) layout.findViewById(R.id.bCancelSetScore);
         cancel.setOnClickListener(this);
         close.setOnClickListener(this);
+
 
     }
 
