@@ -61,8 +61,29 @@
         android:layout_below="@+id/textview_unit"
         android:layout_marginTop="10dp"
         android:layout_alignEnd="@+id/GPA"
-        android:layout_above="@+id/textview_assignments"
+        android:layout_above="@+id/bAddAssignment"
         android:layout_toEndOf="@+id/textview_letter" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Highest Possible Grade: "
+        android:id="@+id/highest"
+        android:layout_below="@+id/textview_letter"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/highestgrade"
+        android:layout_below="@+id/individual_letter"
+        android:layout_alignRight="@id/highest"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,17 +92,18 @@
         android:text="Assignments"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/textview_letter" />
+        android:layout_below="@+id/highest" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" + Add Grade Distribution"
+        android:text="Add Grade Distribution"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/bAddWeights_individual"
         android:textColor="@color/colorSecondaryText"
-        android:layout_below="@+id/individual_letter"
-        android:layout_alignRight="@+id/individual_letter" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/lvExp"
+        android:layout_below="@+id/highestgrade" />
 
     <TextView
         android:layout_width="wrap_content"

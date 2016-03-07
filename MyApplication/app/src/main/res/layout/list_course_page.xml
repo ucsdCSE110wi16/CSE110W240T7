@@ -10,7 +10,6 @@
         android:paddingRight="15dp"
         android:weightSum="2"
         android:elevation="5dp"
-        android:background="@drawable/card_background"
         android:descendantFocusability="afterDescendants">
 
         <TextView android:id="@+id/list_course_page"

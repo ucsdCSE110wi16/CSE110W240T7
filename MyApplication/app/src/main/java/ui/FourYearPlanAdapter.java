@@ -76,6 +76,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
 
         String courseId = child.getCourseId();
         Double courseGpa = child.getGpa();
+        int Unit = (int)child.getUnit();
 
 
         if (convertView == null) {
@@ -88,9 +89,11 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListTermCourses);
 
         TextView txtCourseGpa = (TextView) convertView.findViewById(R.id.lblListTermCourseGpa);
+        TextView txtCourseUnit = (TextView) convertView.findViewById(R.id.lblListTermCourseUnit);
 
         txtCourse.setText(courseId);
         txtCourseGpa.setText(df.format(courseGpa));
+        txtCourseUnit.setText(String.valueOf(Unit));
         return convertView;
     }
 

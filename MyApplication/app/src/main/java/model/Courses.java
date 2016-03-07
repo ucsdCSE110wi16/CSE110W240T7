@@ -35,7 +35,7 @@ public class Courses {
         this.gpa = 0.0;
         this.pass = true;
         if(letter){
-            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
+            this.setGpaThresholdLetter(93.0,83.0,73.0,63.0,97.0,90.0,87.0,80.0,77.0,70.0);
             this.gpa = 4.0;
         }
         else
