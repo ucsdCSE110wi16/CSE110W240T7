@@ -241,7 +241,7 @@ public class User {
         IndividualAssignment toDelete = recentDues.get(recentDueIds.indexOf(assignment.getAssignmentName()));
         for(int i = 0; i <recentDueToShow.size(); ++i){
             if(recentDueToShow.get(i).getAssignmentName().equals(toDelete.getAssignmentName())){
-                if(recentDueToShow.get(i).getBelongsTo().equals(toDelete.getBelongsTo())){
+                if(recentDueToShow.get(i).getBelongsToCourse().equals(toDelete.getBelongsToCourse())){
                     recentDueToShow.remove(i);
                 }
             }

@@ -138,6 +138,8 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
 
         etTermCourseId= (EditText) layout.findViewById(R.id.etTermCourseName);
         etTermCourseUnit = (EditText) layout.findViewById(R.id.etTermCourseUnit);
+        TextView textGradeTitle = (TextView) layout.findViewById(R.id.TermCourseGradeTitle);
+        textGradeTitle.setVisibility(View.GONE);
 
         //Dim the background
         layout_main.getForeground().setAlpha(220);

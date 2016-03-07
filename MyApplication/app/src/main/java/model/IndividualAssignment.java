@@ -10,20 +10,24 @@ public class IndividualAssignment {
     double rawScore, scoreOutOf, percent;
     int year, month, day;
     boolean setScore;
-    String belongsTo;
+    boolean canReachNextLevel;
+    String nextLevel;
+    String belongsToCourse, belongsToCategory;
+    double percentToImprove;
 
     IndividualAssignment(){
-
     }
 
-    IndividualAssignment(String course, String name, int y, int m, int d){
+    IndividualAssignment(String course, String weight, String name, int y, int m, int d){
         this.assignmentName =name;
         this.year=y;
         this.month = m;
         this.day = d;
         this.rawScore = 0;
         this.setScore = false;
-        this.belongsTo = course;
+        this.belongsToCourse = course;
+        this.belongsToCategory = weight;
+        this.nextLevel = "A";
     }
 
     public String getAssignmentName(){
@@ -41,8 +45,25 @@ public class IndividualAssignment {
         this.percent = rawScore/scoreOutOf;
     }
 
-    public void setBelongsTo(String weight){
-        this.belongsTo = weight;
+    public void setBelongsToCourse(String course){
+        this.belongsToCourse = course;
+    }
+
+    public void setBelongsToCategory(String weight){
+        this.belongsToCategory = weight;
+    }
+
+    public void setPercentToImprove(double percent){
+        this.percentToImprove = percent;
+    }
+
+    public void setCanReachNextLevel(boolean canReachNextLevel) {
+        this.canReachNextLevel = canReachNextLevel;
+    }
+
+
+    public void setNextLevel(String nextLevel) {
+        this.nextLevel = nextLevel;
     }
 
     public void setYear(int year) {
@@ -82,10 +103,25 @@ public class IndividualAssignment {
         return day;
     }
 
-    public String getBelongsTo(){
-        return belongsTo;
+    public String getBelongsToCourse(){
+        return belongsToCourse;
     }
 
+    public String getBelongsToCategory(){
+        return belongsToCategory;
+    }
+
+    public double getPercentToImprove(){
+        return percentToImprove;
+    }
+
+    public boolean getCanReachNextLevel(){
+        return canReachNextLevel;
+    }
+
+    public String getNextLevel() {
+        return nextLevel;
+    }
 
     /**Return Assignment percentage obtained, used for calculation
      *

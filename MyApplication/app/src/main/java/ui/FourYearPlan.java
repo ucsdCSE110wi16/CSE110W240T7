@@ -115,7 +115,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     public void onClick(DialogInterface dialog, int which){
                                    startActivity(new Intent(context, AddTerm.class));
                         }
-                }).setPositiveButton("New",
+                }).setPositiveButton("Future",
                             new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which){

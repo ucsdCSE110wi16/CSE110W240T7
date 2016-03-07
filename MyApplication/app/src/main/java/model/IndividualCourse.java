@@ -37,16 +37,16 @@ import ui.CoursePage;
 import ui.ExpandableListAdapter;
 
 public class IndividualCourse extends Activity implements View.OnClickListener{
-    private TextView course, unit, letter,gpa;
+    private TextView course, unit, letter,gpa,highest;
     private EditText etWeightID, etWeightPercent, etRawScore, etScoreOutOf;
     private ListView assignmentList;
-   // private Courses BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
+    private Courses mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
     private Context myContext;
-    DecimalFormat df = new DecimalFormat("#.##");
+    private int i = 1;
 
 
 
-    ExpandableListAdapter listAdapter;
+    public static ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     ArrayList<String> listDataHeader;
     LinkedHashMap<String, Category> listCategory;
@@ -69,14 +69,14 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
             Log.v("my course:", "is null");
         }
         this.setViews();
-        this.setTitle(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCourseId());
-        listDataHeader = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getWeightsList();
+        this.setTitle(mycourse.getCourseId());
+        listDataHeader = mycourse.getWeightsList();
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         // preparing list data
-        listCategory = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories();
+        listCategory = mycourse.getCategories();
 
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listCategory);
@@ -93,12 +93,10 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
                 weight = listDataHeader.get(groupPosition).toString();
                 index = childPosition;
-                if (BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                .getCategories().get(weight).getAssignments().get(index).isSetScore()) {
+                if (mycourse.getCategories().get(weight).getAssignments().get(index).isSetScore()) {
                     //show popup asking if the User wants to change the score already inputted
                     new AlertDialog.Builder(myContext).setMessage("You have already inputted score for " +
-                            BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                                    .getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
+                            mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName() +
                             ". Are you sure you want to change? ").setNegativeButton("Cancel", null).setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
 
@@ -133,11 +131,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         unit = (TextView) findViewById(R.id.individual_unit);
         letter = (TextView) findViewById(R.id.individual_letter);
         gpa = (TextView) findViewById(R.id.GPA);
-        course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                .getCourseId());
+            highest = (TextView) findViewById(R.id.individual_highestGradePossible);
+        course.setText(mycourse.getCourseId());
         fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
         fab2.setOnClickListener(this);
-        unit.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getUnit()));
+        unit.setText(String.format("%.2f", mycourse.getUnit()));
+            highest.setText(mycourse.getHighestGradePossible());
 
         bAddWeight = (Button) findViewById(R.id.bAddWeights_individual);
         bAddWeight.setOnClickListener(this);
@@ -146,14 +145,13 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
         layout_main.getForeground().setAlpha(0);
         gpa.setOnClickListener(this);
 
-        if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                .getLetter()) {
+        if(mycourse.getLetter()) {
             letter.setText("Letter grade");
-            gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
+            gpa.setText(String.format("%.2f", mycourse.getGpa()));
         }
         else{
             letter.setText("PNP");
-            if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getPass())
+            if(mycourse.getPass())
                 gpa.setText("Pass");
             else
                 gpa.setText("No pass");
@@ -163,7 +161,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
     private void prepareData() {
         System.out.println("updated");
-        listCategory = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories();
+        listDataHeader = mycourse.getWeightsList();
+        listCategory = mycourse.getCategories();
         listAdapter.notifyDataSetChanged();
     }
 
@@ -171,7 +170,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.individual_fab:
-                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().isEmpty()){
+                if(listCategory.isEmpty()){
                     Toast.makeText(this,"Please add at least one grading distribution first", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -192,10 +191,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     return;
                 }
                 int percent = Integer.parseInt(weightPercent);
-                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addWeight(weightID, percent)){
+                if(mycourse.addWeight(weightID, percent)){
+                    BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addWeight(weightID, percent);
                     System.out.println("add new weight: " + weightID);
                     Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                     start.setValue(BaseActivity.initialize);
+                    highest.setText(mycourse.getHighestGradePossible());
                    // listDataHeader.add(weightID);
 
                     prepareData();
@@ -226,10 +227,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
                 BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+              //  mycourse.addAssignmentScore(weight, index, r, s);
                 prepareData();
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
-                gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
+                gpa.setText(Double.toString(mycourse.getGpa()));
+                highest.setText(mycourse.getHighestGradePossible());
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 System.out.println("after dismiss popup");
@@ -238,18 +241,26 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
             case R.id.GPA:
-                if(!showPercent){
-                    gpa.setText(df.format(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getTotalPercent()) + "%");
-                    showPercent = true;
-                }else if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getLetter()){
-                    gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
+                if(i == 0){
+                    gpa.setText(String.format("%.2f", mycourse.getTotalPercent()) + "%");
+                    //showPercent = true;
+                    ++i;
+                }else if(i == 1 ){
+                    if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getLetter()){
+                    gpa.setText(String.format("%.2f", mycourse.getGpa()));
                     showPercent = false;
-                }else if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getPass()){
-                    gpa.setText("Pass");
-                    showPercent = false;
-                }else{
-                    gpa.setText("No Pass");
-                    showPercent = false;
+                    }else if(mycourse.getPass()){
+                        gpa.setText("Pass");
+                     showPercent = false;
+                    }else {
+                        gpa.setText("No Pass");
+                        showPercent = false;
+                    }
+                    ++i;
+                }
+                else{
+                    gpa.setText(mycourse.getGrade());
+                    i = 0;
                 }
 
 

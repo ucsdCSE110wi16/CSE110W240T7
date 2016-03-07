@@ -6,7 +6,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -64,6 +64,17 @@
 
 
     </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/projection"
+            android:layout_below="@+id/dueLinear"
+            />
+
+
 
 
 

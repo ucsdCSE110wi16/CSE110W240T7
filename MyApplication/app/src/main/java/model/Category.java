@@ -55,13 +55,13 @@ public class Category {
                 return false;
         }
 
-        IndividualAssignment temp = new IndividualAssignment(course, name, y, m, d);
+        IndividualAssignment temp = new IndividualAssignment(course, categoryName, name, y, m, d);
         assignments.add(temp);
         Collections.sort(assignments, dueDateComparator);
-        System.out.println("test comparator print after adding score");
-        for(int i = 0; i < assignments.size(); ++i){
-        	System.out.println(assignments.get(i).getAssignmentName());
-        }
+        ////System.out.println("test comparator print after adding score");
+       // for(int i = 0; i < assignments.size(); ++i){
+       //   //System.out.println(assignments.get(i).getAssignmentName());
+       // }
         BaseActivity.initialize.addRecentDues(temp);
             return true;
 
@@ -78,10 +78,10 @@ public class Category {
         //sort new assignment arraylist
         Collections.sort(assignments, dueDateComparator);
 
-        System.out.println("test comparator print after adding score");
-        for(int i = 0; i < assignments.size(); ++i){
-        	System.out.println(assignments.get(i).getAssignmentName());
-        }
+        ////System.out.println("test comparator print after adding score");
+        //for(int i = 0; i < assignments.size(); ++i){
+        //  //System.out.println(assignments.get(i).getAssignmentName());
+        //}
 
         //update score
         ArrayList<IndividualAssignment> temp = new ArrayList<>();
@@ -99,11 +99,6 @@ public class Category {
             newPercent = 1.0;
         }
         else{
-            /*
-            for(int i = 0; i < temp.size() - numToDrop; ++i){
-                newPercent += temp.get(i).getPercent();
-            }
-            newPercent = newPercent/(temp.size() - numToDrop);*/
             int i = 0;
             for(; i < temp.size()-numToDrop; ++i){
                 if(!temp.get(i).isSetScore()){
@@ -119,6 +114,61 @@ public class Category {
             setCurrPercent(newPercent);
 
     }
+
+    /**
+    *Projection stuff
+    */
+
+    public Double calculateHighestPossiblePercent(){
+        if(assignments.size() == 0){
+            return 1.0;
+        }
+        double newPercent = 0;
+        for(int i = 0; i < assignments.size(); ++i){
+            if(assignments.get(i).isSetScore())
+                newPercent += assignments.get(i).getPercent();
+            else
+                newPercent += 1;
+        }
+        newPercent = newPercent/assignments.size();
+        //System.out.println(categoryName + " getHighestPossiblePercent: " + newPercent);
+        return newPercent;
+    }
+
+    public void makeProjection(double percentToObtain, boolean canReachNextLevel, String nextLevel){
+        //System.out.println(categoryName + " has percent To Obtain: " + percentToObtain);
+        double percentToImprove = 1.0;
+        if(percentToObtain > this.totalWeight){
+            percentToImprove = 1.0;
+        }
+        else{
+            int num = 0;
+            double sum = 0.0;
+            for(int i = 0; i < assignments.size(); ++i){
+                if(assignments.get(i).isSetScore())
+                    sum += assignments.get(i).getPercent();
+                else 
+                    num += 1;
+            }
+            if(num >= 1)
+                percentToImprove = (percentToObtain/totalWeight * assignments.size() - sum)/num;
+
+            if(percentToImprove > 1)
+                percentToImprove = 1.0;
+        }
+        for(int i = 0; i < assignments.size(); ++i){
+                if(!assignments.get(i).isSetScore()) {
+                    assignments.get(i).setPercentToImprove(percentToImprove);
+                    assignments.get(i).setCanReachNextLevel(canReachNextLevel);
+                    assignments.get(i).setNextLevel(nextLevel);
+                }
+        }
+
+        ////System.out.println("percentToObtain: " + percentToObtain);
+        ////System.out.println("percentToImprove: " + percentToImprove);
+    }
+    
+
 
     /**
      *Getters
@@ -155,7 +205,7 @@ public class Category {
 
         @Override
         public int compare(IndividualAssignment a1, IndividualAssignment a2){
-            System.out.println("a1 is: " + a1.getAssignmentName() + " a2 is: " + a2.getAssignmentName());
+            ////System.out.println("a1 is: " + a1.getAssignmentName() + " a2 is: " + a2.getAssignmentName());
             if((a1.isSetScore() && a2.isSetScore()) || ((!a1.isSetScore()) && (!a2.isSetScore()))){
                 int a1Date = a1.getYear() * 10000 + a1.getMonth() * 100 + a1.getDay();
                 int a2Date = a2.getYear() * 10000 + a2.getMonth() * 100 + a2.getDay();

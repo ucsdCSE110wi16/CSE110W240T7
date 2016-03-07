@@ -38,7 +38,7 @@ public class CourseListAdapter extends ArrayAdapter {
             TextView gpa = (TextView) row.findViewById(R.id.list_course_page_gpa);
 
         course.setText(courseList.get(position).getCourseId());
-        gpa.setText(Double.toString(courseList.get(position).getGpa()));
+        gpa.setText(String.format("%.2f", courseList.get(position).getGpa()));
         return row;
     }
 
