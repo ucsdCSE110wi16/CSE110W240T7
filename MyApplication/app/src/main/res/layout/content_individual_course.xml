@@ -79,6 +79,7 @@
         android:text=" + Add Grade Distribution"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/bAddWeights_individual"
+        android:textColor="@color/colorSecondaryText"
         android:layout_below="@+id/individual_letter"
         android:layout_alignRight="@+id/individual_letter" />
 
