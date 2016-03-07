@@ -245,7 +245,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 else if(gpanumber>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
                 else if(gpanumber>2.0) gpa.setTextColor(Color.rgb(255,165,0));
                 else gpa.setTextColor(Color.rgb(255,69,0));
-
+                
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
                 gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
