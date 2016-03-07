@@ -8,7 +8,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Email(Must have a valid format including @ symbol)"
+        android:text="Email (Please follow the format xxx@xxx.com)"
         android:layout_height="wrap_content" />
 
     <EditText
@@ -19,7 +19,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Password(Must have more than six characters)"
+        android:text="Password (Must have more than six characters)"
         android:layout_height="wrap_content" />
 
     <EditText
@@ -66,7 +66,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Previous GPA (If you are a freshman or don't know you GPA, please enter 4.0) "
+        android:text="Previous GPA (If you are a freshman or don't know your previous GPA, please enter 4.0) "
         android:layout_height="wrap_content" />
 
     <EditText
@@ -78,7 +78,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Current Unit (Please enter units token by letter grades) "
+        android:text="Previous Unit (Any P/NP unit should be included) "
         android:layout_height="wrap_content" />
 
     <EditText
@@ -90,7 +90,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Term"/>
+        android:text="Current Term (For example: Winter 2016)"/>
 
     <EditText
         android:id="@+id/etCurrentTerm"
