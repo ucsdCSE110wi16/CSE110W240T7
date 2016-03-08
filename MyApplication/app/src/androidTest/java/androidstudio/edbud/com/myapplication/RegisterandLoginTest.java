@@ -22,6 +22,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -32,7 +33,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginTest {
+public class RegisterandLoginTest {
     @Rule
     public ActivityTestRule<Login> activityRule = new ActivityTestRule(Login.class);
 
@@ -48,12 +49,13 @@ public class LoginTest {
         onView(withId(R.id.bLogin)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
         onView(withId(R.id.tvRegisterLink)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
     }
+
     @Test
     public void testRegisterAndLogin(){
 
         onView(withId(R.id.tvRegisterLink))
                 .perform(click());
-        onView(withId(R.id.etEmail)).perform(typeText("test2@ucsd.edu"));
+        onView(withId(R.id.etEmail)).perform(typeText("test@ucsd.edu"));
         onView(withId(R.id.etPassword)).perform(typeText("123456"));
         onView(withId(R.id.etName)).perform(typeText("newUser"));
         onView(withId(R.id.etCollege)).perform(typeText("sixth"));
@@ -66,23 +68,44 @@ public class LoginTest {
         onView(withId(R.id.bRegister)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
         onView(withId(R.id.bRegister)).perform(click());
 
-        /*onView(withId(R.id.etEmail)).perform(typeText("test@ucsd.edu"));
-        onView(withId(R.id.etPassword)).perform(typeText("123456"));
-        onView(withId(R.id.bLogin)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
-        onView(withId(R.id.bLogin)).perform(click());
+
         try {
-            sleep(4000);
+            sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withContentDescription(R.string.navigation_drawer_open)).check(matches(isClickable()));
+        onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
+        onView(withText("Logout")).perform(click());
+
+        try {
+            sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        onView(withId(R.id.etEmail)).perform(typeText("test@ucsd.edu"));
+        onView(withId(R.id.etPassword)).perform(typeText("123456"));
+        onView(withId(R.id.bLogin)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
+        onView(withId(R.id.bLogin)).perform(click());
+
         onView(withId(R.id.GPAtext))
-                .check(matches(withText("GPA")));
+                .check(matches(withText("Current GPA")));
         onView(withId(R.id.GPAnumber))
-                .check(matches(withText("3.67")));*/
-        //onView(withId(R.id.nav_view)).perform(click());
-        /*onView(withId(R.id.nav_logout)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
-        onView(withId(R.id.nav_logout)).perform(click());*/
+                .check(matches(withText("4")));
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.GPAnumber)).perform(click());
+
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.GPAnumber)).perform(click());
 
 
 

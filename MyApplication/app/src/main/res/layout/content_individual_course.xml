@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
+        android:textStyle="bold"
         android:id="@+id/individual_course"
         android:layout_alignParentTop="true" />
 
@@ -60,15 +61,20 @@
         android:layout_below="@+id/textview_unit"
         android:layout_marginTop="10dp"
         android:layout_alignEnd="@+id/GPA"
-        android:layout_above="@+id/textview_assignments"
+        android:layout_above="@+id/bAddAssignment"
         android:layout_toEndOf="@+id/textview_letter" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+<<<<<<< HEAD
         android:text="Highest grade possible: "
         android:id="@+id/textview_highestGradePossible"
+=======
+        android:text="Highest Possible Grade: "
+        android:id="@+id/highest"
+>>>>>>> ucsdCSE110wi16/master
         android:layout_below="@+id/textview_letter"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
@@ -78,6 +84,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
+<<<<<<< HEAD
         android:id="@+id/individual_highestGradePossible"
         android:layout_below="@+id/textview_letter"
         android:layout_marginTop="10dp"
@@ -86,6 +93,13 @@
         android:layout_toEndOf="@+id/textview_highestGradePossible" />
 
 
+=======
+        android:id="@+id/highestgrade"
+        android:layout_below="@+id/individual_letter"
+        android:layout_alignRight="@id/highest"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
+>>>>>>> ucsdCSE110wi16/master
 
     <TextView
         android:layout_width="wrap_content"
@@ -94,17 +108,22 @@
         android:text="Assignments"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
+<<<<<<< HEAD
         android:layout_below="@+id/textview_highestGradePossible" />
+=======
+        android:layout_below="@+id/highest" />
+>>>>>>> ucsdCSE110wi16/master
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" + Add Grade Distribution"
+        android:text="Add Grade Distribution"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/bAddWeights_individual"
-        android:layout_below="@+id/individual_letter"
-        android:layout_alignBottom="@+id/textview_assignments"
-        android:layout_alignParentEnd="true" />
+        android:textColor="@color/colorSecondaryText"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/lvExp"
+        android:layout_below="@+id/highestgrade" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -112,8 +131,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="GPA"
         android:id="@+id/GPA"
-        android:textColor="#d50000"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="60dp"
+        android:paddingTop="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/individual_course" />
 
@@ -122,7 +142,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:divider="@null"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"

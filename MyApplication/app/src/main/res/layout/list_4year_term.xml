@@ -15,24 +15,24 @@
     android:paddingBottom="10dp"
     android:paddingRight="15dp"
     android:weightSum="3"
-        android:background="@drawable/card_background_selector"
+
     android:descendantFocusability="afterDescendants">
 
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:text="1"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18dp"
         android:layout_weight="1"
         android:id="@+id/lblListTerm" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="2"
+            android:textSize="14dp"
             android:gravity="center"
             android:layout_weight="1"
             android:id="@+id/lblListTermUnit"
@@ -42,10 +42,10 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="3"
+        android:textSize="14dp"
         android:gravity="center"
-        android:layout_weight="1"
+        android:layout_weight="0.88"
         android:id="@+id/lblListTermGpa"
         android:textColor="@color/colorPrimary"/>
     </LinearLayout>
