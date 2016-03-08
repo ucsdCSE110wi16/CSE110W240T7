@@ -42,6 +42,8 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
 
+import org.w3c.dom.Text;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -60,7 +62,6 @@ import model.Term;
  */
 public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
-    FourYearPlanAdapter myAdapter;
     FourYearPlanListView listView;
     ImageButton fab;
     View fabAction1, fabAction2;
@@ -73,10 +74,17 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     private EditText etTermCourseId, etTermCourseUnit;
     private CoordinatorLayout layout_main;
     private PopupWindow popup;
-    private double courseGpa=0.0;
+
+
+    private double courseGpa=-1.0;
     private int courseUnit = 0;
     private Switch gradeSwitch;
     private boolean letter = true;
+    private boolean isFuture = true;
+
+
+
+
     private TextView switchStatus, termUnit, termGpa;
     private RadioGroup termsGroup;
     private RadioButton termButton;
@@ -110,28 +118,38 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         fabAction1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context).setMessage("Are you adding a past term or a new term?")
-                .setNegativeButton("Past", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
-                                   startActivity(new Intent(context, AddTerm.class));
-                        }
-                }).setPositiveButton("Future",
-                            new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(context).setMessage("Do you want to add a past term or a future term?")
+                        .setNegativeButton("Add A Past Term", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(context, AddTerm.class));
+                            }
+                        }).setPositiveButton("Add A Future Term",
+                        new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface dialog, int which){
-                                   startActivity(new Intent(context, AddNewTerm.class));
-                        }
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(context, AddNewTerm.class));
+                            }
 
-                            }).show();
+                        }).show();
             }
         });
 
         fabAction2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPop(activity);
-                System.out.println("showpopup?");
-                //startActivity(new Intent(context, IndividualCourse.class));
+                new AlertDialog.Builder(context).setMessage("Do you want to add a course to a past term or a future term?")
+                        .setNegativeButton("Past Term", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which){
+                                showPop(activity, isFuture = false);
+                            }
+                        }).setPositiveButton("Future Term",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                               showPop(activity, isFuture = true);
+                            }
+
+                        }).show();
             }
         });
 
@@ -151,18 +169,24 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             @Override
             public boolean onPreDraw() {
                 fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                //System.out.println("fab, x: " + fab.getX() + " y: " + fab.getY());
+                //System.out.println("fabAction1, x: " + fabAction1.getX() + " y: " + fabAction1.getY());
+                //System.out.println("fabAction2, x: " + fabAction2.getX() + " y: " + fabAction2.getY());
+
                 offset1 = fab.getX() - fabAction1.getX();
                 fabAction1.setTranslationX(offset1);
                 offset2 = fab.getY() - fabAction2.getY();
                 fabAction2.setTranslationY(offset2);
+
+                //System.out.println("fab, x: " + fab.getX() + " y: " + fab.getY());
+                //System.out.println("fabAction1, x: " + fabAction1.getX() + " y: " + fabAction1.getY());
+                //System.out.println("fabAction2, x: " + fabAction2.getX() + " y: " + fabAction2.getY());
+
+
+                //System.out.println("offset1: " + offset1 + " offset2: " + offset2);
                 return true;
             }
         });
-
-
-        termList = BaseActivity.initialize.getTerms();
-        fourYearList = BaseActivity.initialize.getMy4YearPlan();
-        myAdapter = new FourYearPlanAdapter(this, termList, fourYearList);
 //        listView.setDragOnLongPress(true);
         // setting list adapter
 //        listView.setAdapter(myAdapter);
@@ -238,7 +262,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this,"Please input course unit",Toast.LENGTH_LONG).show();
                     return;
                 }
-                else if(courseGpa == 0.0){
+                else if(courseGpa == -1.0 && !isFuture){
                     Toast.makeText(this, "Please choose course grade", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -246,14 +270,18 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this, "Please select a term", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 termButton = (RadioButton) termsGroup.findViewById(selectedId);
                 courseUnit = Integer.parseInt(courseUnitString);
-                BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa));
+                if(!isFuture)
+                    BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa));
+                else
+                    BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit));
+
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
-                myAdapter.notifyDataSetChanged();
-                listView.invalidate();
+                OneFragment.oneAdapter.notifyDataSetChanged();
+                TwoFragment.twoAdapter.notifyDataSetChanged();
+               // listView.invalidate();
                 break;
             case R.id.bpopupCancelAddPastCourse:
                 layout_main.getForeground().setAlpha(0);
@@ -341,7 +369,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
     }
 
-    public void showPop(Activity context){
+    public void showPop(Activity context, boolean isFuture){
         // Inflate the popup_layout.xml
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
@@ -360,45 +388,79 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         bC = (Button) layout.findViewById(R.id.bC_course);
         bD = (Button) layout.findViewById(R.id.bD_course);
         bF = (Button) layout.findViewById(R.id.bF_course);
-        bA.setOnClickListener(this);
-        bB.setOnClickListener(this);
-        bC.setOnClickListener(this);
-        bD.setOnClickListener(this);
-        bF.setOnClickListener(this);
+
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch_course);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus_course);
+
+
         termsGroup = (RadioGroup) layout.findViewById(R.id.radioTerms);
         RadioButton rdbtn;
-        ArrayList terms = BaseActivity.initialize.getTerms();
-        for (int i = 0; i<terms.size(); ++i) {
-            rdbtn = new RadioButton(this);
-            rdbtn.setId(i);
-            rdbtn.setText(terms.get(i).toString());
-            termsGroup.addView(rdbtn);
-        }
 
-        gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    switchStatus.setText("Pass/No Pass");
-                    letter = false;
-                    bA.setText("P");
-                    bB.setText("NP");
-                    bC.setVisibility(View.GONE);
-                    bD.setVisibility(View.GONE);
-                    bF.setVisibility(View.GONE);
-                } else {
-                    switchStatus.setText("Letter grade");
-                    letter = true;
-                    bA.setText("A");
-                    bB.setText("B");
-                    bC.setVisibility(View.VISIBLE);
-                    bD.setVisibility(View.VISIBLE);
-                    bF.setVisibility(View.VISIBLE);
+        if(!isFuture) {
+            bA.setOnClickListener(this);
+            bB.setOnClickListener(this);
+            bC.setOnClickListener(this);
+            bD.setOnClickListener(this);
+            bF.setOnClickListener(this);
+
+            switchStatus.setText("Letter grade");
+            letter = true;
+
+            gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        switchStatus.setText("Pass/No Pass");
+                        letter = false;
+                        bA.setText("P");
+                        bB.setText("NP");
+                        bC.setVisibility(View.GONE);
+                        bD.setVisibility(View.GONE);
+                        bF.setVisibility(View.GONE);
+                        courseGpa = -1.0;
+                        changeButtonColor("Reset");
+
+                    } else {
+                        switchStatus.setText("Letter grade");
+                        letter = true;
+                        bA.setText("A");
+                        bB.setText("B");
+                        bC.setVisibility(View.VISIBLE);
+                        bD.setVisibility(View.VISIBLE);
+                        bF.setVisibility(View.VISIBLE);
+                        courseGpa = -1.0;
+                        changeButtonColor("Reset");
+                    }
                 }
-            }
-        });
+            });
 
+            ArrayList terms = BaseActivity.initialize.getPastTerms();
+            for (int i = 0; i < terms.size(); ++i) {
+                rdbtn = new RadioButton(this);
+                rdbtn.setId(i);
+                rdbtn.setText(terms.get(i).toString());
+                termsGroup.addView(rdbtn);
+            }
+        }
+        else
+        {
+            bA.setVisibility(View.GONE);
+            bB.setVisibility(View.GONE);
+            bC.setVisibility(View.GONE);
+            bD.setVisibility(View.GONE);
+            bF.setVisibility(View.GONE);
+            gradeSwitch.setVisibility(View.GONE);
+            switchStatus.setVisibility(View.GONE);
+            TextView grade = (TextView) layout.findViewById(R.id.TermCourseGradeTitle_course);
+            grade.setVisibility(View.GONE);
+
+            ArrayList terms = BaseActivity.initialize.getFutureTerms();
+            for (int i = 0; i < terms.size(); ++i) {
+                rdbtn = new RadioButton(this);
+                rdbtn.setId(i);
+                rdbtn.setText(terms.get(i).toString());
+                termsGroup.addView(rdbtn);
+            }
+        }
 
 
         //Dim the background
@@ -416,6 +478,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         close.setOnClickListener(this);
 
     }
+
+
     private void changeButtonColor(String button){
         switch(button){
             case "A":
@@ -453,6 +517,14 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 break;
+            default:
+                bA.setBackgroundColor(Color.TRANSPARENT);
+                bB.setBackgroundColor(Color.TRANSPARENT);
+                bC.setBackgroundColor(Color.TRANSPARENT);
+                bD.setBackgroundColor(Color.TRANSPARENT);
+                bF.setBackgroundColor(Color.TRANSPARENT);
+
+
         }
     }
 }

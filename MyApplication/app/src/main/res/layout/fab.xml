@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Add a quarter"
             android:id="@+id/txAddTerm"
-            android:layout_below="@+id/fab_action_2"
+            android:layout_above="@+id/fab_action_1"
             android:layout_toStartOf="@id/fab" />
 
         <ImageButton
@@ -30,7 +30,8 @@
             style="@style/FloatingActionButton.Mini"
             android:src="@drawable/plus"
             android:contentDescription="@null"
-            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@id/fab"
+            android:layout_toStartOf="@id/fab"
             android:layout_alignEnd="@+id/txAddTerm" />
 
         <TextView

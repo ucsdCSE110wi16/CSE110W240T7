@@ -19,7 +19,7 @@ import model.Term;
 
 
 public class TwoFragment extends Fragment{
-    FourYearPlanAdapter myAdapter;
+    public static FourYearPlanAdapter twoAdapter;
     ExpandableListView listView;
     Context context;
 
@@ -43,10 +43,10 @@ public class TwoFragment extends Fragment{
         listView = (ExpandableListView) v.findViewById(R.id.lsTerms_past);
         ArrayList<String> termList = BaseActivity.initialize.getPastTerms();
         LinkedHashMap<String, Term> pastTermList = BaseActivity.initialize.getMyPastTerms();
-        myAdapter = new FourYearPlanAdapter(context, termList, pastTermList);
+        twoAdapter = new FourYearPlanAdapter(context, termList, pastTermList);
         //listView.setDragOnLongPress(true);
         // setting list adapter
-        listView.setAdapter(myAdapter);
+        listView.setAdapter(twoAdapter);
         return v;
         // Inflate the layout for this fragment
     }

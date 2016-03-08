@@ -15,6 +15,13 @@ import ui.BaseActivity;
 
 public class Courses {
 
+    /**
+     * totalSettedWeiht -- sum of category(has score inputted) weights
+     * rawPercent -- sum of category percent * category weight
+     * totalPercent -- rawPercent/totalSettedWeight
+     * highestGradePossible -- highest grade user is able to achieve by assuming all not yet inputted assignments are 100%
+     * grade -- current grade of this course
+     */
     double unit;
     boolean letter;
     boolean pass;
@@ -44,11 +51,36 @@ public class Courses {
 
     }
 
+    //constructor for initializing a past course
     public Courses(String id, int u, boolean l, double grade){
         this.courseId = id;
         this.unit = u;
         this.letter = l;
         this.gpa = grade;
+    }
+
+    //constructor for initializing a future course
+    public Courses(String id, int u){
+        this.courseId = id;
+        this.unit = u;
+        this.letter = true;
+        this.gpa = 4.0;
+        this.gpaThreshold = new LinkedHashMap<>();
+        this.totalPercent = 100;
+        this.rawPercent = 0.0;
+        if(letter){
+            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
+            this.gpa = 4.0;
+            highestGradePossible = "A+";
+            grade = "A+";
+        }
+        else{
+            this.setGpaThresholdPNP(60.0);
+            highestGradePossible = "P";
+            grade = "P";
+        }
+
+
     }
 
     /**
@@ -275,12 +307,19 @@ public class Courses {
     */
 
     public void updatehighestGradePossible(){
+        if(totalSettedWeight == 0)
+            return;
+
         double newPercent = 0.0;
+        double newWeight = 0.0;
         for(Category value : categories.values()){
             newPercent += value.calculateHighestPossiblePercent() * value.getTotalWeight();
-           // //System.out.println("category: " + value.getCategoryName());
-           // //System.out.println("getHighestPossiblePercent: " + value.getHighestPossiblePercent());
+            newWeight += value.getTotalWeight();
+            System.out.println("category: " + value.getCategoryName());
+            System.out.println("getHighestPossiblePercent: " + value.calculateHighestPossiblePercent());
         }
+        newPercent = newPercent/newWeight * 100;
+        System.out.println("new percent: " + newPercent);
 
         if(letter){
             if(newPercent >= gpaThreshold.get("A+")){

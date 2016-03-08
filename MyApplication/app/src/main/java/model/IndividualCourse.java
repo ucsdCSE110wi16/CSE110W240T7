@@ -42,7 +42,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     private ListView assignmentList;
     private Courses mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
     private Context myContext;
-    private int i = 1;
+    private int i = 2;
 
 
 
@@ -245,7 +245,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     gpa.setText(String.format("%.2f", mycourse.getTotalPercent()) + "%");
                     //showPercent = true;
                     ++i;
-                }else if(i == 1 ){
+                }else if(i == 1){
                     if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getLetter()){
                     gpa.setText(String.format("%.2f", mycourse.getGpa()));
                     showPercent = false;
