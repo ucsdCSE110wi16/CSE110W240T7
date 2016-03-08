@@ -62,21 +62,21 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
+		double myGPA = mycourse.getGpa();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_individual_course);
 		myContext = this;
-		if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p) == null) {
-            Log.v("p value is :", String.valueOf(CoursePage.p));
+
 
             this.setViews();
             this.setTitle(mycourse.getCourseId());
-            listDataHeader = mycourse.getWeightsList();
+
 
             // get the listview
             expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
             // preparing list data
+            listDataHeader = mycourse.getWeightsList();
             listCategory = mycourse.getCategories();
 
 
@@ -113,7 +113,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
             });
         }
 
-	}
 
     private void prepareData(){
 		System.out.println("updated");
@@ -123,14 +122,40 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 	}
 
 
-        @TargetApi(Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     private void setViews(){
-        course = (TextView) findViewById(R.id.individual_course);
-        unit = (TextView) findViewById(R.id.individual_unit);
-        letter = (TextView) findViewById(R.id.individual_letter);
+            course = (TextView) findViewById(R.id.individual_course);
+            unit = (TextView) findViewById(R.id.individual_unit);
+            letter = (TextView) findViewById(R.id.individual_letter);
+            gpa = (TextView) findViewById(R.id.GPA);
+            highest = (TextView) findViewById(R.id.individual_highestGradePossible);
+            course.setText(mycourse.getCourseId());
+            fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
+            fab2.setOnClickListener(this);
+            unit.setText(String.format("%.2f", mycourse.getUnit()));
+            highest.setText(mycourse.getHighestGradePossible());
+
+            bAddWeight = (Button) findViewById(R.id.bAddWeights_individual);
+            bAddWeight.setOnClickListener(this);
+
+            layout_main= (CoordinatorLayout) findViewById(R.id.individual_course_page);
+            layout_main.getForeground().setAlpha(0);
+            gpa.setOnClickListener(this);
+
+            if(mycourse.getLetter()) {
+                letter.setText("Letter grade");
+                gpa.setText(String.format("%.2f", mycourse.getGpa()));
+            }
+            else{
+                letter.setText("PNP");
+                if(mycourse.getPass())
+                    gpa.setText("Pass");
+                else
+                    gpa.setText("No pass");
+            }
 
 
-            double myGPA = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa();
+            double myGPA = mycourse.getGpa();
 
             gpa = (TextView) findViewById(R.id.GPA);
             if(myGPA == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
@@ -140,31 +165,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
 
 
-            course.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                .getCourseId());
-        fab2 = (FloatingActionButton) findViewById(R.id.individual_fab);
-        fab2.setOnClickListener(this);
-        unit.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getUnit()));
 
-        bAddWeight = (Button) findViewById(R.id.bAddWeights_individual);
-        bAddWeight.setOnClickListener(this);
-
-        layout_main= (CoordinatorLayout) findViewById(R.id.individual_course_page);
-        layout_main.getForeground().setAlpha(0);
-        gpa.setOnClickListener(this);
-
-        if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p)
-                .getLetter()) {
-            letter.setText("Letter grade");
-            gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
-        }
-        else{
-            letter.setText("PNP");
-            if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getPass())
-                gpa.setText("Pass");
-            else
-                gpa.setText("No pass");
-        }
 
     }
 
@@ -172,7 +173,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.individual_fab:
-                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().isEmpty()){
+                if(listCategory.isEmpty()) {
                     Toast.makeText(this,"Please add at least one grading distribution first", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -193,11 +194,13 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     return;
                 }
                 int percent = Integer.parseInt(weightPercent);
-                if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addWeight(weightID, percent)){
+                if(mycourse.addWeight(weightID, percent)){
+                    BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addWeight(weightID, percent);
                     System.out.println("add new weight: " + weightID);
                     Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                     start.setValue(BaseActivity.initialize);
-                   // listDataHeader.add(weightID);
+                    highest.setText(mycourse.getHighestGradePossible());
+                    // listDataHeader.add(weightID);
 
                     prepareData();
                 }
@@ -226,43 +229,53 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 }
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
-                double gpanumber = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
-                prepareData();
-                if(gpanumber == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
-                else if(gpanumber>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
-                else if(gpanumber>2.0) gpa.setTextColor(Color.rgb(255,165,0));
-                else gpa.setTextColor(Color.rgb(255,69,0));
+
+                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+
 
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
-                gpa.setText(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getGpa()));
+                //TODO:fix this latter
+                mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
+                prepareData();
+                gpa.setText(String.format("%.2f",mycourse.getGpa()));
+                highest.setText(mycourse.getHighestGradePossible());
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
-                System.out.println("after dismiss popup");
+               // System.out.println("after dismiss popup");
                 break;
             case R.id.bCancelSetScore:
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
             case R.id.GPA:
-                if(!showPercent){
-                    gpa.setText(String.format("%.2f",mycourse.getTotalPercent()) + "%");
-                    showPercent = true;
-                }else if(mycourse.getLetter()){
-                    gpa.setText(Double.toString(mycourse.getGpa()));
-                    showPercent = false;
-                }else if(mycourse.getPass()){
-                    gpa.setText("Pass");
-                    showPercent = false;
-                }else{
-                    gpa.setText("No Pass");
-                    showPercent = false;
+                if(i == 0){
+                    gpa.setText(String.format("%.2f", mycourse.getTotalPercent()) + "%");
+                    //showPercent = true;
+                    ++i;
+                }else if(i == 1){
+                    if(mycourse.getLetter()){
+                        gpa.setText(String.format("%.2f", mycourse.getGpa()));
+                        showPercent = false;
+                    }else if(mycourse.getPass()){
+                        gpa.setText("Pass");
+                        showPercent = false;
+                    }else {
+                        gpa.setText("No Pass");
+                        showPercent = false;
+                    }
+                    ++i;
                 }
-        }
-    }
+                else{
+                    gpa.setText(mycourse.getGrade());
+                    i = 0;
+                }
 
-    @Override
-    public void onBackPressed(){
-        startActivity(new Intent(this, CoursePage.class));
+
+
+
+
+
+        }
     }
 
     public void showPop(Activity context){
@@ -333,5 +346,11 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
 
     }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, CoursePage.class));
+    }
+
 
 }
