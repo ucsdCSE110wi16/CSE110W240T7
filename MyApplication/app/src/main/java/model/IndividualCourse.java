@@ -68,9 +68,9 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 		myContext = this;
 		if(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p) == null){
 			Log.v("p value is :", String.valueOf(CoursePage.p));
-            //Log.v("my course size: ", String.valueOf(User.myCourse.size()));
-			Log.v("my course:", "is null");
+            Log.v("my course:", "is null");
 		}
+
 		this.setViews();
 		this.setTitle(mycourse.getCourseId());
 		listDataHeader = mycourse.getWeightsList();
@@ -111,14 +111,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 					}
 					else
 						showSetScore((Activity) myContext, false);
-                    /*Toast.makeText(
-                            getApplicationContext(),
-                            listDataHeader.get(groupPosition)
-                                    + " : "
-                                    + listDataChild.get(
-                                    listDataHeader.get(groupPosition)).get(
-                                    childPosition), Toast.LENGTH_SHORT)
-                                    .show();*/
                                     return false;
                                 }
                             }
@@ -177,7 +169,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
 	}
 
-	private void prepareData() {
+	private void prepareData(){
 		System.out.println("updated");
 		listDataHeader = mycourse.getWeightsList();
 		listCategory = mycourse.getCategories();
@@ -288,12 +280,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 		}
 	}
 
-	@Override
-	public void onBackPressed(){
-		startActivity(new Intent(this, CoursePage.class));
-	}
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, CoursePage.class));
+    }
 
-	public void showPop(Activity context){
+    public void showPop(Activity context){
         // Inflate the popup_layout.xml
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
 		LayoutInflater layoutInflater = (LayoutInflater) context
@@ -324,42 +316,41 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
 
 	}
 
-	public void showSetScore(Activity context, boolean hasSetted){
+	public void showSetScore(Activity context, boolean hasSetted) {
         // Inflate the popup_layout.xml
         // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
-		LayoutInflater layoutInflater = (LayoutInflater) context
-		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View layout = layoutInflater.inflate(R.layout.popup_set_score, null);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_set_score, null);
 
         // Creating the PopupWindow
-		popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		popup.setFocusable(true);
-		popup.setOutsideTouchable(false);
+        popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setFocusable(true);
+        popup.setOutsideTouchable(false);
 
-		etRawScore= (EditText) layout.findViewById(R.id.etRawScore);
-		etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
-		TextView assignmentName = (TextView) layout.findViewById(R.id.textview_assignment_name);
-		assignmentName.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getAssignmentName());
-		if(hasSetted){
-			etRawScore.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getRawScore()));
-			etScoreOutOf.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getScoreOutOf()));
-		}
+        etRawScore = (EditText) layout.findViewById(R.id.etRawScore);
+        etScoreOutOf = (EditText) layout.findViewById(R.id.etScoreOutOf);
+        TextView assignmentName = (TextView) layout.findViewById(R.id.textview_assignment_name);
+        assignmentName.setText(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getAssignmentName());
+        if (hasSetted) {
+            etRawScore.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getRawScore()));
+            etScoreOutOf.setHint(Double.toString(BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).getCategories().get(weight).getAssignments().get(index).getScoreOutOf()));
+        }
 
         //Dim the background
-		layout_main.getForeground().setAlpha(220);
+        layout_main.getForeground().setAlpha(220);
 
 
         // Displaying the popup at the specified location, + offsets.
-		popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
 
         // Getting a reference to Close button, and close the popup when clicked.
-		Button close = (Button) layout.findViewById(R.id.bSetScore);
-		Button cancel = (Button) layout.findViewById(R.id.bCancelSetScore);
-		cancel.setOnClickListener(this);
-		close.setOnClickListener(this);
+        Button close = (Button) layout.findViewById(R.id.bSetScore);
+        Button cancel = (Button) layout.findViewById(R.id.bCancelSetScore);
+        cancel.setOnClickListener(this);
+        close.setOnClickListener(this);
 
-
-	}
+    }
 
 }

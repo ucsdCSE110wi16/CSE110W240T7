@@ -213,7 +213,7 @@ public class Courses {
 
     public double addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
-        this.totalPercent = updateScores();
+        updateScores();
         updatehighestGradePossible();
         //System.out.println("highestGradePossible: " + highestGradePossible);
         makeProjection();

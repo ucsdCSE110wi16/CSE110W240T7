@@ -91,12 +91,8 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         TextView txtCourseUnit = (TextView) convertView.findViewById(R.id.lblListTermCourseUnit);
 
         txtCourse.setText(courseId);
-<<<<<<< HEAD
         txtCourseGpa.setText(String.format("%.2f", courseGpa));
-=======
-        txtCourseGpa.setText(df.format(courseGpa));
         txtCourseUnit.setText(String.valueOf(Unit));
->>>>>>> ucsdCSE110wi16/master
         return convertView;
     }
 

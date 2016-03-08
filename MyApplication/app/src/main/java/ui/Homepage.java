@@ -30,7 +30,6 @@ import ui.BaseActivity;
 public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     Context context;
-
     TextView gpanumber, gpaText;
     boolean isCurrGpa = true;
     ProgressBar progress_bar;
@@ -110,12 +109,7 @@ public class Homepage extends BaseActivity
     public void onClick(View v) {
         if(isCurrGpa){
             progress_bar.setProgress(gpa.intValue());
-<<<<<<< HEAD
             gpanumber.setText(String.format("%.2f",gpa/10.00));
-=======
-            gpanumber.setText(df.format(gpa/10.00));
-
->>>>>>> ucsdCSE110wi16/master
             isCurrGpa = false;
             gpaText.setText("Overall GPA");
         }

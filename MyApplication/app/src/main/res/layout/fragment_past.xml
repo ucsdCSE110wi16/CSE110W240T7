@@ -12,6 +12,47 @@
     android:id="@+id/fourYearPlan_past">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:id="@+id/linearTitle2"
+        android:background="@color/colorSecondaryText"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Term"
+            android:textStyle="normal"
+            android:textColor="@color/colorText"
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Unit"
+            android:textStyle="normal"
+            android:textColor="@color/colorText"
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "GPA"
+            android:textStyle="normal"
+            android:textColor="@color/colorText"
+            android:textSize="14dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </LinearLayout>
+
+
     <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -21,7 +62,8 @@
         android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearTitle2"/>
 
     <ScrollView
         android:layout_width="wrap_content"

@@ -68,13 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-<<<<<<< HEAD
         android:text="Highest grade possible: "
         android:id="@+id/textview_highestGradePossible"
-=======
-        android:text="Highest Possible Grade: "
-        android:id="@+id/highest"
->>>>>>> ucsdCSE110wi16/master
         android:layout_below="@+id/textview_letter"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"/>
@@ -84,7 +79,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-<<<<<<< HEAD
         android:id="@+id/individual_highestGradePossible"
         android:layout_below="@+id/textview_letter"
         android:layout_marginTop="10dp"
@@ -93,14 +87,6 @@
         android:layout_toEndOf="@+id/textview_highestGradePossible" />
 
 
-=======
-        android:id="@+id/highestgrade"
-        android:layout_below="@+id/individual_letter"
-        android:layout_alignRight="@id/highest"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"/>
->>>>>>> ucsdCSE110wi16/master
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,11 +94,7 @@
         android:text="Assignments"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
-<<<<<<< HEAD
         android:layout_below="@+id/textview_highestGradePossible" />
-=======
-        android:layout_below="@+id/highest" />
->>>>>>> ucsdCSE110wi16/master
 
     <Button
         android:layout_width="wrap_content"
@@ -123,7 +105,7 @@
         android:textColor="@color/colorSecondaryText"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/lvExp"
-        android:layout_below="@+id/highestgrade" />
+        android:layout_below="@+id/individual_highestGradePossible" />
 
     <TextView
         android:layout_width="wrap_content"
