@@ -217,7 +217,6 @@ public class Courses {
         updatehighestGradePossible();
         //System.out.println("highestGradePossible: " + highestGradePossible);
         makeProjection();
-        updateScores();
         BaseActivity.initialize.update();
         return gpa;
     }

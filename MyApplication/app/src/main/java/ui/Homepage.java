@@ -30,6 +30,7 @@ import ui.BaseActivity;
 public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
     Context context;
+
     TextView gpanumber, gpaText;
     boolean isCurrGpa = true;
     ProgressBar progress_bar;

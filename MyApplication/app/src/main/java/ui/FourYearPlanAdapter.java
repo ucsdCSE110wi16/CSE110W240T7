@@ -30,14 +30,16 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
     
     // child data in format of header title, child title
     private HashMap<String, Term> _listDataChild;
+    boolean isFuture;
     private int selectedGroup;
     private int selectedChild;
 
 
-    public FourYearPlanAdapter(Context c, ArrayList<String> listDataHeader, HashMap<String, Term> listChildData) {
+    public FourYearPlanAdapter(Context c, ArrayList<String> listDataHeader, HashMap<String, Term> listChildData, boolean f) {
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         this._context = c;
+        this.isFuture = f;
     }
 
     public void onPick(int[] position) {
@@ -91,8 +93,15 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         TextView txtCourseUnit = (TextView) convertView.findViewById(R.id.lblListTermCourseUnit);
 
         txtCourse.setText(courseId);
-        txtCourseGpa.setText(String.format("%.2f", courseGpa));
-        txtCourseUnit.setText(String.valueOf(Unit));
+        if(isFuture) {
+            //if the current fragment is showing the future courses, use the gpa column for unit and set unit column invisible
+            txtCourseGpa.setText(String.valueOf(Unit));
+            txtCourseUnit.setText(" ");
+        }
+        else{
+            txtCourseGpa.setText(String.format("%.2f", courseGpa));
+            txtCourseUnit.setText(String.valueOf(Unit));
+        }
         return convertView;
     }
 
@@ -137,8 +146,15 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         lblListHeaderUnit.setTypeface(null, Typeface.BOLD);
         lblListHeaderGpa.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        lblListHeaderUnit.setText(String.format("%.0f", _listDataChild.get(headerTitle).getTermUnit()));
-        lblListHeaderGpa.setText(String.format("%.2f", _listDataChild.get(headerTitle).getTermGpa()));
+        if(isFuture) {
+            //if the current fragment is showing the future terms, use gpa column showing unit, and set unit column to be invisible
+            lblListHeaderUnit.setText(" ");
+            lblListHeaderGpa.setText(String.format("%.0f", _listDataChild.get(headerTitle).getTermUnit()));
+        }
+        else{
+            lblListHeaderUnit.setText(String.format("%.0f", _listDataChild.get(headerTitle).getTermUnit()));
+            lblListHeaderGpa.setText(String.format("%.2f", _listDataChild.get(headerTitle).getTermGpa()));
+        }
 
         return convertView;
     }
