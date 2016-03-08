@@ -15,11 +15,19 @@ import ui.BaseActivity;
 
 public class Courses {
 
+    /**
+     * totalSettedWeiht -- sum of category(has score inputted) weights
+     * rawPercent -- sum of category percent * category weight
+     * totalPercent -- rawPercent/totalSettedWeight
+     * highestGradePossible -- highest grade user is able to achieve by assuming all not yet inputted assignments are 100%
+     * grade -- current grade of this course
+     */
     double unit;
     boolean letter;
     boolean pass;
     String courseId;
-    double gpa,totalPercent;
+    String highestGradePossible, grade;
+    double gpa,totalPercent,rawPercent, totalSettedWeight;
     ArrayList<String> weightsList;
     LinkedHashMap <String, Double> gpaThreshold = new LinkedHashMap<>();
     LinkedHashMap <String, Category> categories = new LinkedHashMap<>();
@@ -43,11 +51,36 @@ public class Courses {
 
     }
 
+    //constructor for initializing a past course
     public Courses(String id, int u, boolean l, double grade){
         this.courseId = id;
         this.unit = u;
         this.letter = l;
         this.gpa = grade;
+    }
+
+    //constructor for initializing a future course
+    public Courses(String id, int u){
+        this.courseId = id;
+        this.unit = u;
+        this.letter = true;
+        this.gpa = 4.0;
+        this.gpaThreshold = new LinkedHashMap<>();
+        this.totalPercent = 100;
+        this.rawPercent = 0.0;
+        if(letter){
+            this.setGpaThresholdLetter(90.0,80.0,70.0,60.0,97.0,93.0,87.0,83.0,77.0,73.0);
+            this.gpa = 4.0;
+            highestGradePossible = "A+";
+            grade = "A+";
+        }
+        else{
+            this.setGpaThresholdPNP(60.0);
+            highestGradePossible = "P";
+            grade = "P";
+        }
+
+
     }
 
     /**
@@ -78,11 +111,17 @@ public class Courses {
         if(letter){
             this.setGpaThresholdLetter(93.0,83.0,73.0,63.0,97.0,90.0,87.0,80.0,77.0,70.0);
             this.gpa = 4.0;
+            highestGradePossible = "A+";
+            grade = "A+";
         }
-        else
+        else{
             this.setGpaThresholdPNP(60.0);
+            highestGradePossible = "P";
+            grade = "P";
+        }
 
         this.totalPercent = 100;
+        this.rawPercent = 0.0;
 
 
     }
@@ -93,7 +132,7 @@ public class Courses {
 
     public void setGpaThresholdLetter(double a, double b, double c, double d,double ap, double am,
                                       double bp, double bm, double cp, double cm){
-        this.gpaThreshold.put("A",a);
+        this.gpaThreshold.put("A",a);      
         this.gpaThreshold.put("B",b);
         this.gpaThreshold.put("C",c);
         this.gpaThreshold.put("D",d);
@@ -106,7 +145,7 @@ public class Courses {
     }
 
     public void setGpaThresholdPNP(double pass){
-        this.gpaThreshold.put("P",pass);
+        this.gpaThreshold.put("P", pass);
 
     }
 
@@ -119,6 +158,28 @@ public class Courses {
     }
 
 
+    public void setHighestGradePossible(String highestGradePossible) {
+        this.highestGradePossible = highestGradePossible;
+    }
+
+    public void setGrade(String grade){
+        this.grade = grade;
+    }
+
+    public void setTotalSettedWeight(double totalSettedWeight) {
+        this.totalSettedWeight = totalSettedWeight;
+    }
+
+    public void setRawPercent(double rawPercent) {
+        this.rawPercent = rawPercent;
+    }
+
+    public void setTotalPercent(double totalPercent) {
+        this.totalPercent = totalPercent;
+    }
+
+
+
     public boolean addWeight(String weight, int p){
         if(this.weightsList == null){
             this.weightsList = new ArrayList<>();
@@ -127,6 +188,8 @@ public class Courses {
             return false;
         this.weightsList.add(weight);
         this.categories.put(weight, new Category(weight, p, 0));
+        updatehighestGradePossible();
+        makeProjection();
         return true;
     }
     /**
@@ -141,6 +204,8 @@ public class Courses {
     public boolean addAssignment(String weight, String assignment, int y,int m, int d){
         if(!this.categories.get(weight).addAssignment(courseId,assignment,y,m,d))
             return false;
+        updatehighestGradePossible();
+        makeProjection();
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;
@@ -148,6 +213,10 @@ public class Courses {
 
     public double addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
+        updateScores();
+        updatehighestGradePossible();
+        //System.out.println("highestGradePossible: " + highestGradePossible);
+        makeProjection();
         updateScores();
         BaseActivity.initialize.update();
         return gpa;
@@ -161,49 +230,66 @@ public class Courses {
         double totalWeight = 0.0;
         for(Category value : categories.values()){
             if(value.isScoreInputted()){
-                //System.out.println(value.getCategoryName() + "\ncurr percent:" + value.getCurrPercent() + "\nout of: " + value.getTotalWeight());
+                ////System.out.println(value.getCategoryName() + "\ncurr percent:" + value.getCurrPercent() + "\nout of: " + value.getTotalWeight());
                 percentage += value.getCurrPercent()*value.getTotalWeight();
                 totalWeight +=value.getTotalWeight();
             }
         }
+        totalSettedWeight = totalWeight;
+        rawPercent = percentage;
         percentage = (percentage/totalWeight)*100;
-        //System.out.println("percentage now: "+ percentage);
+        ////System.out.println("percentage now: "+ percentage);
 
         if(letter){
             if(percentage >= gpaThreshold.get("A")){
                 gpa = 4.0;
+                grade = "A";
             }
             else if(percentage >= gpaThreshold.get("A-")) {
                 gpa = 3.7;
+                grade = "A-";
             }
             else if(percentage >= gpaThreshold.get("B+")) {
                 gpa = 3.3;
+                grade = "B+";
             }
             else if(percentage >= gpaThreshold.get("B")) {
                 gpa = 3.0;
+                grade = "B";
             }
             else if(percentage >= gpaThreshold.get("B-")) {
                 gpa = 2.7;
+                grade = "B-";
             }
             else if(percentage >= gpaThreshold.get("C+")) {
                 gpa = 2.3;
+                grade = "C+";
             }
-
             else if(percentage >= gpaThreshold.get("C")) {
                 gpa = 2.0;
+                grade = "C";
             }
             else if(percentage >= gpaThreshold.get("C-")) {
                 gpa = 1.7;
+                grade = "C-";
             }
             else if(percentage >= gpaThreshold.get("D")) {
                 gpa = 1.0;
+                grade = "D";
             }
-            else
+            else{
                 gpa = 0.0;
+                grade = "F";
+            }
         }
         else{
             if(percentage < gpaThreshold.get("P")){
                 pass = false;
+                grade = "NP";
+            }
+            else{
+                pass = true;
+                grade = "P";
             }
         }
         this.totalPercent =  percentage;
@@ -211,11 +297,171 @@ public class Courses {
     }
 
 
+
+
     /**
+    *Projection stuff
+    */
+
+
+    /**
+    *Update highest possible grade this course can obtain
+    */
+
+    public void updatehighestGradePossible(){
+        if(totalSettedWeight == 0)
+            return;
+
+        double newPercent = 0.0;
+        double newWeight = 0.0;
+        for(Category value : categories.values()){
+            newPercent += value.calculateHighestPossiblePercent() * value.getTotalWeight();
+            newWeight += value.getTotalWeight();
+            System.out.println("category: " + value.getCategoryName());
+            System.out.println("getHighestPossiblePercent: " + value.calculateHighestPossiblePercent());
+        }
+        newPercent = newPercent/newWeight * 100;
+        System.out.println("new percent: " + newPercent);
+
+        if(letter){
+            if(newPercent >= gpaThreshold.get("A+")){
+                highestGradePossible = "A+";
+            }
+            else if(newPercent >= gpaThreshold.get("A")){
+                highestGradePossible = "A";
+            }
+            else if(newPercent >= gpaThreshold.get("A-")) {
+                highestGradePossible = "A-";
+            }
+            else if(newPercent >= gpaThreshold.get("B+")) {
+                highestGradePossible = "B+";
+            }
+            else if(newPercent >= gpaThreshold.get("B")) {
+                highestGradePossible = "B";
+            }
+            else if(newPercent >= gpaThreshold.get("B-")) {
+                highestGradePossible = "B-";
+            }
+            else if(newPercent >= gpaThreshold.get("C+")) {
+                highestGradePossible = "C+";
+            }
+            else if(newPercent >= gpaThreshold.get("C")) {
+                highestGradePossible = "C";
+            }
+            else if(newPercent >= gpaThreshold.get("C-")) {
+                highestGradePossible = "C-";
+            }
+            else if(newPercent >= gpaThreshold.get("D")) {
+                highestGradePossible = "D";
+            }
+            else
+                highestGradePossible = "F";
+        }
+        else{
+            if(newPercent < gpaThreshold.get("P")){
+                highestGradePossible = "NP";
+            }
+            else
+                highestGradePossible = "P";
+        }
+
+
+    }
+
+
+
+
+    public void makeProjection(){
+
+        //find out the next level of grade user needs to reach
+        boolean canReachNextLevel = true;
+        double percentToObtain;
+        String nextLevel;
+        if(totalPercent >= gpaThreshold.get("A")){
+            percentToObtain = gpaThreshold.get("A");
+            nextLevel = "A";
+            canReachNextLevel = false;
+        }
+        else if(totalPercent >= gpaThreshold.get("B")){
+            if(gpaThreshold.get(highestGradePossible) <= gpaThreshold.get("B+")){
+                percentToObtain = gpaThreshold.get("B");
+                nextLevel = "B";
+                canReachNextLevel = false;
+            }
+            else{
+                percentToObtain = gpaThreshold.get("A");
+                nextLevel = "A";
+                canReachNextLevel = true;
+            }
+        }
+        else if(totalPercent >= gpaThreshold.get("C")){
+             if(gpaThreshold.get(highestGradePossible) <= gpaThreshold.get("C+")){
+                percentToObtain = gpaThreshold.get("C");
+                 nextLevel = "C";
+                canReachNextLevel = false; 
+            }
+            else{
+                percentToObtain = gpaThreshold.get("B");
+                 nextLevel = "B";
+                canReachNextLevel = true;
+            }
+        }
+        else if(totalPercent >= gpaThreshold.get("D")){
+             if(gpaThreshold.get(highestGradePossible) <= gpaThreshold.get("C-")){
+                percentToObtain = gpaThreshold.get("D");
+                 nextLevel = "D";
+                canReachNextLevel = false; 
+            }
+            else{
+                percentToObtain = gpaThreshold.get("C");
+                 nextLevel = "C";
+                canReachNextLevel = true;
+            }
+        }
+        else{
+             if(gpaThreshold.get(highestGradePossible) <= gpaThreshold.get("F")){
+                percentToObtain = gpaThreshold.get("F");
+                 nextLevel = "F";
+                canReachNextLevel = false; 
+            }
+            else{
+                percentToObtain = gpaThreshold.get("D");
+                 nextLevel = "D";
+                canReachNextLevel = true;
+            }
+        }
+        
+        //System.out.println("percentToObtain: " + percentToObtain);
+        //make projection for every unsetted individual assignments in each category
+        //System.out.println("total setted weight: " + totalSettedWeight);
+        for(Category value : categories.values()){
+           // //System.out.println("rawPercent: " + rawPercent);
+           // //System.out.println("this category: " + value.getCategoryName() + "need to get: " + (percentToObtain/100*totalSettedWeight - (rawPercent - value.getCurrPercent()*value.getTotalWeight())));
+            if(totalSettedWeight == 0.0)
+                value.makeProjection(percentToObtain/100*value.getTotalWeight(),canReachNextLevel, nextLevel);
+            else if(value.isScoreInputted())
+                value.makeProjection(percentToObtain/100*totalSettedWeight - (rawPercent - value.getCurrPercent()*value.getTotalWeight()), canReachNextLevel, nextLevel);
+            else
+                value.makeProjection(percentToObtain/100*(totalSettedWeight + value.getTotalWeight()) - rawPercent, canReachNextLevel,nextLevel);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+    /*
      * Getters
      */
     public double getUnit (){return this.unit;}
     public double getGpa () {return this.gpa;}
+    public String getGrade(){return this.grade;}
     public boolean getPass(){return this.pass;}
     public boolean getLetter () {return this.letter;}
     public String getCourseId () {return this.courseId;}
@@ -233,11 +479,24 @@ public class Courses {
         return this.totalPercent;
     }
 
+    public double getRawPercent() {
+        return rawPercent;
+    }
+
+    public double getTotalSettedWeight() {
+        return totalSettedWeight;
+    }
+
+    public String getHighestGradePossible() {
+        return highestGradePossible;
+    }
+
     public ArrayList<String> getWeightsList(){
         if(weightsList == null)
             weightsList = new ArrayList<>();
         return this.weightsList;
     }
+
 
 }
 

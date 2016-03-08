@@ -29,9 +29,7 @@ import ui.BaseActivity;
 
 public class Homepage extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,  View.OnClickListener{
-    DecimalFormat df = new DecimalFormat("#.##");
     Context context;
-
     TextView gpanumber, gpaText;
     boolean isCurrGpa = true;
     ProgressBar progress_bar;
@@ -75,7 +73,7 @@ public class Homepage extends BaseActivity
             progress_bar = (ProgressBar)findViewById(R.id.circle_progress_bar);
             progress_bar.setProgress(currGpa.intValue());
 
-            gpanumber.setText(df.format(currGpa/10.0));
+            gpanumber.setText(String.format("%.2f",currGpa/10.0));
 
 
             ListView recentDueList = (ListView) findViewById(R.id.list_homepage);
@@ -86,7 +84,7 @@ public class Homepage extends BaseActivity
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-                    String courseId = BaseActivity.initialize.getRecentDueToShow().get(position).getBelongsTo();
+                    String courseId = BaseActivity.initialize.getRecentDueToShow().get(position).getBelongsToCourse();
                     CoursePage.p = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourseList().indexOf(courseId);
                     startActivity(new Intent(context, IndividualCourse.class));
 
@@ -111,14 +109,13 @@ public class Homepage extends BaseActivity
     public void onClick(View v) {
         if(isCurrGpa){
             progress_bar.setProgress(gpa.intValue());
-            gpanumber.setText(df.format(gpa/10.00));
-
+            gpanumber.setText(String.format("%.2f",gpa/10.00));
             isCurrGpa = false;
             gpaText.setText("Overall GPA");
         }
         else{
             progress_bar.setProgress(currGpa.intValue());
-            gpanumber.setText(df.format(currGpa/10.00));
+            gpanumber.setText(String.format("%.2f",currGpa/10.00));
             isCurrGpa = true;
             gpaText.setText("Term GPA");
         }

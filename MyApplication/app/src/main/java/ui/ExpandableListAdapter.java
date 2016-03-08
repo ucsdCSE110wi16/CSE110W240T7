@@ -31,7 +31,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         private HashMap<String, ArrayList<IndividualAssignment>> _listDataChild;
         private HashMap<String, Category> _listCategory;
         private LinkedHashMap<String, Category> categories;
-        DecimalFormat df = new DecimalFormat("#.##");
         public ExpandableListAdapter(Context context, ArrayList<String> weights, LinkedHashMap <String, Category> c) {
             this._context = context;
             this.weightsList = weights;
@@ -120,7 +119,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             String headerTitle = header.getCategoryName();
             String headerPercent = "0.0";
                 if(header.isScoreInputted()) {
-                    headerPercent = df.format(header.getCurrPercent()*100);
+                    headerPercent =String.format("%.2f",header.getCurrPercent()*100);
                 }
 
             if (convertView == null) {

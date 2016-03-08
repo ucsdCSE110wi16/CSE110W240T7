@@ -28,6 +28,8 @@ import com.firebase.client.ValueEventListener;
 import Constant.Constant;
 import androidstudio.edbud.com.myapplication.R;
 import login.Login;
+import model.IndividualAssignment;
+import model.IndividualCourse;
 import model.User;
 
 public class BaseActivity extends AppCompatActivity
@@ -97,8 +99,9 @@ public class BaseActivity extends AppCompatActivity
 
             headerName.setText(snapshot.child("fullName").getValue().toString());
 
-            Log.v("Here","User is created");
-
+            Log.v("Here", "User is created");
+            if (IndividualCourse.listAdapter != null)
+                IndividualCourse.listAdapter.notifyDataSetChanged();
         }
         @Override
         public void onCancelled(FirebaseError firebaseError) {
