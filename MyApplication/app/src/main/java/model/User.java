@@ -238,16 +238,16 @@ public class User {
     }
 
     public boolean removeRecentDues(IndividualAssignment assignment){
-        IndividualAssignment toDelete = recentDues.get(recentDueIds.indexOf(assignment.getAssignmentName()));
+        //IndividualAssignment toDelete = recentDues.get(recentDueIds.indexOf(assignment.getAssignmentName()));
         for(int i = 0; i <recentDueToShow.size(); ++i){
-            if(recentDueToShow.get(i).getAssignmentName().equals(toDelete.getAssignmentName())){
-                if(recentDueToShow.get(i).getBelongsToCourse().equals(toDelete.getBelongsToCourse())){
+            if(recentDueToShow.get(i).getAssignmentName().equals(assignment.getAssignmentName()) &&
+                    recentDueToShow.get(i).getBelongsToCourse().equals(assignment.getBelongsToCourse()) &&
+                    recentDueToShow.get(i).getBelongsToCategory().equals(assignment.getBelongsToCategory())){
                     recentDueToShow.remove(i);
-                }
             }
         }
-        recentDues.remove(toDelete);
-        recentDueIds.remove(assignment.getAssignmentName());
+        //recentDues.remove(toDelete);
+        //recentDueIds.remove(assignment.getAssignmentName());
         Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/").child(BaseActivity.initialize.uid);
         start.setValue(BaseActivity.initialize);
         return true;

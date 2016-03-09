@@ -43,7 +43,7 @@ public class TwoFragment extends Fragment{
         listView = (ExpandableListView) v.findViewById(R.id.lsTerms_past);
         ArrayList<String> termList = BaseActivity.initialize.getPastTerms();
         LinkedHashMap<String, Term> pastTermList = BaseActivity.initialize.getMyPastTerms();
-        twoAdapter = new FourYearPlanAdapter(context, termList, pastTermList);
+        twoAdapter = new FourYearPlanAdapter(context, termList, pastTermList,false);
         //listView.setDragOnLongPress(true);
         // setting list adapter
         listView.setAdapter(twoAdapter);

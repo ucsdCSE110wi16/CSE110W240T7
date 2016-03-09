@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3"
+        android:weightSum="2"
         android:id="@+id/linearTitle"
         android:background="@color/colorSecondaryText"
         >
@@ -34,16 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text = "Unit"
-            android:textStyle="normal"
-            android:textColor="@color/colorText"
-            android:textSize="14dp"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text = "GPA"
             android:textStyle="normal"
             android:textColor="@color/colorText"
             android:textSize="14dp"
