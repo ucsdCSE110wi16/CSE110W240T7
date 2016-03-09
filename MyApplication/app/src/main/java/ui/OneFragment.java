@@ -100,13 +100,18 @@ public class OneFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context, AddNewTerm.class));
+                collapseFab();
+                expanded = !expanded;
             }
         });
 
         fabAction2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 fourYearPlan.showPop(true);
+                collapseFab();
+                expanded = !expanded;
             }
         });
 

@@ -212,6 +212,16 @@ public class Courses {
         return true;
     }
 
+    public double addAssignmentScore(String weight, String name, double rawScore, double scoreOutOf){
+        this.categories.get(weight).addAssignmentScore(name, rawScore, scoreOutOf);
+        updateScores();
+        updatehighestGradePossible();
+        //System.out.println("highestGradePossible: " + highestGradePossible);
+        makeProjection();
+        BaseActivity.initialize.update();
+        return gpa;
+    }
+
     public double addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
         updateScores();

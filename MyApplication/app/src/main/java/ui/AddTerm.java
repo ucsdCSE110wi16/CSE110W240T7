@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +51,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
     private int courseUnit = 0;
     private Switch gradeSwitch;
     private boolean letter = true;
+    private boolean plus = false;
+    private boolean minus = false;
     private TextView switchStatus, termUnit, termGpa;
     DecimalFormat df = new DecimalFormat("#.##");
 
@@ -97,7 +101,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
             case R.id.bAddTermCourses:
                 showPop(this);
                 break;
-            case R.id.bpopupAddTermCourse:
+            case R.id.bpopupAddPastCourse:
                 String courseId = etTermCourseId.getText().toString();
                 String courseUnitString = etTermCourseUnit.getText().toString();
                 if(TextUtils.isEmpty(courseId)){
@@ -112,6 +116,41 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     Toast.makeText(this, "Please choose course grade", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+
+
+                if(courseGpa == 4.3){
+                    courseGrade = "A+";
+                    courseGpa = 4.0;
+                }
+                else if(courseGpa == 3.7){
+                    courseGrade = "A-";
+                }
+                else if(courseGpa == 3.3){
+                    courseGrade = "B+";
+                }
+                else if(courseGpa == 2.7){
+                    courseGrade = "B-";
+                }
+                else if(courseGpa == 2.3){
+                    courseGrade = "C+";
+                }
+                else if(courseGpa == 1.7){
+                    courseGrade = "C-";
+                }
+                else if(courseGrade.equals("D")){
+                    courseGpa = 1.0;
+                }
+                else if(courseGrade.equals("F")){
+                    courseGpa = 0.0;
+                }
+                else if(courseGrade.equals("P")){
+                    courseGpa = 4.0;
+                }
+                else if(courseGrade.equals("NP")){
+                    courseGpa = 0.0;
+                }
+
                 courseUnit = Integer.parseInt(courseUnitString);
                 coursesArrayList.add(new Courses(courseId, courseUnit, letter, courseGpa, courseGrade));
 
@@ -119,6 +158,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     gpa = (letterUnit * gpa + courseUnit*courseGpa)/(letterUnit + courseUnit);
                     letterUnit+=courseUnit;
                 }
+
                 unit += courseUnit;
                 termUnit.setText(df.format(unit));
                 termGpa.setText(df.format(gpa));
@@ -128,7 +168,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 letter = true;
                 courseGpa = -1.0;
                 break;
-            case R.id.bpopupCancelAddTermCourse:
+            case R.id.bpopupCancelAddPastCourse:
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
@@ -139,6 +179,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 else
                     courseGrade = "P";
                 changeButtonColor("A");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bB_course:
                 if(!letter) {
@@ -150,31 +192,48 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     courseGrade = "B";
                 }
                 changeButtonColor("B");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bC_course:
                 courseGpa = 2.0;
                 courseGrade = "C";
                 changeButtonColor("C");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bD_course:
                 courseGpa = 1.0;
                 courseGrade = "D";
                 changeButtonColor("D");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bF_course:
                 courseGpa = 0.0;
                 courseGrade = "F";
                 changeButtonColor("F");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bplus:
-                if(courseGrade != "A") {
-                    courseGpa += 0.3;
-                }
+
+                System.out.println("plus clicked");
+                if(minus)
+                    courseGpa +=0.6;
+                else if (!plus)
+                    courseGpa += .3;
                 changeButtonColor("Plus");
+                plus = true;
                 break;
             case R.id.bminus:
-                courseGpa-=0.3;
+                System.out.println("minus clicked");
+                if(plus)
+                    courseGpa -=0.6;
+                else if(!minus)
+                    courseGpa -=0.3;
                 changeButtonColor("Minus");
+                minus = true;
                 break;
 
 
@@ -183,19 +242,17 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void showPop(Activity context){
-        // Inflate the popup_layout.xml
-        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_add_termcourse, null);
+        View layout = layoutInflater.inflate(R.layout.popup_add_course, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
         popup.setOutsideTouchable(false);
 
-        etTermCourseId= (EditText) layout.findViewById(R.id.etTermCourseName);
-        etTermCourseUnit = (EditText) layout.findViewById(R.id.etTermCourseUnit);
+        etTermCourseId= (EditText) layout.findViewById(R.id.etPastCourseName);
+        etTermCourseUnit = (EditText) layout.findViewById(R.id.etPastCourseUnit);
         bA = (Button) layout.findViewById(R.id.bA_course);
         bB = (Button) layout.findViewById(R.id.bB_course);
         bC = (Button) layout.findViewById(R.id.bC_course);
@@ -203,50 +260,52 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
         bF = (Button) layout.findViewById(R.id.bF_course);
         badd = (Button) layout.findViewById(R.id.bplus);
         bsub = (Button) layout.findViewById(R.id.bminus);
-        bA.setOnClickListener(this);
-        bB.setOnClickListener(this);
-        bC.setOnClickListener(this);
-        bD.setOnClickListener(this);
-        bF.setOnClickListener(this);
-        badd.setOnClickListener(this);
-        bsub.setOnClickListener(this);
 
-        gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
-        switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
-
+        gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch_course);
+        switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus_course);
         switchStatus.setText("Letter grade");
 
-        gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    switchStatus.setText("Pass/No Pass");
-                    letter = false;
-                    bA.setText("P");
-                    bB.setText("NP");
-                    bC.setVisibility(View.GONE);
-                    bD.setVisibility(View.GONE);
-                    bF.setVisibility(View.GONE);
-                    badd.setVisibility(View.GONE);
-                    bsub.setVisibility(View.GONE);
-                    courseGpa = -1.0;
-                    changeButtonColor("Reset");
+            bA.setOnClickListener(this);
+            bB.setOnClickListener(this);
+            bC.setOnClickListener(this);
+            bD.setOnClickListener(this);
+            bF.setOnClickListener(this);
+            badd.setOnClickListener(this);
+            bsub.setOnClickListener(this);
 
-                } else {
-                    switchStatus.setText("Letter grade");
-                    letter = true;
-                    bA.setText("A");
-                    bB.setText("B");
-                    bC.setVisibility(View.VISIBLE);
-                    bD.setVisibility(View.VISIBLE);
-                    bF.setVisibility(View.VISIBLE);
-                    badd.setVisibility(View.VISIBLE);
-                    bsub.setVisibility(View.VISIBLE);
-                    courseGpa = -1.0;
-                    changeButtonColor("Reset");
+            switchStatus.setText("Letter grade");
+            letter = true;
+
+            gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        switchStatus.setText("Pass/No Pass");
+                        letter = false;
+                        bA.setText("P");
+                        bB.setText("NP");
+                        bC.setVisibility(View.GONE);
+                        bD.setVisibility(View.GONE);
+                        bF.setVisibility(View.GONE);
+                        badd.setVisibility(View.GONE);
+                        bsub.setVisibility(View.GONE);
+                        courseGpa = -1.0;
+                        changeButtonColor("Reset");
+
+                    } else {
+                        switchStatus.setText("Letter grade");
+                        letter = true;
+                        bA.setText("A");
+                        bB.setText("B");
+                        bC.setVisibility(View.VISIBLE);
+                        bD.setVisibility(View.VISIBLE);
+                        bF.setVisibility(View.VISIBLE);
+                        badd.setVisibility(View.VISIBLE);
+                        bsub.setVisibility(View.VISIBLE);
+                        courseGpa = -1.0;
+                        changeButtonColor("Reset");
+                    }
                 }
-            }
-        });
-
+            });
 
 
         //Dim the background
@@ -258,12 +317,14 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
 
 
         // Getting a reference to Close button, and close the popup when clicked.
-        Button close = (Button) layout.findViewById(R.id.bpopupAddTermCourse);
-        Button cancel = (Button) layout.findViewById(R.id.bpopupCancelAddTermCourse);
+        Button close = (Button) layout.findViewById(R.id.bpopupAddPastCourse);
+        Button cancel = (Button) layout.findViewById(R.id.bpopupCancelAddPastCourse);
         cancel.setOnClickListener(this);
         close.setOnClickListener(this);
 
     }
+
+
     private void changeButtonColor(String button){
         switch(button){
             case "A":
@@ -272,6 +333,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "B":
                 bB.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -279,6 +342,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "C":
                 bC.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -286,6 +351,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "D":
                 bD.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -293,6 +360,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "F":
                 bF.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -300,13 +369,17 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "Plus":
                 badd.setBackgroundColor(getColor(R.color.colorPrimaryLight));
                 bsub.setBackgroundColor(Color.TRANSPARENT);
+                break;
             case "Minus":
                 bsub.setBackgroundColor(getColor(R.color.colorPrimaryLight));
                 badd.setBackgroundColor(Color.TRANSPARENT);
+                break;
             default:
                 bsub.setBackgroundColor(Color.TRANSPARENT);
                 badd.setBackgroundColor(Color.TRANSPARENT);
@@ -316,6 +389,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 break;
+
 
         }
     }

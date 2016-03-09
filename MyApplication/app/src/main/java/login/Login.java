@@ -65,11 +65,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
 
                 sp.edit().putBoolean("AutoLogin", true).commit();
-                sp.edit().putString("UID",authData.getUid()).commit();
+                sp.edit().putString("UID", authData.getUid()).commit();
 
 
                 BaseActivity.initialize.uid = authData.getUid();
                 startActivity(new Intent(Login.this, Homepage.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override

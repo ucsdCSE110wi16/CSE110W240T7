@@ -17,6 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -81,6 +82,11 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     private Switch gradeSwitch;
     private boolean letter = true;
     private boolean isFuture = true;
+    private boolean plus = false;
+    private boolean minus = false;
+
+    private TwoFragment twoFragment;
+    private OneFragment oneFragment;
 
 
 
@@ -104,91 +110,6 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         activity = this;
         layout_main = (CoordinatorLayout) findViewById(R.id.fourYearPlan);
         layout_main.getForeground().setAlpha(0);
-        final ViewGroup fabContainer = (ViewGroup) findViewById(R.id.fab_container);
-
-       /* fab = (ImageButton) findViewById(R.id.fab);
-        fabAction1 = findViewById(R.id.fab_action_1);
-        fabAction2 = findViewById(R.id.fab_action_2);
-        fabAction1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(context).setMessage("Do you want to add a past term or a future term?")
-                        .setNegativeButton("Add A Past Term", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(context, AddTerm.class));
-                            }
-                        }).setPositiveButton("Add A Future Term",
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(context, AddNewTerm.class));
-                            }
-
-                        }).show();
-            }
-        });
-
-        fabAction2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(context).setMessage("Do you want to add a course to a past term or a future term?")
-                        .setNegativeButton("Past Term", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int which){
-                                showPop(activity, isFuture = false);
-                            }
-                        }).setPositiveButton("Future Term",
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                               showPop(activity, isFuture = true);
-                            }
-
-                        }).show();
-            }
-        });
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expanded = !expanded;
-                if (expanded) {
-                    expandFab();
-                } else {
-                    collapseFab();
-                }
-            }
-        });
-        fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                //System.out.println("fab, x: " + fab.getX() + " y: " + fab.getY());
-                //System.out.println("fabAction1, x: " + fabAction1.getX() + " y: " + fabAction1.getY());
-                //System.out.println("fabAction2, x: " + fabAction2.getX() + " y: " + fabAction2.getY());
-
-                offset1 = fab.getX() - fabAction1.getX();
-                fabAction1.setTranslationX(offset1);
-                offset2 = fab.getY() - fabAction2.getY();
-                fabAction2.setTranslationY(offset2);
-
-                //System.out.println("fab, x: " + fab.getX() + " y: " + fab.getY());
-                //System.out.println("fabAction1, x: " + fabAction1.getX() + " y: " + fabAction1.getY());
-                //System.out.println("fabAction2, x: " + fabAction2.getX() + " y: " + fabAction2.getY());
-
-
-                //System.out.println("offset1: " + offset1 + " offset2: " + offset2);
-                return true;
-            }
-        });*/
-//        listView.setDragOnLongPress(true);
-        // setting list adapter
-//        listView.setAdapter(myAdapter);
-
-
-        //Tab stuff
-        //toolbar = BaseActivity.toolbar;
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -199,11 +120,11 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        OneFragment oneFragment = new OneFragment();
+        oneFragment = new OneFragment();
         oneFragment.setContext(this);
         oneFragment.setFourYearPlanView(this);
         adapter.addFragment(oneFragment, "Future");
-        TwoFragment twoFragment = new TwoFragment();
+        twoFragment = new TwoFragment();
         twoFragment.setContext(this);
         twoFragment.setFourYearPlanView(this);
 
@@ -259,7 +180,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this,"Please input course unit",Toast.LENGTH_LONG).show();
                     return;
                 }
-                else if(courseGpa == -1.0 && !isFuture){
+                else if(courseGpa < 0.0 && !isFuture){
                     Toast.makeText(this, "Please choose course grade", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -269,6 +190,34 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 }
                 termButton = (RadioButton) termsGroup.findViewById(selectedId);
 
+
+                System.out.println("gpa: " + courseGpa);
+
+                if(!isFuture) {
+                    if (courseGpa == 4.3) {
+                        courseGrade = "A+";
+                        courseGpa = 4.0;
+                    } else if (courseGpa == 3.7) {
+                        courseGrade = "A-";
+                    } else if (courseGpa == 3.3) {
+                        courseGrade = "B+";
+                    } else if (courseGpa == 2.7) {
+                        courseGrade = "B-";
+                    } else if (courseGpa == 2.3) {
+                        courseGrade = "C+";
+                    } else if (courseGpa == 1.7) {
+                        courseGrade = "C-";
+                    } else if (courseGrade.equals("D")) {
+                        courseGpa = 1.0;
+                    } else if (courseGrade.equals("F")) {
+                        courseGpa = 0.0;
+                    } else if (courseGrade.equals("P")) {
+                        courseGpa = 4.0;
+                    } else if (courseGrade.equals("NP")) {
+                        courseGpa = 0.0;
+                    }
+                }
+
                 courseUnit = Integer.parseInt(courseUnitString);
                 if(!isFuture)
                     BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa, courseGrade));
@@ -277,9 +226,12 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
-                OneFragment.oneAdapter.notifyDataSetChanged();
-                TwoFragment.twoAdapter.notifyDataSetChanged();
-               // listView.invalidate();
+                //oneFragment.oneAdapter.notifyDataSetChanged();
+                //oneFragment.oneAdapter.notifyDataSetInvalidated();
+                //twoFragment.twoAdapter.notifyDataSetChanged();
+                //twoFragment.twoAdapter.notifyDataSetInvalidated();
+                final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.detach(oneFragment).attach(oneFragment).detach(twoFragment).attach(twoFragment).commit();
                 break;
             case R.id.bpopupCancelAddPastCourse:
                 layout_main.getForeground().setAlpha(0);
@@ -292,6 +244,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 else
                     courseGrade = "P";
                 changeButtonColor("A");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bB_course:
                 if(!letter) {
@@ -303,54 +257,50 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     courseGrade = "B";
                 }
                 changeButtonColor("B");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bC_course:
                 courseGpa = 2.0;
                 courseGrade = "C";
                 changeButtonColor("C");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bD_course:
                 courseGpa = 1.0;
                 courseGrade = "D";
                 changeButtonColor("D");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bF_course:
                 courseGpa = 0.0;
                 courseGrade = "F";
                 changeButtonColor("F");
+                plus = false;
+                minus = false;
                 break;
             case R.id.bplus:
-                courseGpa+=0.3;
+
+                System.out.println("plus clicked");
+                if(minus)
+                    courseGpa +=0.6;
+                else if (!plus)
+                    courseGpa += .3;
                 changeButtonColor("Plus");
+                plus = true;
                 break;
             case R.id.bminus:
-                courseGpa-=0.3;
+                System.out.println("minus clicked");
+                if(plus)
+                    courseGpa -=0.6;
+                else if(!minus)
+                    courseGpa -=0.3;
                 changeButtonColor("Minus");
+                minus = true;
                 break;
         }
-    }
-
-    private void collapseFab() {
-        fab.setImageResource(R.drawable.animated_minus);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createCollapseAnimatorX(fabAction1, offset1),
-                createCollapseAnimatorY(fabAction2, offset2),createCollapseAnimatorY(txAddCourse, offset2), createCollapseAnimatorX(txAddTerm, offset1));
-        animatorSet.start();
-        animateFab();
-        txAddTerm.setVisibility(View.GONE);
-        txAddCourse.setVisibility(View.GONE);
-    }
-
-    private void expandFab() {
-        fab.setImageResource(R.drawable.animated_plus);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createExpandAnimatorX(fabAction1, offset1),
-                createExpandAnimatorY(fabAction2, offset2),createExpandAnimatorY(txAddCourse, offset2), createExpandAnimatorX(txAddTerm, offset1) );
-        animatorSet.start();
-        animateFab();
-        txAddTerm.setVisibility(View.VISIBLE);
-        txAddCourse.setVisibility(View.VISIBLE);
-
     }
 
     private static final String TRANSLATION_Y = "translationY";
@@ -387,6 +337,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     }
 
     public void showPop(boolean isFuture){
+        this.isFuture = isFuture;
         showPop(activity, isFuture);
     }
 
@@ -414,7 +365,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch_course);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus_course);
-
+        switchStatus.setText("Letter grade");
 
         termsGroup = (RadioGroup) layout.findViewById(R.id.radioTerms);
         RadioButton rdbtn;
@@ -462,11 +413,14 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 }
             });
 
+
+
             ArrayList terms = BaseActivity.initialize.getPastTerms();
-            for (int i = 0; i < terms.size()-2; ++i) {
+            for (int i = 0; i < terms.size(); ++i) {
                 rdbtn = new RadioButton(this);
                 rdbtn.setId(i);
                 rdbtn.setText(terms.get(i).toString());
+                System.out.println(terms.get(i).toString());
                 termsGroup.addView(rdbtn);
             }
         }
@@ -519,6 +473,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "B":
                 bB.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -526,6 +482,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "C":
                 bC.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -533,6 +491,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "D":
                 bD.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -540,6 +500,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "F":
                 bF.setBackgroundColor(getColor(R.color.colorPrimaryLight));
@@ -547,13 +509,17 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
                 break;
             case "Plus":
                 badd.setBackgroundColor(getColor(R.color.colorPrimaryLight));
                 bsub.setBackgroundColor(Color.TRANSPARENT);
+                break;
             case "Minus":
                 bsub.setBackgroundColor(getColor(R.color.colorPrimaryLight));
                 badd.setBackgroundColor(Color.TRANSPARENT);
+                break;
             default:
                 bsub.setBackgroundColor(Color.TRANSPARENT);
                 badd.setBackgroundColor(Color.TRANSPARENT);

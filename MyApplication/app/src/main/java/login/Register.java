@@ -101,6 +101,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 BaseActivity.initialize = new User(fullName, major, college, password, email, ID, currentTerm, preGPA, myUnit);
                 usersRef.setValue(BaseActivity.initialize);
                 startActivity(new Intent(Register.this, Homepage.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
             @Override

@@ -31,6 +31,7 @@ import com.firebase.client.collection.LLRBNode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.logging.Handler;
 
 import androidstudio.edbud.com.myapplication.R;
 import ui.AddAssignment;
@@ -111,7 +112,8 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     return false;
                 }
             });
-        }
+
+    }
 
 
     private void prepareData(){
@@ -220,7 +222,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 String rawScore = etRawScore.getText().toString();
                 String ScoreOutOf = etScoreOutOf.getText().toString();
                 if(TextUtils.isEmpty(rawScore)){
-                    Toast.makeText(this,"Please input raw score",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Please input raw score",Toast.LENGTH_LONG).show();
                     return;
                 }
                 else if(TextUtils.isEmpty(ScoreOutOf)){
@@ -230,14 +232,25 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 int r = Integer.parseInt(rawScore);
                 int s = Integer.parseInt(ScoreOutOf);
 
-                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
+               // String assignmentName = mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName();
+                mycourse.addAssignmentScore(weight, index, r, s);
+               // mycourse.addAssignmentScore(weight, assignmentName, r, s);
 
 
                 Firebase start = new Firebase("https://edbud.firebaseio.com/userInfo/" + BaseActivity.initialize.uid);
                 start.setValue(BaseActivity.initialize);
                 //TODO:fix this latter
-                mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
-                prepareData();
+                //mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
+                //prepareData();
+
+                //this refreshes the whole activity
+
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                this.overridePendingTransition(0, 0);
+
+
                 double myGPA = mycourse.getGpa();
                 gpa.setText(String.format("%.2f",myGPA));
                 if(myGPA == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
@@ -247,7 +260,6 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 highest.setText(mycourse.getHighestGradePossible());
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
-               // System.out.println("after dismiss popup");
                 break;
             case R.id.bCancelSetScore:
                 layout_main.getForeground().setAlpha(0);
@@ -355,6 +367,7 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
     @Override
     public void onBackPressed(){
         startActivity(new Intent(this, CoursePage.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 

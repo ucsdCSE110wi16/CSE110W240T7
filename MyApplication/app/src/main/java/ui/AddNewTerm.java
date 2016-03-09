@@ -28,8 +28,6 @@ import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.Term;
 
-import static androidstudio.edbud.com.myapplication.R.id.bplus;
-import static androidstudio.edbud.com.myapplication.R.id.bpopupCancelAddTermCourse;
 
 /**
  * Created by LunaLu on 2/23/16.
@@ -99,7 +97,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
             case R.id.bAddNewTermCourses:
                 showPop(this);
                 break;
-            case R.id.bpopupAddTermCourse:
+            case R.id.bpopupAddPastCourse:
                 String courseId = etTermCourseId.getText().toString();
                 String courseUnitString = etTermCourseUnit.getText().toString();
                 if(TextUtils.isEmpty(courseId)){
@@ -120,7 +118,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 popup.dismiss();
                 myAdapter.notifyDataSetChanged();
                 break;
-            case bpopupCancelAddTermCourse:
+            case R.id.bpopupCancelAddPastCourse:
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
@@ -130,24 +128,17 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
     }
 
     public void showPop(Activity context){
-        // Inflate the popup_layout.xml
-        // RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.addWeights);
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_add_termcourse, null);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_add_course, null);
 
         // Creating the PopupWindow
         popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
         popup.setOutsideTouchable(false);
 
-        etTermCourseId= (EditText) layout.findViewById(R.id.etTermCourseName);
-        etTermCourseUnit = (EditText) layout.findViewById(R.id.etTermCourseUnit);
-        TextView textGradeTitle = (TextView) layout.findViewById(R.id.TermCourseGradeTitle);
-        textGradeTitle.setVisibility(View.GONE);
-
-        //Dim the background
-        layout_main.getForeground().setAlpha(220);
-
+        etTermCourseId= (EditText) layout.findViewById(R.id.etPastCourseName);
+        etTermCourseUnit = (EditText) layout.findViewById(R.id.etPastCourseUnit);
         bA = (Button) layout.findViewById(R.id.bA_course);
         bB = (Button) layout.findViewById(R.id.bB_course);
         bC = (Button) layout.findViewById(R.id.bC_course);
@@ -155,6 +146,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
         bF = (Button) layout.findViewById(R.id.bF_course);
         badd = (Button) layout.findViewById(R.id.bplus);
         bsub = (Button) layout.findViewById(R.id.bminus);
+
         bA.setVisibility(View.GONE);
         bB.setVisibility(View.GONE);
         bC.setVisibility(View.GONE);
@@ -163,17 +155,11 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
         badd.setVisibility(View.GONE);
         bsub.setVisibility(View.GONE);
 
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        TextView gradeTitle = (TextView) layout.findViewById(R.id.TermCourseGradeTitle_course);
+        gradeTitle.setVisibility(View.GONE);
 
-
-        // Getting a reference to Close button, and close the popup when clicked.
-        Button close = (Button) layout.findViewById(R.id.bpopupAddTermCourse);
-        Button cancel = (Button) layout.findViewById(bpopupCancelAddTermCourse);
-        cancel.setOnClickListener(this);
-        close.setOnClickListener(this);
-        gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
-        switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
+        gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch_course);
+        switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus_course);
         switchStatus.setText("Letter grade");
         courseGrade = "A";
 
@@ -190,6 +176,21 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 }
             }
         });
+
+        //Dim the background
+        layout_main.getForeground().setAlpha(220);
+
+
+        // Displaying the popup at the specified location, + offsets.
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+
+        // Getting a reference to Close button, and close the popup when clicked.
+        Button close = (Button) layout.findViewById(R.id.bpopupAddPastCourse);
+        Button cancel = (Button) layout.findViewById(R.id.bpopupCancelAddPastCourse);
+        cancel.setOnClickListener(this);
+        close.setOnClickListener(this);
+
 
     }
 
