@@ -76,7 +76,8 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
         Courses child = (Courses) getChild(groupPosition, childPosition);
 
         String courseId = child.getCourseId();
-        Double courseGpa = child.getGpa();
+
+        String courseGpa = child.getGrade();
         int Unit = (int)child.getUnit();
 
 
@@ -99,7 +100,7 @@ public class FourYearPlanAdapter extends BaseExpandableListAdapter {
             txtCourseUnit.setText(" ");
         }
         else{
-            txtCourseGpa.setText(String.format("%.2f", courseGpa));
+            txtCourseGpa.setText(courseGpa);
             txtCourseUnit.setText(String.valueOf(Unit));
         }
         return convertView;

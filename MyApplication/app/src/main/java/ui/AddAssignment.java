@@ -27,14 +27,12 @@ import model.IndividualCourse;
 public class AddAssignment extends AppCompatActivity implements View.OnClickListener {
 
     private Button bAddAssignment;
-    private EditText etScore, etAssignmentID, etDueDate, etChooseWeight;
+    private EditText etAssignmentID, etDueDate;
     private DatePickerDialog dueDatePickerDialog;
-    private ArrayList weights;
     private HashMap<String, Category> categories;
     private RadioGroup weightsGroup;
     private RadioButton weightButton;
     private int y,m,d;
-    private Courses mycourse;
 
 
     @Override

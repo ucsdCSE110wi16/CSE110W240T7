@@ -12,6 +12,13 @@
         android:elevation="5dp"
         android:descendantFocusability="afterDescendants">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_arrow"
+        android:layout_weight="0.01"
+        android:layout_gravity="center_vertical"/>
+
         <TextView android:id="@+id/list_course_page"
             android:layout_weight="1"
             android:layout_width="wrap_content"

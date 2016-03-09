@@ -52,11 +52,12 @@ public class Courses {
     }
 
     //constructor for initializing a past course
-    public Courses(String id, int u, boolean l, double grade){
+    public Courses(String id, int u, boolean l, double gpa, String grade){
         this.courseId = id;
         this.unit = u;
         this.letter = l;
-        this.gpa = grade;
+        this.gpa = gpa;
+        this.grade = grade;
     }
 
     //constructor for initializing a future course

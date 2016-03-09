@@ -45,6 +45,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
     private AddTermListAdapter myAdapter;
     private double unit = 0.0;
     private int courseUnit = 0;
+    private String courseGrade;
     private TextView termUnit, termGpa, switchStatus;
     private Switch gradeSwitch;
     private boolean letter = true;
@@ -58,7 +59,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
 
 
         layout_main.getForeground().setAlpha(0);
-        myAdapter = new AddTermListAdapter(this, coursesArrayList);
+        myAdapter = new AddTermListAdapter(this, coursesArrayList, true);
         courseList.setAdapter(myAdapter);
 
     }
@@ -75,6 +76,8 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
         bAddTermCourses = (Button) findViewById(R.id.bAddNewTermCourses);
         bAddTermCourses.setOnClickListener(this);
         courseList = (ListView) findViewById(R.id.list_add_new_term_courses);
+        TextView unitTitle = (TextView) findViewById(R.id.add_term_unit_title);
+        TextView gradeTitle = (TextView) findViewById(R.id.add_term_grade_title);
     }
 
 
@@ -108,7 +111,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                 }
                 
                 courseUnit = Integer.parseInt(courseUnitString);
-                coursesArrayList.add(new Courses(courseId,courseUnit,letter,4.0));
+                coursesArrayList.add(new Courses(courseId,courseUnit,letter,4.0,courseGrade));
 
                 unit += courseUnit;
                 termUnit.setText(df.format(unit));
@@ -166,14 +169,18 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
         close.setOnClickListener(this);
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
+        switchStatus.setText("Letter grade");
+        courseGrade = "A";
 
         gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     switchStatus.setText("Pass/No Pass");
+                    courseGrade = "P";
                     letter = false;
                 } else {
                     switchStatus.setText("Letter grade");
+                    courseGrade = "A";
                     letter = true;
                 }
             }
