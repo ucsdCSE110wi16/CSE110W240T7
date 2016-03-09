@@ -24,7 +24,8 @@
             android:text="Add a quarter"
             android:id="@+id/txAddTerm"
             android:layout_above="@+id/fab_action_1"
-            android:layout_toStartOf="@id/fab" />
+            android:layout_toStartOf="@id/fab"
+            android:background="@color/colorText"/>
 
         <ImageButton
             android:id="@+id/fab_action_1"
@@ -41,7 +42,7 @@
             android:text="Add a course"
             android:id="@+id/txAddCourse"
             android:layout_above="@+id/fab_action_2"
-
+            android:background="@color/colorText"
             android:layout_alignEnd="@+id/fab_action_2" />
 
         <ImageButton

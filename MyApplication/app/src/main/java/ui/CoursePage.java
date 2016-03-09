@@ -20,6 +20,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.util.logging.Handler;
+
 import androidstudio.edbud.com.myapplication.R;
 import model.IndividualCourse;
 
@@ -72,6 +74,7 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
                 p = position;
                // course_chosen=coursesListView.getSelectedItem().toString();
                 startActivity(new Intent(context, IndividualCourse.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
         });
@@ -79,7 +82,7 @@ public class CoursePage extends BaseActivity implements View.OnClickListener, Na
 
     public void onClick(View view) {
 
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.fab:
             startActivity(new Intent(this, AddCourse.class));
                 break;

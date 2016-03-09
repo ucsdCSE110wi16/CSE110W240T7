@@ -145,12 +145,15 @@ public class BaseActivity extends AppCompatActivity
 
         if (id == R.id.nav_homepage) {
             startActivity(new Intent(this, Homepage.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         } else if (id == R.id.nav_course) {
             startActivity(new Intent(this, CoursePage.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         } else if (id == R.id.nav_4yearplan) {
             startActivity(new Intent(this, FourYearPlan.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         }
         else if (id == R.id.nav_logout) {

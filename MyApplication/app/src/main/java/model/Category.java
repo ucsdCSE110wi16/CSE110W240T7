@@ -58,13 +58,16 @@ public class Category {
         IndividualAssignment temp = new IndividualAssignment(course, categoryName, name, y, m, d);
         assignments.add(temp);
         Collections.sort(assignments, dueDateComparator);
-        ////System.out.println("test comparator print after adding score");
-       // for(int i = 0; i < assignments.size(); ++i){
-       //   //System.out.println(assignments.get(i).getAssignmentName());
-       // }
         BaseActivity.initialize.addRecentDues(temp);
             return true;
 
+    }
+
+    public void addAssignmentScore(String name, double rawScore, double scoreOutOf){
+        for(int i = 0; i <assignments.size(); ++i){
+            if(assignments.get(i).getAssignmentName().equals(name))
+                addAssignmentScore(i, rawScore, scoreOutOf);
+        }
     }
 
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
@@ -155,6 +158,9 @@ public class Category {
 
             if(percentToImprove > 1)
                 percentToImprove = 1.0;
+            else if(percentToImprove < 0){
+                percentToImprove = 0.0;
+            }
         }
         for(int i = 0; i < assignments.size(); ++i){
                 if(!assignments.get(i).isSetScore()) {
