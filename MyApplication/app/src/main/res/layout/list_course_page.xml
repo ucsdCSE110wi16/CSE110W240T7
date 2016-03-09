@@ -15,7 +15,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_chevron_right_black_48dp"
         android:layout_weight="0.01"
         android:layout_gravity="center_vertical"/>
 
