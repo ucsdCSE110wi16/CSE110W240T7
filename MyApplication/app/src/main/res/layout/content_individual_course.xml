@@ -97,7 +97,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Assignments"
-        android:textStyle="bold"
         android:id="@+id/textview_assignments"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/textview_highestGradePossible" />
@@ -134,7 +133,7 @@
         android:layout_width="match_parent"
         android:divider="@null"
         android:layout_marginTop="15dp"
-        android:dividerHeight="10dp"
+        android:dividerHeight="5dp"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:layout_below="@+id/textview_assignments"/>
