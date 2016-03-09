@@ -4,6 +4,7 @@ package model;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
@@ -233,7 +234,7 @@ public class User {
         recentDueToShow.add(assignment);
         recentDueIds.add(assignment.getAssignmentName());
 
-        //Collections.sort(recentDueToShow, this.dueDateComparator);
+        Collections.sort(recentDueToShow, this.dueDateComparator);
         return true;
     }
 

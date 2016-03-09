@@ -184,6 +184,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
 
+        switchStatus.setText("Letter grade");
+
         gradeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
