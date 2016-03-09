@@ -16,6 +16,7 @@ public class Term {
     ArrayList<String> termCourseList = new ArrayList<>();
     double termUnit=0.0;
     double termLetterUnit = 0.0;
+    double termObtainedUnit = 0.0;
 
     Term(){
 
@@ -62,6 +63,10 @@ public class Term {
         return termLetterUnit;
     }
 
+    public double getTermObtainedUnit() {
+        return termObtainedUnit;
+    }
+
     public ArrayList<String> getTermCourseList() {
         return termCourseList;
     }
@@ -87,6 +92,10 @@ public class Term {
         this.termLetterUnit = termLetterUnit;
     }
 
+    public void setTermObtainedUnit(double termObtainedUnit) {
+        this.termObtainedUnit = termObtainedUnit;
+    }
+
     public void setTermUnit(double unit){
         this.termUnit = unit;
     }
@@ -95,6 +104,7 @@ public class Term {
         this.termCourseList = termCourseList;
     }
 
+
     public boolean addTermCourses(Courses course){
         if(this.termCourses != null){
             if(termCourses.contains(course))
@@ -102,7 +112,10 @@ public class Term {
         }
         if(course.getLetter()){
             termLetterUnit += course.getUnit();
+            termObtainedUnit += course.getUnit() * course.getGpa();
+            setTermGpa(termObtainedUnit/termLetterUnit);
         }
+        //TODO:modify term gpa
         addTermUnit(course.getUnit());
         this.termCourses.add(course);
         this.termCourseList.add(course.getCourseId());
