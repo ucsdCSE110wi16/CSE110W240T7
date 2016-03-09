@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.util.List;
 
 import login.Login;
+import model.Courses;
+import model.Term;
 import ui.BaseActivity;
 import ui.CoursePage;
 
@@ -62,7 +64,7 @@ public class AddCourseTest {
         onView(withId(R.id.bLogin)).check(matches(allOf(isEnabled(), isClickable(), isDisplayed())));
         onView(withId(R.id.bLogin)).perform(click());
         onView(withId(R.id.GPAtext))
-                .check(matches(withText("Current GPA")));
+                .check(matches(withText("Term GPA")));
         try {
             sleep(1000);
         } catch (InterruptedException e) {
@@ -159,15 +161,16 @@ public class AddCourseTest {
         //Click add course button
         onView(withId(R.id.bAddCourse)).perform(click());
 
-
-
-        onView(withContentDescription(R.string.navigation_drawer_open)).check(matches(isClickable()));
-        onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
-        onView(withText("Homepage")).perform(click());
+        onData(is(instanceOf(Courses.class))).inAdapterView(withId(R.id.lsCourses)).atPosition(0).perform(click());
 
 
 
-        //onData(is(instanceOf(String.class))).inAdapterView(withId(R.id.lsCourses)).atPosition(0).perform(click());
+        //onView(withContentDescription(R.string.navigation_drawer_open)).check(matches(isClickable()));
+        //onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
+        //onView(withText("Homepage")).perform(click());
+
+
+
 
         try {
             sleep(10000);

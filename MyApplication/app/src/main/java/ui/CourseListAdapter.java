@@ -4,9 +4,12 @@ package ui;
  * Created by LunaLu on 2/18/16.
  */
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +40,10 @@ public class CourseListAdapter extends ArrayAdapter {
             TextView course = (TextView) row.findViewById(R.id.list_course_page);
             TextView gpa = (TextView) row.findViewById(R.id.list_course_page_gpa);
 
+        course.setTypeface(null, Typeface.BOLD);
         course.setText(courseList.get(position).getCourseId());
+        //course.setTextAppearance(android.R.style.TextAppearance_DeviceDefault_Large);
+        gpa.setTypeface(null, Typeface.BOLD);
         gpa.setText(String.format("%.2f", courseList.get(position).getGpa()));
         return row;
     }

@@ -130,10 +130,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListCategory);
             TextView lblListHeaderPercent = (TextView) convertView.findViewById(R.id.lblListCategoryPercent);
-            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setTypeface(null, Typeface.NORMAL);
             lblListHeader.setText(headerTitle);
-            lblListHeaderPercent.setTypeface(null, Typeface.BOLD);
-
+            lblListHeader.setTextSize(16.0f);
+            lblListHeaderPercent.setTypeface(null, Typeface.NORMAL);
+            lblListHeader.setTextSize(16.0f);
             lblListHeaderPercent.setText(headerPercent + "%");
 
 
