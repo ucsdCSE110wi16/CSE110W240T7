@@ -94,7 +94,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     Toast.makeText(this,"Please input term name",Toast.LENGTH_LONG).show();
                     return;
                 }
-                Term temp = new Term(termId, unit, gpa, coursesArrayList);
+                Term temp = new Term(termId, unit,letterUnit, gpa, coursesArrayList);
                 BaseActivity.initialize.addPastTerm(temp);
                 startActivity(new Intent(this, FourYearPlan.class));
                 break;

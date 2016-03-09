@@ -28,10 +28,12 @@ public class Term {
         this.termGpa = gpa;
     }
 
-    public Term(String name, double unit, double gpa, ArrayList<Courses> course) {
+    public Term(String name, double unit, double letter, double gpa, ArrayList<Courses> course) {
         this.termName=name;
         this.termUnit = unit;
+        this.termLetterUnit = letter;
         this.termGpa = gpa;
+        this.termObtainedUnit = termLetterUnit*gpa;
         this.termCourses = course;
     }
 

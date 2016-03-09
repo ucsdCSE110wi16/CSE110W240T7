@@ -21,6 +21,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -90,6 +91,11 @@ public class TwoFragment extends Fragment{
         fabAction2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(BaseActivity.initialize.getPastTerms().size() == 0){
+                    Toast.makeText(context, "Please input a past term first",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 fourYearPlan.showPop(false);
             }
         });

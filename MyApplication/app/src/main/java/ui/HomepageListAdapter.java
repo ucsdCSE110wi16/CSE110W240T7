@@ -52,9 +52,9 @@ public class HomepageListAdapter extends ArrayAdapter<String> {
         for(int i = 0; i < temp.size(); ++i){
             if(temp.get(i).getAssignmentName().equals(recentDues.get(position).getAssignmentName())){
                 if(temp.get(i).getCanReachNextLevel())
-                    dueProjection.setText("You need to get at least " + String.format("%.2f",temp.get(i).getPercentToImprove()*100.0) + "% to get to " + temp.get(i).getNextLevel() + "range");
+                    dueProjection.setText("You need to get at least " + String.format("%.2f",temp.get(i).getPercentToImprove()*100.0) + "% to get to " + temp.get(i).getNextLevel() + " range");
                 else
-                dueProjection.setText("You need to get at least " + String.format("%.2f",temp.get(i).getPercentToImprove()*100.0) + "% to maintain " + temp.get(i).getNextLevel() + "range");
+                dueProjection.setText("You need to get at least " + String.format("%.2f",temp.get(i).getPercentToImprove()*100.0) + "% to maintain " + temp.get(i).getNextLevel() + " range");
                 break;
             }
         }

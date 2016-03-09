@@ -63,12 +63,12 @@ public class Category {
 
     }
 
-    public void addAssignmentScore(String name, double rawScore, double scoreOutOf){
+    /*public void addAssignmentScore(String name, double rawScore, double scoreOutOf){
         for(int i = 0; i <assignments.size(); ++i){
             if(assignments.get(i).getAssignmentName().equals(name))
                 addAssignmentScore(i, rawScore, scoreOutOf);
         }
-    }
+    }*/
 
     public void addAssignmentScore(int index, double rawScore, double scoreOutOf){
         //remove assignments from recent due

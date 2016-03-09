@@ -229,11 +229,11 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                     Toast.makeText(this,"Please input Score out of", Toast.LENGTH_LONG).show();
                     return;
                 }
-                int r = Integer.parseInt(rawScore);
-                int s = Integer.parseInt(ScoreOutOf);
+                double r = Double.parseDouble(rawScore);
+                double s = Double.parseDouble(ScoreOutOf);
 
                // String assignmentName = mycourse.getCategories().get(weight).getAssignments().get(index).getAssignmentName();
-                mycourse.addAssignmentScore(weight, index, r, s);
+                BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p).addAssignmentScore(weight, index, r, s);
                // mycourse.addAssignmentScore(weight, assignmentName, r, s);
 
 
@@ -243,8 +243,9 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 //mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
                 //prepareData();
 
-                //this refreshes the whole activity
 
+
+                //this refreshes the whole activity
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);

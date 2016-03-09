@@ -32,7 +32,7 @@
             android:id="@+id/etRawScore"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:hint="Score"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:gravity="center"/>
 
         <TextView
@@ -52,7 +52,7 @@
             android:id="@+id/etScoreOutOf"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:hint="Score"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:gravity="center"/>
 
     </LinearLayout>

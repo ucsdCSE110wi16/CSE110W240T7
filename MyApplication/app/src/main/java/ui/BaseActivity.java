@@ -159,8 +159,9 @@ public class BaseActivity extends AppCompatActivity
         else if (id == R.id.nav_logout) {
             SharedPreferences sp = this.getSharedPreferences(Constant.myPrefer,Context.MODE_PRIVATE);
             sp.edit().putBoolean("AutoLogin",false).commit();
-            sp.edit().putString("check","").commit();
+            sp.edit().putString("check", "").commit();
             startActivity(new Intent(this, Login.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

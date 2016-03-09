@@ -90,7 +90,7 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
                     return;
                 }
 
-                Term temp = new Term(termId, unit, 0.0, coursesArrayList);
+                Term temp = new Term(termId, unit, unit, 0.0, coursesArrayList);
                 BaseActivity.initialize.addNewTerm(temp);
                 startActivity(new Intent(this, FourYearPlan.class));
                 break;
