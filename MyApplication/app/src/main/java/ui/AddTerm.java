@@ -37,7 +37,7 @@ import model.Term;
 public class AddTerm extends AppCompatActivity implements View.OnClickListener {
 
     private Button bAddTermCourses, bAddTerm;
-    private Button bA, bB, bC, bD,bF;
+    private Button bA, bB, bC, bD,bF, badd, bsub;
     private EditText etTermName, etTermCourseId, etTermCourseUnit;
     private ArrayList<Courses> coursesArrayList = new ArrayList<>();
     private ListView courseList;
@@ -132,7 +132,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
                 break;
-            case R.id.bA:
+            case R.id.bA_course:
                 courseGpa = 4.0;
                 if(letter)
                     courseGrade = "A";
@@ -140,7 +140,7 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     courseGrade = "P";
                 changeButtonColor("A");
                 break;
-            case R.id.bB:
+            case R.id.bB_course:
                 if(!letter) {
                     courseGpa = 0.0;
                     courseGrade= "NP";
@@ -151,20 +151,30 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 }
                 changeButtonColor("B");
                 break;
-            case R.id.bC:
+            case R.id.bC_course:
                 courseGpa = 2.0;
                 courseGrade = "C";
                 changeButtonColor("C");
                 break;
-            case R.id.bD:
+            case R.id.bD_course:
                 courseGpa = 1.0;
                 courseGrade = "D";
                 changeButtonColor("D");
                 break;
-            case R.id.bF:
+            case R.id.bF_course:
                 courseGpa = 0.0;
                 courseGrade = "F";
                 changeButtonColor("F");
+                break;
+            case R.id.bplus:
+                if(courseGrade != "A") {
+                    courseGpa += 0.3;
+                }
+                changeButtonColor("Plus");
+                break;
+            case R.id.bminus:
+                courseGpa-=0.3;
+                changeButtonColor("Minus");
                 break;
 
 
@@ -186,16 +196,20 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
 
         etTermCourseId= (EditText) layout.findViewById(R.id.etTermCourseName);
         etTermCourseUnit = (EditText) layout.findViewById(R.id.etTermCourseUnit);
-        bA = (Button) layout.findViewById(R.id.bA);
-        bB = (Button) layout.findViewById(R.id.bB);
-        bC = (Button) layout.findViewById(R.id.bC);
-        bD = (Button) layout.findViewById(R.id.bD);
-        bF = (Button) layout.findViewById(R.id.bF);
+        bA = (Button) layout.findViewById(R.id.bA_course);
+        bB = (Button) layout.findViewById(R.id.bB_course);
+        bC = (Button) layout.findViewById(R.id.bC_course);
+        bD = (Button) layout.findViewById(R.id.bD_course);
+        bF = (Button) layout.findViewById(R.id.bF_course);
+        badd = (Button) layout.findViewById(R.id.bplus);
+        bsub = (Button) layout.findViewById(R.id.bminus);
         bA.setOnClickListener(this);
         bB.setOnClickListener(this);
         bC.setOnClickListener(this);
         bD.setOnClickListener(this);
         bF.setOnClickListener(this);
+        badd.setOnClickListener(this);
+        bsub.setOnClickListener(this);
 
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus);
@@ -212,6 +226,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     bC.setVisibility(View.GONE);
                     bD.setVisibility(View.GONE);
                     bF.setVisibility(View.GONE);
+                    badd.setVisibility(View.GONE);
+                    bsub.setVisibility(View.GONE);
                     courseGpa = -1.0;
                     changeButtonColor("Reset");
 
@@ -223,6 +239,8 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                     bC.setVisibility(View.VISIBLE);
                     bD.setVisibility(View.VISIBLE);
                     bF.setVisibility(View.VISIBLE);
+                    badd.setVisibility(View.VISIBLE);
+                    bsub.setVisibility(View.VISIBLE);
                     courseGpa = -1.0;
                     changeButtonColor("Reset");
                 }
@@ -283,7 +301,15 @@ public class AddTerm extends AppCompatActivity implements View.OnClickListener {
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 break;
+            case "Plus":
+                badd.setBackgroundColor(getColor(R.color.colorPrimaryLight));
+                bsub.setBackgroundColor(Color.TRANSPARENT);
+            case "Minus":
+                bsub.setBackgroundColor(getColor(R.color.colorPrimaryLight));
+                badd.setBackgroundColor(Color.TRANSPARENT);
             default:
+                bsub.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
                 bF.setBackgroundColor(Color.TRANSPARENT);
                 bB.setBackgroundColor(Color.TRANSPARENT);
                 bC.setBackgroundColor(Color.TRANSPARENT);

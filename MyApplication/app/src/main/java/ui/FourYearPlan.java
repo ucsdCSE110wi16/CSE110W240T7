@@ -69,7 +69,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
     Context context;
     Activity activity;
     TextView txAddTerm, txAddCourse;
-    private Button bA, bB, bC, bD,bF;
+    private Button bA, bB, bC, bD,bF,badd,bsub;
     private EditText etTermCourseId, etTermCourseUnit;
     private CoordinatorLayout layout_main;
     private PopupWindow popup;
@@ -268,6 +268,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                     return;
                 }
                 termButton = (RadioButton) termsGroup.findViewById(selectedId);
+
                 courseUnit = Integer.parseInt(courseUnitString);
                 if(!isFuture)
                     BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa, courseGrade));
@@ -318,7 +319,14 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 courseGrade = "F";
                 changeButtonColor("F");
                 break;
-
+            case R.id.bplus:
+                courseGpa+=0.3;
+                changeButtonColor("Plus");
+                break;
+            case R.id.bminus:
+                courseGpa-=0.3;
+                changeButtonColor("Minus");
+                break;
         }
     }
 
@@ -401,6 +409,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         bC = (Button) layout.findViewById(R.id.bC_course);
         bD = (Button) layout.findViewById(R.id.bD_course);
         bF = (Button) layout.findViewById(R.id.bF_course);
+        badd = (Button) layout.findViewById(R.id.bplus);
+        bsub = (Button) layout.findViewById(R.id.bminus);
 
         gradeSwitch = (Switch) layout.findViewById(R.id.letterSwitch_course);
         switchStatus = (TextView) layout.findViewById(R.id.letterSwitchStatus_course);
@@ -415,6 +425,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             bC.setOnClickListener(this);
             bD.setOnClickListener(this);
             bF.setOnClickListener(this);
+            badd.setOnClickListener(this);
+            bsub.setOnClickListener(this);
 
             switchStatus.setText("Letter grade");
             letter = true;
@@ -429,6 +441,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                         bC.setVisibility(View.GONE);
                         bD.setVisibility(View.GONE);
                         bF.setVisibility(View.GONE);
+                        badd.setVisibility(View.GONE);
+                        bsub.setVisibility(View.GONE);
                         courseGpa = -1.0;
                         changeButtonColor("Reset");
 
@@ -440,6 +454,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                         bC.setVisibility(View.VISIBLE);
                         bD.setVisibility(View.VISIBLE);
                         bF.setVisibility(View.VISIBLE);
+                        badd.setVisibility(View.VISIBLE);
+                        bsub.setVisibility(View.VISIBLE);
                         courseGpa = -1.0;
                         changeButtonColor("Reset");
                     }
@@ -447,7 +463,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             });
 
             ArrayList terms = BaseActivity.initialize.getPastTerms();
-            for (int i = 0; i < terms.size(); ++i) {
+            for (int i = 0; i < terms.size()-2; ++i) {
                 rdbtn = new RadioButton(this);
                 rdbtn.setId(i);
                 rdbtn.setText(terms.get(i).toString());
@@ -461,6 +477,8 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
             bC.setVisibility(View.GONE);
             bD.setVisibility(View.GONE);
             bF.setVisibility(View.GONE);
+            badd.setVisibility(View.GONE);
+            bsub.setVisibility(View.GONE);
             gradeSwitch.setVisibility(View.GONE);
             switchStatus.setVisibility(View.GONE);
             TextView grade = (TextView) layout.findViewById(R.id.TermCourseGradeTitle_course);
@@ -530,12 +548,21 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 bD.setBackgroundColor(Color.TRANSPARENT);
                 bA.setBackgroundColor(Color.TRANSPARENT);
                 break;
+            case "Plus":
+                badd.setBackgroundColor(getColor(R.color.colorPrimaryLight));
+                bsub.setBackgroundColor(Color.TRANSPARENT);
+            case "Minus":
+                bsub.setBackgroundColor(getColor(R.color.colorPrimaryLight));
+                badd.setBackgroundColor(Color.TRANSPARENT);
             default:
-                bA.setBackgroundColor(Color.TRANSPARENT);
+                bsub.setBackgroundColor(Color.TRANSPARENT);
+                badd.setBackgroundColor(Color.TRANSPARENT);
+                bF.setBackgroundColor(Color.TRANSPARENT);
                 bB.setBackgroundColor(Color.TRANSPARENT);
                 bC.setBackgroundColor(Color.TRANSPARENT);
                 bD.setBackgroundColor(Color.TRANSPARENT);
-                bF.setBackgroundColor(Color.TRANSPARENT);
+                bA.setBackgroundColor(Color.TRANSPARENT);
+                break;
 
 
         }

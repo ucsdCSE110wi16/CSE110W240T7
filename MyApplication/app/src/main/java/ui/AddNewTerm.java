@@ -28,6 +28,7 @@ import androidstudio.edbud.com.myapplication.R;
 import model.Courses;
 import model.Term;
 
+import static androidstudio.edbud.com.myapplication.R.id.bplus;
 import static androidstudio.edbud.com.myapplication.R.id.bpopupCancelAddTermCourse;
 
 /**
@@ -36,7 +37,7 @@ import static androidstudio.edbud.com.myapplication.R.id.bpopupCancelAddTermCour
 public class AddNewTerm extends AppCompatActivity implements View.OnClickListener {
 
     private Button bAddTermCourses, bAddTerm;
-    private Button bA, bB, bC, bD,bF;
+    private Button bA, bB, bC, bD,bF,badd, bsub;
     private EditText etTermName, etTermCourseId,etTermCourseUnit;
     private ArrayList<Courses> coursesArrayList = new ArrayList<>();
     private ListView courseList;
@@ -147,16 +148,20 @@ public class AddNewTerm extends AppCompatActivity implements View.OnClickListene
         //Dim the background
         layout_main.getForeground().setAlpha(220);
 
-        bA = (Button) layout.findViewById(R.id.bA);
-        bB = (Button) layout.findViewById(R.id.bB);
-        bC = (Button) layout.findViewById(R.id.bC);
-        bD = (Button) layout.findViewById(R.id.bD);
-        bF = (Button) layout.findViewById(R.id.bF);
+        bA = (Button) layout.findViewById(R.id.bA_course);
+        bB = (Button) layout.findViewById(R.id.bB_course);
+        bC = (Button) layout.findViewById(R.id.bC_course);
+        bD = (Button) layout.findViewById(R.id.bD_course);
+        bF = (Button) layout.findViewById(R.id.bF_course);
+        badd = (Button) layout.findViewById(R.id.bplus);
+        bsub = (Button) layout.findViewById(R.id.bminus);
         bA.setVisibility(View.GONE);
         bB.setVisibility(View.GONE);
         bC.setVisibility(View.GONE);
         bD.setVisibility(View.GONE);
         bF.setVisibility(View.GONE);
+        badd.setVisibility(View.GONE);
+        bsub.setVisibility(View.GONE);
 
         // Displaying the popup at the specified location, + offsets.
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);

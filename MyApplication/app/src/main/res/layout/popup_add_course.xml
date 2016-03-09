@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="A"
-            android:layout_weight="1"
+            android:layout_weight="0.58"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/bA_course"/>
 
@@ -85,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="B"
-            android:layout_weight="1"
+            android:layout_weight="0.65"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/bB_course"/>
 
@@ -93,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="C"
-            android:layout_weight="1"
+            android:layout_weight="0.54"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/bC_course"/>
 
@@ -101,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="D"
-            android:layout_weight="1"
+            android:layout_weight="0.78"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/bD_course"/>
 
@@ -109,9 +109,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="F"
-            android:layout_weight="1"
+            android:layout_weight="0.65"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/bF_course"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Plus"
+            android:layout_weight="0.78"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bplus"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Minus"
+            android:layout_weight="1"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bminus"/>
 
 
     </LinearLayout>
