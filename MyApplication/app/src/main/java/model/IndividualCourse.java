@@ -238,7 +238,12 @@ public class IndividualCourse extends Activity implements View.OnClickListener{
                 //TODO:fix this latter
                 mycourse = BaseActivity.initialize.getTerm(BaseActivity.initialize.getCurrTerm()).getTermCourses().get(CoursePage.p);
                 prepareData();
-                gpa.setText(String.format("%.2f",mycourse.getGpa()));
+                double myGPA = mycourse.getGpa();
+                gpa.setText(String.format("%.2f",myGPA));
+                if(myGPA == 4.0 ) gpa.setTextColor(Color.rgb(60,179,113));
+                else if(myGPA>=3.0) gpa.setTextColor(Color.rgb(255,215,0));
+                else if(myGPA>2.0) gpa.setTextColor(Color.rgb(255,165,0));
+                else gpa.setTextColor(Color.rgb(255,69,0));
                 highest.setText(mycourse.getHighestGradePossible());
                 layout_main.getForeground().setAlpha(0);
                 popup.dismiss();
