@@ -90,9 +90,9 @@ public class RegisterandLoginTest {
         onView(withId(R.id.bLogin)).perform(click());
 
         onView(withId(R.id.GPAtext))
-                .check(matches(withText("Current GPA")));
-        onView(withId(R.id.GPAnumber))
-                .check(matches(withText("4")));
+                .check(matches(withText("Term GPA")));
+        /*onView(withId(R.id.GPAnumber))
+                .check(matches(withText("4.00")));*/
         try {
             sleep(2000);
         } catch (InterruptedException e) {
