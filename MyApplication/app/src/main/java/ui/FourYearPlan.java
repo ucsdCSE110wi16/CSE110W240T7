@@ -62,7 +62,6 @@ import model.Term;
  */
 public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
-    FourYearPlanListView listView;
     ImageButton fab;
     View fabAction1, fabAction2;
     boolean expanded = false;
@@ -77,6 +76,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
 
     private double courseGpa=-1.0;
+    private String courseGrade;
     private int courseUnit = 0;
     private Switch gradeSwitch;
     private boolean letter = true;
@@ -85,15 +85,12 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
 
 
 
-    private TextView switchStatus, termUnit, termGpa;
+    private TextView switchStatus;
     private RadioGroup termsGroup;
     private RadioButton termButton;
 
-    private ArrayList termList;
-    private LinkedHashMap<String, Term> fourYearList;
 
     //Tab stuff
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -107,12 +104,9 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         activity = this;
         layout_main = (CoordinatorLayout) findViewById(R.id.fourYearPlan);
         layout_main.getForeground().setAlpha(0);
-        txAddCourse = (TextView) findViewById(R.id.txAddCourse);
-        txAddTerm = (TextView) findViewById(R.id.txAddTerm);
-        txAddCourse.setVisibility(View.GONE);
-        txAddTerm.setVisibility(View.GONE);
         final ViewGroup fabContainer = (ViewGroup) findViewById(R.id.fab_container);
-        fab = (ImageButton) findViewById(R.id.fab);
+
+       /* fab = (ImageButton) findViewById(R.id.fab);
         fabAction1 = findViewById(R.id.fab_action_1);
         fabAction2 = findViewById(R.id.fab_action_2);
         fabAction1.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +180,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 //System.out.println("offset1: " + offset1 + " offset2: " + offset2);
                 return true;
             }
-        });
+        });*/
 //        listView.setDragOnLongPress(true);
         // setting list adapter
 //        listView.setAdapter(myAdapter);
@@ -207,9 +201,12 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         OneFragment oneFragment = new OneFragment();
         oneFragment.setContext(this);
+        oneFragment.setFourYearPlanView(this);
         adapter.addFragment(oneFragment, "Future");
         TwoFragment twoFragment = new TwoFragment();
         twoFragment.setContext(this);
+        twoFragment.setFourYearPlanView(this);
+
         adapter.addFragment(twoFragment, "Past");
         viewPager.setAdapter(adapter);
     }
@@ -273,7 +270,7 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 termButton = (RadioButton) termsGroup.findViewById(selectedId);
                 courseUnit = Integer.parseInt(courseUnitString);
                 if(!isFuture)
-                    BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa));
+                    BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit, letter, courseGpa, courseGrade));
                 else
                     BaseActivity.initialize.getTerm(termButton.getText().toString()).addTermCourses(new Courses(courseId, courseUnit));
 
@@ -289,24 +286,36 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.bA_course:
                 courseGpa = 4.0;
+                if(letter)
+                    courseGrade = "A";
+                else
+                    courseGrade = "P";
                 changeButtonColor("A");
                 break;
             case R.id.bB_course:
-                if(letter)
+                if(!letter) {
                     courseGpa = 0.0;
-                courseGpa = 3.0;
+                    courseGrade= "NP";
+                }
+                else {
+                    courseGpa = 3.0;
+                    courseGrade = "B";
+                }
                 changeButtonColor("B");
                 break;
             case R.id.bC_course:
                 courseGpa = 2.0;
+                courseGrade = "C";
                 changeButtonColor("C");
                 break;
             case R.id.bD_course:
                 courseGpa = 1.0;
+                courseGrade = "D";
                 changeButtonColor("D");
                 break;
             case R.id.bF_course:
                 courseGpa = 0.0;
+                courseGrade = "F";
                 changeButtonColor("F");
                 break;
 
@@ -367,6 +376,10 @@ public class FourYearPlan extends BaseActivity implements View.OnClickListener{
         }
 
 
+    }
+
+    public void showPop(boolean isFuture){
+        showPop(activity, isFuture);
     }
 
     public void showPop(Activity context, boolean isFuture){

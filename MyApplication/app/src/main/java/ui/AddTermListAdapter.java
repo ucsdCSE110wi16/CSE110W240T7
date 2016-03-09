@@ -18,14 +18,16 @@ import model.Courses;
 public class AddTermListAdapter extends ArrayAdapter<String> {
     Context context;
     ArrayList<Courses> courseList;
+    boolean isFuture;
 
-    AddTermListAdapter(Context c, ArrayList course) {
+    AddTermListAdapter(Context c, ArrayList course, boolean isFuture) {
 
         super(c, R.layout.list_add_term, R.id.txTermCourseId, course);
 
 
         this.context = c;
         this.courseList = course;
+        this.isFuture = isFuture;
 
     }
 
@@ -37,22 +39,18 @@ public class AddTermListAdapter extends ArrayAdapter<String> {
         TextView txtTermCourseUnit = (TextView) row.findViewById(R.id.txTermCourseUnit);
         TextView txtTermCourseGrade = (TextView) row.findViewById(R.id.txTermCourseGrade);
 
-        txtTermCourseId.setText(courseList.get(position).getCourseId());
-        txtTermCourseUnit.setText(Double.toString(courseList.get(position).getUnit()));
-        double gpa = courseList.get(position).getGpa();
-        String grade;
-        if(gpa > 3.0)
-            grade = "A";
-        else if(gpa > 2.0)
-            grade = "B";
-        else if(gpa > 1.0)
-            grade = "C";
-        else if(gpa > 0.0)
-            grade = "D";
-        else
-            grade = "F";
 
-        txtTermCourseGrade.setText(grade);
+
+        txtTermCourseId.setText(courseList.get(position).getCourseId());
+
+        if(isFuture){
+            txtTermCourseGrade.setText(Double.toString(courseList.get(position).getUnit()));
+            txtTermCourseUnit.setText(" ");
+        }
+        else {
+            txtTermCourseUnit.setText(Double.toString(courseList.get(position).getUnit()));
+            txtTermCourseGrade.setText(courseList.get(position).getGrade());
+        }
 
 
 

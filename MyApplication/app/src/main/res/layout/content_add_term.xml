@@ -88,6 +88,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Unit"
+            android:id="@+id/add_term_unit_title"
             android:gravity="center" />
 
         <TextView
@@ -97,6 +98,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Grade"
             android:gravity="center"
+            android:id="@+id/add_term_grade_title"
             android:textColor="@color/colorPrimary" />
 
 
