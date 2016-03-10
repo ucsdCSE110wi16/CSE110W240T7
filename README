@@ -1,0 +1,18 @@
+Project Description: 
+
+This is the APP designed for letting student keep tracking their GPA and aceddemic behavior throughtout the college.
+
+APP Running Enevironment:
+
+Support Google 6.0.0 or above API 23 or above 
+
+Scenario Testing: 
+
+1.Test Register, Login and Logout
+2.Test Add course for user including setting course name, unit, grading option and grading distribution (and setting weight).
+3.Test Add individual assignment for certain course including setting due dates and chosing assignment category.
+
+
+
+
+
