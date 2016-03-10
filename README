@@ -8,6 +8,8 @@ Support Google 6.0.0 or above API 23 or above
 
 Scenario Testing: 
 
+Testing environment: Standard Andriod Espresso automamatic testing mechanism. 
+
 Those are the most essential functionality for this APP expecting the most frequent using functionality for most of the users. 
 
 1.Test Register, Login and Logout
