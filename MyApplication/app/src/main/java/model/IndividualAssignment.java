@@ -42,6 +42,10 @@ public class IndividualAssignment {
         setScore=true;
         this.rawScore = s;
         this.scoreOutOf = outof;
+        if(rawScore == 0){
+            this.percent = 0.0;
+            return;
+        }
         this.percent = rawScore/scoreOutOf;
     }
 

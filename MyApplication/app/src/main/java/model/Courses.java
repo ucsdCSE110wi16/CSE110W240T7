@@ -212,7 +212,7 @@ public class Courses {
         return true;
     }
 
-    public double addAssignmentScore(String weight, String name, double rawScore, double scoreOutOf){
+    /*public double addAssignmentScore(String weight, String name, double rawScore, double scoreOutOf){
         this.categories.get(weight).addAssignmentScore(name, rawScore, scoreOutOf);
         updateScores();
         updatehighestGradePossible();
@@ -220,7 +220,7 @@ public class Courses {
         makeProjection();
         BaseActivity.initialize.update();
         return gpa;
-    }
+    }*/
 
     public double addAssignmentScore(String weight, int index, double rawScore, double scoreOutOf ){
         this.categories.get(weight).addAssignmentScore(index, rawScore, scoreOutOf);
@@ -428,9 +428,9 @@ public class Courses {
                 canReachNextLevel = true;
             }
         }
-        else{
-             if(gpaThreshold.get(highestGradePossible) <= gpaThreshold.get("F")){
-                percentToObtain = gpaThreshold.get("F");
+        else if(totalPercent < gpaThreshold.get("D")){
+             if(highestGradePossible.equals("F")){
+                percentToObtain = 0.0;
                  nextLevel = "F";
                 canReachNextLevel = false; 
             }
@@ -439,6 +439,12 @@ public class Courses {
                  nextLevel = "D";
                 canReachNextLevel = true;
             }
+        }
+        else{
+            percentToObtain = 0.0;
+            nextLevel = "F";
+            canReachNextLevel = false;
+
         }
         
         //System.out.println("percentToObtain: " + percentToObtain);
