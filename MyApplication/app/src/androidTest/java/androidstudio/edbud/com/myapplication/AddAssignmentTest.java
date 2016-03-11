@@ -19,6 +19,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.onData;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.doubleClick;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
@@ -70,15 +71,25 @@ public class AddAssignmentTest {
         onView(withText("Course")).perform(click());
 
 
-
         onData(is(instanceOf(Courses.class))).inAdapterView(withId(R.id.lsCourses)).atPosition(0).perform(click());
 
         onView(withId(R.id.individual_fab)).check(matches(isClickable()));
         onView(withId(R.id.individual_fab)).perform(click());
 
         onView(withId(R.id.etAssignmentID)).perform(typeText("Midterm1"));
-        onView(withId(R.id.etDueDate)).perform(typeText("8-3-2016"));
-        onView(withId(R.id.radioWeights)).perform(click());
+        onView(withId(R.id.etDueDate)).perform(doubleClick());
+        onView(withText("OK")).perform(click());
+        onView(withText("Midterm")).perform(click());
+        onView(withId(R.id.bAddAssignment)).perform(click());
+
+        onView(withId(R.id.individual_fab)).check(matches(isClickable()));
+        onView(withId(R.id.individual_fab)).perform(click());
+
+        onView(withId(R.id.etAssignmentID)).perform(typeText("Midterm2"));
+        onView(withId(R.id.etDueDate)).perform(doubleClick());
+        onView(withText("OK")).perform(click());
+        onView(withText("Midterm")).perform(click());
+        onView(withId(R.id.bAddAssignment)).perform(click());
 
 
         try {
