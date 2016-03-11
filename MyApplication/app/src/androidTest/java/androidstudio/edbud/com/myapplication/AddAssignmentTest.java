@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.is;
  * Created by paulszh on 3/7/16.
  */
 
-//Before running this testCase, make sure the RegisterandLoginTest has already been run
+//Before running this testCase, make sure the RegisterandLoginTest and AddCourse has already been run
 
 
 public class AddAssignmentTest {
@@ -70,7 +70,6 @@ public class AddAssignmentTest {
         onView(withContentDescription(R.string.navigation_drawer_open)).perform(click());
         onView(withText("Course")).perform(click());
 
-
         onData(is(instanceOf(Courses.class))).inAdapterView(withId(R.id.lsCourses)).atPosition(0).perform(click());
 
         onView(withId(R.id.individual_fab)).check(matches(isClickable()));
@@ -89,6 +88,15 @@ public class AddAssignmentTest {
         onView(withId(R.id.etDueDate)).perform(doubleClick());
         onView(withText("OK")).perform(click());
         onView(withText("Midterm")).perform(click());
+        onView(withId(R.id.bAddAssignment)).perform(click());
+
+        onView(withId(R.id.individual_fab)).check(matches(isClickable()));
+        onView(withId(R.id.individual_fab)).perform(click());
+
+        onView(withId(R.id.etAssignmentID)).perform(typeText("Quiz1"));
+        onView(withId(R.id.etDueDate)).perform(doubleClick());
+        onView(withText("OK")).perform(click());
+        onView(withText("Quiz")).perform(click());
         onView(withId(R.id.bAddAssignment)).perform(click());
 
 

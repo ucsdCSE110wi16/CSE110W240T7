@@ -39,6 +39,9 @@ import static org.hamcrest.Matchers.typeCompatibleWith;
 /**
  * Created by paulszh on 3/6/16.
  */
+
+//Before running this testCase, make sure the RegisterandLoginTest has already been run
+
 public class AddCourseTest {
     @Rule
     public ActivityTestRule<Login> activityRule = new ActivityTestRule(Login.class);

@@ -40,6 +40,7 @@ public class Homepage extends BaseActivity
 
         super.onCreate(savedInstanceState);
         Firebase ref = new Firebase("https://edbud.firebaseio.com/userInfo/" + initialize.uid);
+        Log.v("KEY", ref.getKey());
         ref.addValueEventListener(new myValueEventListener());
         setContentView(R.layout.activity_navi);
         context  = this;
