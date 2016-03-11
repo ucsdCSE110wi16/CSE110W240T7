@@ -8,13 +8,61 @@ Support Google 6.0.0 or above API 23 or above
 
 Scenario Testing: 
 
-Testing environment: Standard Andriod Espresso automamatic testing mechanism. 
+Testing environment: Standard Andriod Espresso automamatic testing mechanism/ Junit testing framework 
 
-Those are the most essential functionality for this APP expecting the most frequent using functionality for most of the users. 
+Those are the most essential functionality for this APP expecting the most frequent using functionality for most of the users.
+
+
+/*************************************************/
+
+The scenario test must be run in a specific order otherwise the database will not have the record 
+
+1. First, run RegisterandLoginTest.java
+2. Second, run AddCourseTest.java
+3. Last run AddAssignmentTest.java
+
+/*************************************************/
 
 1.Test Register, Login and Logout
+
+Given the user is on the login page
+When user full in the register information under specific requirement and clikc register 
+Then the user is successfully resgister and go to the homepage directly. 
+
 2.Test Add course for user including setting course name, unit, grading option and grading distribution (and setting weight).
+
+Given the user is on the homepage 
+When the user click on the naviagation bar and choose course 
+Then the user will enter course page
+When the user click on the add botton
+Then the user can enter course name, number of unit and letter/PNP option 
+When the user click on the grade distirbution
+Then the user can enter all grading breakdown for this course 
+When the user click on addCourse botton
+Then the course will be successfully added 
+When the user want to add another course 
+Then the user can repeat the same process 
+
 3.Test Add individual assignment for certain course including setting due dates and chosing assignment category.
+
+Given the user desire to add assignment and on the coursepage
+When the user click on a specific course and click on add botton
+Then the user can enter the name of the assignment, due date, and the category of the assignment. 
+When the user click on addAssignemnt botton
+Then the assignment will be added successfully 
+When the user go back to homepage
+Then all assignment will appear as recent due on the homepage 
+
+
+/*************************************************/
+
+The Junit test is aiming to test if registered user is updated on Firebase backend by checking users' UID since Espresso handle all 
+asserting statements during the scenario tests.
+
+
+/*************************************************/
+
+Run LoginUnitTest.java
 
 
 
